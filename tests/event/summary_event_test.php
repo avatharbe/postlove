@@ -84,6 +84,7 @@ class summary_event extends \phpbb_database_test_case
 			'is_bot' => false,
 			'is_registered' => true,
 			'user_type' => 0,
+			'user_lastmark' => 0,
 		);
 		$this->user->profile_fields = array();
 		$this->user->method('format_date')
@@ -967,10 +968,12 @@ class summary_event extends \phpbb_database_test_case
 			->method('acl_getf')
 			->willreturn($permissions);
 
-		$row = array(
+		$forum_data = array(
 			'forum_id' => $forum_id,
+			'left_id' => 1,
+			'right_id' => 2,
 		);
-		$event_data = array('forum_id');
+		$event_data = array('forum_id', 'forum_data');
 		$event = new \phpbb\event\data(compact($event_data));
 		$this->set_listener();
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
