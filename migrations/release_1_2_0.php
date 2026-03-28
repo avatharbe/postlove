@@ -1,12 +1,11 @@
 <?php
 /**
-*
-* Post Love extension for the phpBB Forum Software package.
-*
-* @copyright (c) 2016 v12mike
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ * Post Love extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2016 v12mike
+ * @copyright (c) 2026 Avathar.be
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ */
 
 namespace avathar\postlove\migrations;
 

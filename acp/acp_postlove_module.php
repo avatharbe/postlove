@@ -1,12 +1,11 @@
 <?php
 /**
-*
-* @package Post Love
-* @copyright (c) 2013 Lucifer
-* @copyright (c) 2026 Avathar.be
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ * Post Love extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2013 Stanislav Atanasov
+ * @copyright (c) 2026 Avathar.be
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ */
 
 namespace avathar\postlove\acp;
 

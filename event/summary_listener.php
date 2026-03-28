@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package Post Love
-* @copyright (c) 2015-2018 v12Mike
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ * Post Love extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2015-2018 v12mike
+ * @copyright (c) 2026 Avathar.be
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ */
 
 namespace avathar\postlove\event;
 
