@@ -62,4 +62,5 @@ $lang = array_merge($lang, array(
 		2	=> '%d razy ogółem',
 	),
 	'POSTLOVE_HIDE' 			=> 'Ukryj polubienia i podsumowanie',
+	'ACL_U_POSTLOVE'			=> 'Może polubić posty',
 ));

@@ -12,6 +12,7 @@ namespace avathar\postlove\controller;
 
 class ajaxify
 {
+	protected \phpbb\auth\auth $auth;
 	protected \phpbb\config\config $config;
 	protected \phpbb\db\driver\driver_interface $db;
 	protected \phpbb\user $user;
@@ -20,9 +21,10 @@ class ajaxify
 	protected notifyhelper $notifyhelper;
 	protected string $likes_table;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language, \phpbb\cache\service $cache, \avathar\postlove\controller\notifyhelper $notifyhelper,
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language, \phpbb\cache\service $cache, \avathar\postlove\controller\notifyhelper $notifyhelper,
 								$likes_table)
 	{
+		$this->auth = $auth;
 		$this->config = $config;
 		$this->db = $db;
 		$this->user = $user;
@@ -37,7 +39,7 @@ class ajaxify
 		switch ($action)
 		{
 			case 'toggle':
-				if ($this->user->data['user_type'] == 1 || $this->user->data['user_type'] == 2)
+				if (!$this->auth->acl_get('u_postlove'))
 				{
 					return new \Symfony\Component\HttpFoundation\JsonResponse(array(
 						'error'	=> 1

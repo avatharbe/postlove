@@ -62,4 +62,5 @@ $lang = array_merge($lang, array(
 		2	=> '%d vezes no total',
 	),
 	'POSTLOVE_HIDE' 			=> 'Ocultar ícones e resumos de curtidas',
+	'ACL_U_POSTLOVE'			=> 'Pode curtir publicações',
 ));

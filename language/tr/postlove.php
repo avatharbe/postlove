@@ -58,4 +58,5 @@ $lang = array_merge($lang, array(
 		2	=> 'Toplamda %d kez',
 	),
 	'POSTLOVE_HIDE' 			=> 'Beğeni simgelerini ve özetleri gizle',
+	'ACL_U_POSTLOVE'			=> 'Gönderileri beğenebilir',
 ));

@@ -37,6 +37,7 @@ class main_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return array(
+			'core.permissions'					=> 'add_permissions',
 			'core.viewtopic_modify_post_data'	=> 'prefetch_likes',
 			'core.viewtopic_modify_post_row'	=> 'modify_post_row',
 			'core.user_setup'					=> 'load_language_on_setup',
@@ -64,6 +65,13 @@ class main_listener implements EventSubscriberInterface
 	public function load_language_on_setup($event)
 	{
 		$this->language->add_lang('postlove', 'avathar/postlove');
+	}
+
+	public function add_permissions($event)
+	{
+		$permissions = $event['permissions'];
+		$permissions['u_postlove'] = array('lang' => 'ACL_U_POSTLOVE', 'cat' => 'misc');
+		$event['permissions'] = $permissions;
 	}
 
 	/**
@@ -176,8 +184,9 @@ class main_listener implements EventSubscriberInterface
 				$post_row['ACTION_ON_CLICK'] = $this->language->lang('CANT_LIKE_OWN_POST');
 				$event['post_row'] = $post_row;
 			}
-			if ($this->user->data['user_type'] == 1 || $this->user->data['user_type'] == 2)
+			if (!$this->auth->acl_get('u_postlove'))
 			{
+				$post_row = $event['post_row'];
 				$post_row['DISABLE'] = 1;
 				$post_row['ACTION_ON_CLICK'] = $this->language->lang('LOGIN_TO_LIKE_POST');
 				$event['post_row'] = $post_row;

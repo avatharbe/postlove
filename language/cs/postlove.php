@@ -58,4 +58,5 @@ $lang = array_merge($lang, array(
 		2	=> '%d krát celkem',
 	),
 	'POSTLOVE_HIDE' 			=> 'Skrýt ikony a souhrny oblíbených',
+	'ACL_U_POSTLOVE'			=> 'Může označit příspěvky jako oblíbené',
 ));
