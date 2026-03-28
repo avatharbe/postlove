@@ -84,7 +84,7 @@ class summary_event extends \phpbb_database_test_case
 			'is_bot' => false,
 			'is_registered' => true,
 			'user_type' => 0,
-			'user_lastmark' => 0,
+			'user_lastmark' => 9999999999,
 		);
 		$this->user->profile_fields = array();
 		$this->user->method('format_date')
