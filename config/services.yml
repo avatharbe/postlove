@@ -55,6 +55,7 @@ services:
             - '@request'
             - '%tables.avathar.postlove%'
             - '%core.root_path%'
+            - '%core.php_ext%'
     avathar.postlove.notifyhelper:
         class: avathar\postlove\controller\notifyhelper
         arguments:

@@ -23,6 +23,7 @@ class lovelist
 	protected \phpbb\request\request $request;
 	protected string $likes_table;
 	protected string $root_path;
+	protected string $php_ext;
 
 	/**
 	 * Constructor
@@ -43,7 +44,7 @@ class lovelist
 	 */
 	public function __construct(\phpbb\user $user, \phpbb\language\language $language, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\auth\auth $auth, \phpbb\user_loader $user_loader,
 	\phpbb\template\template $template, \phpbb\pagination $pagination, \phpbb\request\request $request,
-	$likes_table, $root_path)
+	$likes_table, $root_path, $php_ext)
 	{
 		$this->user = $user;
 		$this->lang = $language;
@@ -56,6 +57,7 @@ class lovelist
 		$this->request = $request;
 		$this->likes_table = $likes_table;
 		$this->root_path = $root_path;
+		$this->php_ext = $php_ext;
 	}
 
 	/**
@@ -148,8 +150,10 @@ class lovelist
 			$this->user_loader->load_users($users);
 			foreach ($raw_output as $row)
 			{
-				$post_link = '<a href="' . $this->root_path .($short == 1 ? '' : ($page > 1 ? '../../../' : '../')) .'viewtopic.php?p=' . $row['post_id'] . '#'. $row['post_id'] .'" target="_blank" >' . $row['post_subject'] . '</a>';
-				$topic_link = '<a href="' . $this->root_path .($short == 1 ? '' : ($page > 1 ? '../../../' : '../')) .'viewtopic.php?t=' . $row['topic_id'] . '" target="_blank" class="topictitle">' . $row['topic_title'] . '</a>';
+				$post_url = append_sid($this->root_path . 'viewtopic.' . $this->php_ext, 'p=' . $row['post_id'] . '#p' . $row['post_id']);
+				$topic_url = append_sid($this->root_path . 'viewtopic.' . $this->php_ext, 't=' . $row['topic_id']);
+				$post_link = '<a href="' . $post_url . '" target="_blank">' . $row['post_subject'] . '</a>';
+				$topic_link = '<a href="' . $topic_url . '" target="_blank" class="topictitle">' . $row['topic_title'] . '</a>';
 				$this->template->assign_block_vars('lovelist', array(
 					'LINE' => $this->lang->lang('LIKE_LINE', $this->user->format_date($row['liketime']), $this->user_loader->get_username($row['liker_id'], 'full'), $this->user_loader->get_username($row['poster'], 'full'), $post_link, $topic_link),
 				));
