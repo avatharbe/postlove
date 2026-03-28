@@ -7,7 +7,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 #### Version
 2.1.0-a1
 
-[![CodeQL](https://github.com/avatharbe/postlove/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/avatharbe/postlove/actions/workflows/github-code-scanning/codeql)
+[![Tests](https://github.com/avatharbe/postlove/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avatharbe/postlove/actions/workflows/tests.yml)
 
 #### Support
 - [Support forum](https://www.avathar.be/forum)

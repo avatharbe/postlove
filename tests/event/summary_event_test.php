@@ -44,7 +44,7 @@ class summary_event extends \phpbb_database_test_case
 	*/
 	public function setUp(): void
 	{
-		global $phpbb_dispatcher, $user, $config, $auth, $cache;
+		global $phpbb_root_path, $phpEx, $phpbb_dispatcher, $user, $config, $auth, $cache;
 
 		parent::setUp();
 		// Setup Auth

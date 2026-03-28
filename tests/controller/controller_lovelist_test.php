@@ -43,7 +43,7 @@ class controller_lovelist_test extends \phpbb_database_test_case
 	*/
 	public function setUp(): void
 	{
-		global $phpbb_dispatcher;
+		global $phpbb_root_path, $phpEx, $phpbb_dispatcher;
 
 		parent::setUp();
 		$this->db = $this->new_dbal();
