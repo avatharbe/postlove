@@ -115,6 +115,7 @@ class release_2_0_0 extends \phpbb\db\migration\profilefield_base_migration
 			$sql = 'UPDATE ' . $this->table_prefix . 'posts_likes AS pl
 				SET timestamp = ' . $row['liketime'] . '
 				WHERE pl.post_id = ' . (int) $row['post_id'] . ' AND pl.user_id = ' . (int) $row['user_id'];
+			$this->db->sql_query($sql);
 		}
 		$this->db->sql_freeresult($result);
 
