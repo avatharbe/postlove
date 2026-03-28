@@ -7,7 +7,7 @@
 *
 */
 
-namespace anavaro\postlove\event;
+namespace avathar\postlove\event;
 
 define('SECONDS_PER_MINUTE',	60);
 define('SECONDS_PER_HOUR',  	(SECONDS_PER_MINUTE * 60));
@@ -23,7 +23,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class summary_listener implements EventSubscriberInterface
 {
-	/** @var \anavaro\postlove\core\postlovesummary */
+	/** @var \avathar\postlove\core\postlovesummary */
 	protected $functions;
 
 	/** @var \phpbb\config\config */
@@ -250,13 +250,13 @@ class summary_listener implements EventSubscriberInterface
 			/**
 			* Modify the topic data before it is assigned to the template
 			*
-			* @event anavaro.postlove.modify_summary_tpl_ary
+			* @event avathar.postlove.modify_summary_tpl_ary
 			* @var  array   row 		Array with topic data
 			* @var  array   tpl_ary 	Template block array with topic data
 			* @since 1.0.0
 			*/
 			$vars = array('row', 'tpl_ary');
-			extract($this->dispatcher->trigger_event('anavaro.postlove.modify_summary_tpl_ary', compact($vars)));
+			extract($this->dispatcher->trigger_event('avathar.postlove.modify_summary_tpl_ary', compact($vars)));
 
 			$this->template->assign_block_vars('most_liked_posts', $tpl_ary);
 		}

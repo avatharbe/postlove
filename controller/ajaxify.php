@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\controller;
+namespace avathar\postlove\controller;
 
 class ajaxify
 {
@@ -20,11 +20,11 @@ class ajaxify
 	 * @param \phpbb\config|\phpbb\config\config $config Config object
 	 * @param \phpbb\db\driver|\phpbb\db\driver\driver_interface $db Database object
 	 * @param \phpbb\user $user User object
-	 * @param \anavaro\postlove\controller\notifyhelper $notifyhelper Notification helper.
+	 * @param \avathar\postlove\controller\notifyhelper $notifyhelper Notification helper.
 	 * @param $likes_table
 	 * @internal param string $table_prefix phpBB Table Prefix
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\cache\service $cache, \anavaro\postlove\controller\notifyhelper $notifyhelper,
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\cache\service $cache, \avathar\postlove\controller\notifyhelper $notifyhelper,
 								$likes_table)
 	{
 		$this->config = $config;

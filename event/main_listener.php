@@ -9,7 +9,7 @@
 *
 */
 
-namespace anavaro\postlove\event;
+namespace avathar\postlove\event;
 
 /**
 * Event listener
@@ -61,7 +61,7 @@ class main_listener implements EventSubscriberInterface
 
 	public function load_language_on_setup($event)
 	{
-		$this->user->add_lang_ext('anavaro/postlove', 'postlove');
+		$this->user->add_lang_ext('avathar/postlove', 'postlove');
 	}
 
 	public function modify_post_row($event)

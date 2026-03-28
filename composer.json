@@ -1,38 +1,29 @@
 {
-	"name": "anavaro/postlove",
+	"name": "avathar/postlove",
 	"type": "phpbb-extension",
-	"description": "Adds ability to favourite/like/thank a post.",
-	"homepage": "http://lab.anavaro.com/forum/viewforum.php?f=5",
-	"version": "2.0.0-b3",
-	"time": "2019-12-28",
+	"description": "Adds a simple heart/like button to posts.",
+	"homepage": "https://github.com/avatharbe/postlove",
+	"version": "2.1.0-a1",
 	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "Stanislav Atanasov",
-			"email": "lucifer@anavaro.com",
-			"homepage": "http://anavaro.com",
-			"role": "Lead Developer"
+			"role": "Original Developer"
 		},
 		{
-			"name": "Mike Morrin",
-			"email": "phpbb_pl@ingenious.co.nz",
-			"homepage": "http://ingenious.co.nz/phpbb",
-			"role": "Developer"
+			"name": "Andy Vandenberghe",
+			"homepage": "https://www.avathar.be",
+			"role": "Maintainer"
 		}
 	],
 	"require": {
-		"php": ">=5.4"
+		"php": ">=8.1"
 	},
 	"require-dev": {},
 	"extra": {
-		"display-name": "phpBB 3.2 Post Love",
+		"display-name": "Post Love",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2@dev"
-		},
-		"version-check": {
-			"host": "lab.anavaro.com",
-			"directory": "/phpbb-ext/3.2.x",
-			"filename": "postlove.json"
+			"phpbb/phpbb": ">=3.3.0"
 		}
 	}
 }

@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\tests\controller;
+namespace avathar\postlove\tests\controller;
 
 /**
 * @group controller
@@ -26,7 +26,7 @@ class controller_lovelist_test extends \phpbb_database_test_case
 	*/
 	static protected function setup_extensions()
 	{
-		return array('anavaro/postlove');
+		return array('avathar/postlove');
 	}
 
 	protected $db;
@@ -102,7 +102,7 @@ class controller_lovelist_test extends \phpbb_database_test_case
 		$this->template->expects($this->exactly($expected))
 			->method('assign_block_vars');
 
-		$controller = new \anavaro\postlove\controller\lovelist(
+		$controller = new \avathar\postlove\controller\lovelist(
 			$this->user,
 			$this->language,
 			$this->controller_helper,

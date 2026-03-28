@@ -9,7 +9,7 @@
 *
 */
 
-namespace anavaro\postlove;
+namespace avathar\postlove;
 
 /**
 * Extension class for board announcements

@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\tests\summaryevent;
+namespace avathar\postlove\tests\summaryevent;
 
 /**
 * @group event
@@ -25,7 +25,7 @@ class summary_event extends \phpbb_database_test_case
 	*/
 	static protected function setup_extensions()
 	{
-		return array('anavaro/postlove');
+		return array('avathar/postlove');
 	}
 
 	protected $db;
@@ -91,7 +91,7 @@ class summary_event extends \phpbb_database_test_case
 	*/
 	protected function set_listener()
 	{
-		$this->listener = new \anavaro\postlove\event\summary_listener(
+		$this->listener = new \avathar\postlove\event\summary_listener(
 			$this->auth,
 			$this->config,
 			$this->cache,
@@ -116,7 +116,7 @@ class summary_event extends \phpbb_database_test_case
 		$this->assertEquals(array(
 			'core.index_modify_page_title',
 			'core.viewforum_modify_page_title',
-		), array_keys(\anavaro\postlove\event\summary_listener::getSubscribedEvents()));
+		), array_keys(\avathar\postlove\event\summary_listener::getSubscribedEvents()));
 	}
 
 	/**

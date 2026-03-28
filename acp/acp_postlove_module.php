@@ -11,7 +11,7 @@
 * @ignore
 */
 
-namespace anavaro\postlove\acp;
+namespace avathar\postlove\acp;
 
 /**
 * @package acp
@@ -26,7 +26,7 @@ class acp_postlove_module
 
 		$language = $phpbb_container->get('language');
 		//Define extension path (we will need it)
-		$ext_path =  $phpbb_root_path . 'ext/anavaro/postlove/';
+		$ext_path =  $phpbb_root_path . 'ext/avathar/postlove/';
 
 		$this->tpl_name = 'acp_postlove';
 		$this->page_title = 'ACP_POSTLOVE';

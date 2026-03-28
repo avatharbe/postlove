@@ -5,14 +5,14 @@ Add a simple heart/like button to posts with AJAX toggle.
 Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanasov/postlove)). Now maintained by [Avathar.be](https://www.avathar.be).
 
 #### Version
-2.0.0-b3
+2.1.0-a1
 
 #### Support
 - [Support forum](https://www.avathar.be/forum)
 
 #### Requirements
 - phpBB 3.3.0 or higher
-- PHP 7.1 or higher
+- PHP 8.1 or higher
 
 #### Features
 - Heart button under every post with AJAX toggle (no page reload)
@@ -26,19 +26,21 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Bulgarian, Czech, Dutch, English, French, German, Polish, Portuguese (BR), Spanish, Turkish
 
 ### Changelog
-- 2.0.0-b3
-  - Forked to avatharbe, migrated CI from Travis to GitHub Actions
+- 2.1.0-a1
+  - Namespace changed from `anavaro/postlove` to `avathar/postlove`
+  - Migrated CI from Travis to GitHub Actions
+  - Updated requirements to PHP 8.1+ and phpBB 3.3+
 
 ### Installation
 1. [Download the latest release](https://github.com/avatharbe/postlove/releases) and unzip it.
-2. Copy the entire contents from the unzipped folder to `/ext/anavaro/postlove/`.
+2. Copy the entire contents from the unzipped folder to `/ext/avathar/postlove/`.
 3. Navigate in the ACP to `Customise -> Manage extensions`.
 4. Find `Post Love` under "Disabled Extensions" and click `Enable`.
 
 ### Uninstallation
 1. Navigate in the ACP to `Customise -> Manage extensions`.
 2. Click the `Disable` link for `Post Love`.
-3. To permanently uninstall, click `Delete Data`, then delete the `postlove` folder from `/ext/anavaro/`.
+3. To permanently uninstall, click `Delete Data`, then delete the `postlove` folder from `/ext/avathar/`.
 
 ### License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)

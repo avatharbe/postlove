@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\controller;
+namespace avathar\postlove\controller;
 
 class lovelist
 {
@@ -88,7 +88,7 @@ class lovelist
 		$start = ($page - 1) * $limit;
 
 		// Add lang
-		$this->lang->add_lang(array('postlove'), 'anavaro/postlove');
+		$this->lang->add_lang(array('postlove'), 'avathar/postlove');
 		// Let's get allowed forums
 		// Get the allowed forums
 		$forum_ary = array();

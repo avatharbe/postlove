@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\migrations;
+namespace avathar\postlove\migrations;
 
 /**
 * Primary migration

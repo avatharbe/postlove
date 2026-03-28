@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\tests\functional;
+namespace avathar\postlove\tests\functional;
 
 /**
 * @group functional
@@ -21,9 +21,9 @@ class postlove_acp_test extends postlove_base
 		$this->login();
 		$this->admin_login();
 
-		$this->add_lang_ext('anavaro/postlove', 'info_acp_postlove');
+		$this->add_lang_ext('avathar/postlove', 'info_acp_postlove');
 
-		$crawler = self::request('GET', 'adm/index.php?i=-anavaro-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
+		$crawler = self::request('GET', 'adm/index.php?i=-avathar-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
 		$this->assertContainsLang('POSTLOVE_SHOW_LIKES', $crawler->text());
 		$this->assertContainsLang('POSTLOVE_SHOW_LIKED', $crawler->text());
 	}

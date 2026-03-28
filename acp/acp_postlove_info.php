@@ -7,7 +7,7 @@
 *
 */
 
-namespace anavaro\postlove\acp;
+namespace avathar\postlove\acp;
 
 /**
 * @package module_install
@@ -18,13 +18,13 @@ class acp_postlove_info
 	function module()
 	{
 		return array(
-			'filename'	=> 'anavaro\postlove\acp\acp_postlove_module',
+			'filename'	=> 'avathar\postlove\acp\acp_postlove_module',
 			'title'		=> 'ACP_POSTLOVE', // define in the lang/xx/acp/common.php language file
 			'version'	=> '2.0.0-a2',
 			'modes'		=> array(
 				'main'		=> array(
 					'title'		=> 'ACP_POSTLOVE',
-					'auth' 		=> 'ext_anavaro/postlove && acl_a_user',
+					'auth' 		=> 'ext_avathar/postlove && acl_a_user',
 					'cat'		=> array('ACP_POSTLOVE_GRP')
 				),
 			),

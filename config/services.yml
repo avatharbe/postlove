@@ -1,8 +1,8 @@
 parameters:
-    tables.anavaro.postlove: '%core.table_prefix%posts_likes'
+    tables.avathar.postlove: '%core.table_prefix%posts_likes'
 services:
-    anavaro.postlove.listener:
-        class: anavaro\postlove\event\main_listener
+    avathar.postlove.listener:
+        class: avathar\postlove\event\main_listener
         arguments:
             - '@auth'
             - '@config'
@@ -10,11 +10,11 @@ services:
             - '@template'
             - '@user'
             - '@controller.helper'
-            - '%tables.anavaro.postlove%'
+            - '%tables.avathar.postlove%'
         tags:
             - {name: event.listener}
-    anavaro.summary.listener:
-        class: anavaro\postlove\event\summary_listener
+    avathar.summary.listener:
+        class: avathar\postlove\event\summary_listener
         arguments:
             - '@auth'
             - '@config'
@@ -30,17 +30,17 @@ services:
             - '%core.table_prefix%'
         tags:
             - {name: event.listener}
-    anavaro.postlove.ajaxify:
-        class: anavaro\postlove\controller\ajaxify
+    avathar.postlove.ajaxify:
+        class: avathar\postlove\controller\ajaxify
         arguments:
             - '@config'
             - '@dbal.conn'
             - '@user'
             - '@cache'
-            - '@anavaro.postlove.notifyhelper'
-            - '%tables.anavaro.postlove%'
-    anavaro.postlove.lovelist:
-        class: anavaro\postlove\controller\lovelist
+            - '@avathar.postlove.notifyhelper'
+            - '%tables.avathar.postlove%'
+    avathar.postlove.lovelist:
+        class: avathar\postlove\controller\lovelist
         arguments:
             - '@user'
             - '@language'
@@ -51,10 +51,10 @@ services:
             - '@template'
             - '@pagination'
             - '@request'
-            - '%tables.anavaro.postlove%'
+            - '%tables.avathar.postlove%'
             - '%core.root_path%'
-    anavaro.postlove.notifyhelper:
-        class: anavaro\postlove\controller\notifyhelper
+    avathar.postlove.notifyhelper:
+        class: avathar\postlove\controller\notifyhelper
         arguments:
             - '@config'
             - '@dbal.conn'
@@ -64,9 +64,9 @@ services:
             - '@service_container'
             - '%core.root_path%'
             - '%core.php_ext%'
-            - '%tables.anavaro.postlove%'
+            - '%tables.avathar.postlove%'
     notification.type.postlove:
-        class: anavaro\postlove\notification\postlove
+        class: avathar\postlove\notification\postlove
         shared: false
         parent: notification.type.base
         calls:

@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\tests\controller;
+namespace avathar\postlove\tests\controller;
 
 /**
 * @group controller
@@ -27,7 +27,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	*/
 	static protected function setup_extensions()
 	{
-		return array('anavaro/postlove');
+		return array('avathar/postlove');
 	}
 
 	protected $db;
@@ -69,7 +69,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 
 
 		// Setup notifyhelper (I should drop that in future versions)
-		$this->notifyhelper = $this->getMockBuilder('\anavaro\postlove\controller\notifyhelper')->disableOriginalConstructor()
+		$this->notifyhelper = $this->getMockBuilder('\avathar\postlove\controller\notifyhelper')->disableOriginalConstructor()
 			->getMock();
 	}
 
@@ -82,7 +82,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 		$this->user->data['user_type'] = $is_registered;
 		$this->config['postlove_author_like'] = $postlove_author_like;
 
-		return new \anavaro\postlove\controller\ajaxify(
+		return new \avathar\postlove\controller\ajaxify(
 			$this->config,
 			$this->db,
 			$this->user,

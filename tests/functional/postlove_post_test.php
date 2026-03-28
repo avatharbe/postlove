@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\tests\functional;
+namespace avathar\postlove\tests\functional;
 
 /**
 * @group functional
@@ -91,9 +91,9 @@ class postlove_post_test extends postlove_base
 		$this->login();
 		$this->admin_login();
 
-		$this->add_lang_ext('anavaro/postlove', 'info_acp_postlove');
+		$this->add_lang_ext('avathar/postlove', 'info_acp_postlove');
 
-		$crawler = self::request('GET', 'adm/index.php?i=-anavaro-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
+		$crawler = self::request('GET', 'adm/index.php?i=-avathar-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'poslove[postlove_show_likes]'	=> 1,
@@ -113,9 +113,9 @@ class postlove_post_test extends postlove_base
 		$this->login();
 		$this->admin_login();
 
-		$this->add_lang_ext('anavaro/postlove', 'info_acp_postlove');
+		$this->add_lang_ext('avathar/postlove', 'info_acp_postlove');
 
-		$crawler = self::request('GET', 'adm/index.php?i=-anavaro-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
+		$crawler = self::request('GET', 'adm/index.php?i=-avathar-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'poslove[postlove_show_likes]'	=> 0,
@@ -135,9 +135,9 @@ class postlove_post_test extends postlove_base
 		$this->login();
 		$this->admin_login();
 
-		$this->add_lang_ext('anavaro/postlove', 'info_acp_postlove');
+		$this->add_lang_ext('avathar/postlove', 'info_acp_postlove');
 
-		$crawler = self::request('GET', 'adm/index.php?i=-anavaro-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
+		$crawler = self::request('GET', 'adm/index.php?i=-avathar-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
 			'poslove[postlove_show_likes]'	=> 1,
@@ -158,7 +158,7 @@ class postlove_post_test extends postlove_base
 	public function test_show_list()
 	{
 		$this->login();
-		$this->add_lang_ext('anavaro/postlove', 'postlove');
+		$this->add_lang_ext('avathar/postlove', 'postlove');
 	
 		$crawler = self::request('GET', "app.php/postlove/2?sid={$this->sid}");
 		//$this->assertContains('zzazaza', $crawler->text());

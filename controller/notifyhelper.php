@@ -7,7 +7,7 @@
 *
 */
 
-namespace anavaro\postlove\controller;
+namespace avathar\postlove\controller;
 
 use Symfony\Component\DependencyInjection\Container;
 

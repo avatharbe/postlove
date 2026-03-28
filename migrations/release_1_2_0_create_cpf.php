@@ -7,7 +7,7 @@
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
-namespace anavaro\postlove\migrations;
+namespace avathar\postlove\migrations;
 
 /**
 * Primary migration
@@ -17,7 +17,7 @@ class release_1_2_0_create_cpf extends \phpbb\db\migration\profilefield_base_mig
 	static public function depends_on()
 	{
 		return array(
-			'\anavaro\postlove\migrations\release_1_2_0',
+			'\avathar\postlove\migrations\release_1_2_0',
 		);
 	}
 	public function update_data()

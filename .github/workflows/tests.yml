@@ -16,4 +16,4 @@ jobs:
   test:
     uses: phpbb-extensions/test-framework/.github/workflows/tests.yml@3.3.x
     with:
-      EXTNAME: 'anavaro/postlove'
+      EXTNAME: 'avathar/postlove'

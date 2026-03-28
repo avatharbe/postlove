@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\tests\functional;
+namespace avathar\postlove\tests\functional;
 
 /**
 * @group functional
@@ -17,7 +17,7 @@ class postlove_base extends \phpbb_functional_test_case
 {
 	static protected function setup_extensions()
 	{
-		return array('anavaro/postlove');
+		return array('avathar/postlove');
 	}
 
 	public function setUp(): void

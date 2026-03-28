@@ -8,7 +8,7 @@
 *
 */
 
-namespace anavaro\postlove\migrations;
+namespace avathar\postlove\migrations;
 
 /**
 * Primary migration
@@ -19,7 +19,7 @@ class release_1_0_1 extends \phpbb\db\migration\migration
 	static public function depends_on()
 	{
 		return array(
-			'\anavaro\postlove\migrations\release_1_0_0',
+			'\avathar\postlove\migrations\release_1_0_0',
 		);
 	}
 

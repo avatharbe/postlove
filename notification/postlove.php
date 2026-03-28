@@ -7,7 +7,7 @@
 *
 */
 
-namespace anavaro\postlove\notification;
+namespace avathar\postlove\notification;
 
 /**
 *
