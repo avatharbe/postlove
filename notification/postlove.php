@@ -62,25 +62,25 @@ class postlove extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get the id of the liker
+	 * Get the id of the liked post
 	 *
 	 * @param array $data The data for the like
 	 * @return int
 	 */
 	public static function get_item_id($data)
 	{
-		return (int) $data['requester_id'];
+		return (int) $data['post_id'];
 	}
 
 	/**
-	 * Get the id of the parent
+	 * Get the id of the liker
 	 *
 	 * @param array $data The data for the like
 	 * @return int
 	 */
 	public static function get_item_parent_id($data)
 	{
-		return (int) $data['post_id'];
+		return (int) $data['requester_id'];
 	}
 
 	/**
