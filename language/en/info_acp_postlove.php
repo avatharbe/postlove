@@ -30,7 +30,7 @@ $lang = array_merge($lang, array(
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
 	'ACP_POSTLOVE'		=> 'Post love',
 	'POSTLOVE_EXPLAIN'	=> 'From here you can change some Post Love settings',
-	'CONFIRM_MESSAGE'	=> 'Changes saved!<br><br><a href="%1$s">Back</а>',
+	'CONFIRM_MESSAGE'	=> 'Changes saved!<br><br><a href="%1$s">Back</a>',
 
 	'POSTLOVE_AUTHOR_LIKE'			=> 'Author can like posts',
 	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'Can the author like his/her own posts or not',

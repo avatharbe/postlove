@@ -30,7 +30,7 @@ $lang = array_merge($lang, array(
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
 	'ACP_POSTLOVE'	=> 'Polubienia postów',
 	'POSTLOVE_EXPLAIN'	=> 'Z tego miejsca możesz zmienić ustawienia rozszerzenia Post Love',
-	'CONFIRM_MESSAGE'	=> 'Zmiany zostały zapisane pomyślnie!<br><br><a href="%1$s">Powrót</а>',
+	'CONFIRM_MESSAGE'	=> 'Zmiany zostały zapisane pomyślnie!<br><br><a href="%1$s">Powrót</a>',
 
 	'POSTLOVE_AUTHOR_LIKE'	=> 'Autor może polubić swoje posty',
 	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'Określa, czy autor postu może polubić swoje własne posty czy też nie',
