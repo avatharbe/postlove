@@ -64,10 +64,13 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 		// Setup Language
 		$this->language = $this->createMock('\phpbb\language\language');
 
+		$this->dispatcher = new \phpbb_mock_event_dispatcher();
+
 		$this->cache = new \phpbb\cache\service(
 			new \phpbb\cache\driver\dummy(),
 			$this->config,
 			$this->db,
+			$this->dispatcher,
 			$phpbb_root_path,
 			$phpEx
 		);

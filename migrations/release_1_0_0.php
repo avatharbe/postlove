@@ -34,7 +34,7 @@ class release_1_0_0 extends \phpbb\db\migration\migration
 						'type'		=> array('VCHAR:16', 'post'),
 						'timestamp'		=> array('VCHAR:32', 0)
 					),
-					'PRIMARY_KEY'    => 'post_id, user_id',
+					'PRIMARY_KEY'    => array('post_id', 'user_id'),
 				)
 			),
 		);

@@ -58,12 +58,12 @@ class summary_event extends \phpbb_database_test_case
 		// Setup DB
 		$this->db = $this->new_dbal();
 
-		//Setup Cache
-		$this->cache = new \phpbb\cache\service(new \phpbb\cache\driver\dummy(), $this->config, $this->db, $phpbb_root_path, $phpEx);
-		$cache = $this->cache;
-
 		$this->dispatcher = new \phpbb_mock_event_dispatcher();
 		$phpbb_dispatcher = $this->dispatcher;
+
+		//Setup Cache
+		$this->cache = new \phpbb\cache\service(new \phpbb\cache\driver\dummy(), $this->config, $this->db, $this->dispatcher, $phpbb_root_path, $phpEx);
+		$cache = $this->cache;
 
 		// Setup template
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
