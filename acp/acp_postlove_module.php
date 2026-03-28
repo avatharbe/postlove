@@ -98,7 +98,7 @@ class acp_postlove_module
 					$sql = 'DELETE FROM ' . $table_prefix . 'posts_likes WHERE ' . $db->sql_in_set('user_id', $delete_user_likes);
 					$db->sql_query($sql);
 					$deleted_user_likes = $db->sql_affectedrows();
-					var_dump($deleted_user_likes . ' user likes deleted');
+					// $deleted_user_likes contains count of removed orphan likes
 				}
 			}
 			else

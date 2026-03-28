@@ -95,7 +95,7 @@ class lovelist
 		$forum_ids = array_unique($forum_ary);
 
 		// No forums with f_read
-		if (!sizeof($forum_ids))
+		if (!count($forum_ids))
 		{
 			return -1;
 		}

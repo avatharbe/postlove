@@ -9,9 +9,6 @@
 
 namespace avathar\postlove\event;
 
-define('SECONDS_PER_MINUTE',	60);
-define('SECONDS_PER_HOUR',  	(SECONDS_PER_MINUTE * 60));
-define('SECONDS_PER_DAY',   	(SECONDS_PER_HOUR * 24));
 
 /**
 * @ignore
@@ -23,6 +20,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class summary_listener implements EventSubscriberInterface
 {
+	private const SECONDS_PER_MINUTE = 60;
+	private const SECONDS_PER_HOUR = self::SECONDS_PER_MINUTE * 60;
+	private const SECONDS_PER_DAY = self::SECONDS_PER_HOUR * 24;
+
 	protected \phpbb\auth\auth $auth;
 	protected \phpbb\config\config $config;
 	protected \phpbb\cache\service $cache;
@@ -66,7 +67,7 @@ class summary_listener implements EventSubscriberInterface
 		$this->test_time = $test_time;
 	}
 
-	static public function getSubscribedEvents()
+	public static function getSubscribedEvents()
 	{
 		return array(
 			'core.index_modify_page_title'  => 'index_page_summary',
@@ -102,7 +103,7 @@ class summary_listener implements EventSubscriberInterface
 		// prune any duplicates
 		$forum_ary = array_unique($forum_ary);
 
-		if (!sizeof($forum_ary))
+		if (!count($forum_ary))
 		{
 			// no need to look any further
 			return;

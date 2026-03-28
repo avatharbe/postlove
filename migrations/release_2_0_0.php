@@ -14,7 +14,7 @@ namespace avathar\postlove\migrations;
 */
 class release_2_0_0 extends \phpbb\db\migration\profilefield_base_migration
 {
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return array(
 			'\avathar\postlove\migrations\release_1_2_0_create_cpf',

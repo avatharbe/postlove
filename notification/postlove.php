@@ -189,6 +189,6 @@ class postlove extends \phpbb\notification\type\base
 		$this->set_data('topic_id', $data['topic_id']);
 		$this->set_data('post_subject', $data['post_subject']);
 
-		parent::create_insert_array($data, $pre_create_data);
+		return parent::create_insert_array($data, $pre_create_data);
 	}
 }

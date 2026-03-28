@@ -25,7 +25,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	*
 	* @return array vendor/name of extension(s) to test
 	*/
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return array('avathar/postlove');
 	}

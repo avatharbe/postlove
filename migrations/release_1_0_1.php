@@ -16,7 +16,7 @@ namespace avathar\postlove\migrations;
 
 class release_1_0_1 extends \phpbb\db\migration\migration
 {
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return array(
 			'\avathar\postlove\migrations\release_1_0_0',

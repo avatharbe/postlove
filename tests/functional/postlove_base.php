@@ -15,7 +15,7 @@ namespace avathar\postlove\tests\functional;
 */
 class postlove_base extends \phpbb_functional_test_case
 {
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return array('avathar/postlove');
 	}

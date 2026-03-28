@@ -26,7 +26,7 @@ class main_listener implements EventSubscriberInterface
 	protected \phpbb\controller\helper $helper;
 	protected string $loves_table;
 
-	static public function getSubscribedEvents()
+	public static function getSubscribedEvents()
 	{
 		return array(
 			'core.viewtopic_modify_post_row'	=> 'modify_post_row',
