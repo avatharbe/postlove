@@ -1,54 +1,47 @@
-[![Build Status](https://travis-ci.org/satanasov/postlove.svg?branch=master)](https://travis-ci.org/satanasov/postlove) [![Coverage Status](https://coveralls.io/repos/github/satanasov/postlove/badge.svg?branch=master)](https://coveralls.io/github/satanasov/postlove?branch=1.2.x)
-
-Post Love for phpBB 3.2
+Post Love for phpBB 3.3
 ==========
 
-Description:
+Add a simple heart/like button to posts with AJAX toggle.
+Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanasov/postlove)). Now maintained by [Avathar.be](https://www.avathar.be).
 
-    Add "like"/love (as it uses small heart) to the posts.
-    As a popup you can see who have liked/loved the post.
-    Show most liked post(s) overall and per forum
+#### Version
+2.0.0-b3
 
-Features:
+#### Support
+- [Support forum](https://www.avathar.be/forum)
 
-    Postview:
-        - Show small heart under every post
-        - Toggle like/love
-        - Show as tooltip who have liked the post
-        - Show how many posts the user liked in mini profile (configurable)
-        - Show how many of the user posts have been liked in mini profile (configurable)
+#### Requirements
+- phpBB 3.3.0 or higher
+- PHP 7.1 or higher
 
-    Indexview:
-        - Show summary of N most liked posts of day/week/month/year/ever (configurable)
+#### Features
+- Heart button under every post with AJAX toggle (no page reload)
+- Tooltip showing who liked the post
+- Like counts (given/received) in user mini profile (configurable)
+- Summary of most liked posts by day/week/month/year/ever on index and forum views (configurable)
+- Notification when a post is liked
+- ACP settings for CSS, mini profile counters, summary display and cache time
 
-    Forumview:
-        - Show summary of N most liked posts of day/week/month/year/ever (configurable)
+#### Languages supported
+- Bulgarian, Czech, Dutch, English, French, German, Polish, Portuguese (BR), Spanish, Turkish
 
-    Notifications:
-        - Notify author when a post has been liked
+### Changelog
+- 2.0.0-b3
+  - Forked to avatharbe, migrated CI from Travis to GitHub Actions
 
-    ACP:
-        - Enable/disable main CSS (CSS classes can be redefined)
-        - Allow showing of liked posts count in mini profile (postview)
-        - Allow showing of user's posts that have been liked count in mini profile (postview)
-        - Configure number of posts for each period to show (Indexview and Forumview)
-        - Configure caching time of summary queries (to improve efficiency)
+### Installation
+1. [Download the latest release](https://github.com/avatharbe/postlove/releases) and unzip it.
+2. Copy the entire contents from the unzipped folder to `/ext/anavaro/postlove/`.
+3. Navigate in the ACP to `Customise -> Manage extensions`.
+4. Find `Post Love` under "Disabled Extensions" and click `Enable`.
 
-Installation:
+### Uninstallation
+1. Navigate in the ACP to `Customise -> Manage extensions`.
+2. Click the `Disable` link for `Post Love`.
+3. To permanently uninstall, click `Delete Data`, then delete the `postlove` folder from `/ext/anavaro/`.
 
-    - create $phpbb_root/ext/anavaro folder
-    - cd $phpbb_root/ext/anavaro
-    - git clone https://github.com/satanasov/postlove.git
-    - Go to admin panel -> customize -> extensions -> install post love
+### License
+[GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
 
-Credits:
-
-	@v12mike
-	@phpbb-es aka Raul [ThE KuKa]
-	@R3gi
-	@mhakfoort
-	@v12mike
-    
-Submitting translations/functions
-    
-    Please fork the repo and submit every translation/patch as Pull Request.
+© 2015 - 2019 Stanislav Atanasov (anavaro)
+© 2026 - Avathar.be (Andy Vandenberghe)
