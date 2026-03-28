@@ -580,9 +580,9 @@ class summary_event extends \phpbb_database_test_case
 						2 => array('f_read' => 1), // can view forum 2
 					), // user permissions
 				array(
-					'S_MOSTLIKEDSUMMARYCOUNT'	=> 5,
+					'S_MOSTLIKEDSUMMARYCOUNT'	=> 4,
 				),
-				5, // count
+				4, // count (only forum 1 posts, no sub-forums)
 				array(
 					array(
 						'U_TOPIC'   		=> '/viewtopic..php?f=1&amp;t=1&amp;p=1#p1',
@@ -624,28 +624,6 @@ class summary_event extends \phpbb_database_test_case
 						'USERNAME_FULL' 	=> '<span style="color: #blue;" class="username-coloured">Test user 3</span>',
 						'POST_TIME' 		=> '3000',
 						'TOPIC_TITLE'   	=> 'test 1',
-						'FORUM_NAME'		=> 'Forum 1',
-						'POST_LIKES_IN_PERIOD'  => 'LIKES_EVER',
-						'LIKES_IN_PERIOD'   => 1,
-						),
-					array(
-						'U_TOPIC'   		=> '/viewtopic..php?f=2&amp;t=2&amp;p=2#p2',
-						'U_FORUM'   		=> '/viewforum..php?f=2',
-						'S_UNREAD'  		=> false,
-						'USERNAME_FULL' 	=> '<span style="color: #blue;" class="username-coloured">Test user 3</span>',
-						'POST_TIME' 		=> '2000',
-						'TOPIC_TITLE'   	=> 'test 2',
-						'FORUM_NAME'		=> 'Forum 2',
-						'POST_LIKES_IN_PERIOD'  => 'LIKES_EVER',
-						'LIKES_IN_PERIOD'   => 1,
-						),
-					array(
-						'U_TOPIC'   		=> '/viewtopic..php?f=1&amp;t=3&amp;p=5#p5',
-						'U_FORUM'   		=> '/viewforum..php?f=1',
-						'S_UNREAD'  		=> false,
-						'USERNAME_FULL' 	=> '<span style="color: #blue;" class="username-coloured">Test user 3</span>',
-						'POST_TIME' 		=> '5000',
-						'TOPIC_TITLE'   	=> 'test 3',
 						'FORUM_NAME'		=> 'Forum 1',
 						'POST_LIKES_IN_PERIOD'  => 'LIKES_EVER',
 						'LIKES_IN_PERIOD'   => 1,
