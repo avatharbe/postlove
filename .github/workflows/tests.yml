@@ -3,11 +3,13 @@ name: Tests
 on:
   push:
     branches:
+      - main
       - master
       - develop
       - 'develop-*'
   pull_request:
     branches:
+      - main
       - master
 
 jobs:
