@@ -9,6 +9,7 @@ services:
             - '@dbal.conn'
             - '@template'
             - '@user'
+            - '@language'
             - '@controller.helper'
             - '%tables.avathar.postlove%'
         tags:
@@ -36,6 +37,7 @@ services:
             - '@config'
             - '@dbal.conn'
             - '@user'
+            - '@language'
             - '@cache'
             - '@avathar.postlove.notifyhelper'
             - '%tables.avathar.postlove%'

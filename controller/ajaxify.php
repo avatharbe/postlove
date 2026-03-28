@@ -15,16 +15,18 @@ class ajaxify
 	protected \phpbb\config\config $config;
 	protected \phpbb\db\driver\driver_interface $db;
 	protected \phpbb\user $user;
+	protected \phpbb\language\language $language;
 	protected \phpbb\cache\service $cache;
 	protected notifyhelper $notifyhelper;
 	protected string $likes_table;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\cache\service $cache, \avathar\postlove\controller\notifyhelper $notifyhelper,
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language, \phpbb\cache\service $cache, \avathar\postlove\controller\notifyhelper $notifyhelper,
 								$likes_table)
 	{
 		$this->config = $config;
 		$this->db = $db;
 		$this->user = $user;
+		$this->language = $language;
 		$this->cache = $cache;
 		$this->notifyhelper = $notifyhelper;
 		$this->likes_table = $likes_table;
@@ -86,7 +88,7 @@ class ajaxify
 							return new \Symfony\Component\HttpFoundation\JsonResponse(array(
 								'toggle_action'	=> 'add',
 								'toggle_post'	=> $post,
-								'toggle_title'	=> $this->user->lang['CLICK_TO_UNLIKE'],
+								'toggle_title'	=> $this->language->lang('CLICK_TO_UNLIKE'),
 							));
 						}
 						else
@@ -100,7 +102,7 @@ class ajaxify
 							return new \Symfony\Component\HttpFoundation\JsonResponse(array(
 								'toggle_action' => 'remove',
 								'toggle_post'	=> $post,
-								'toggle_title'	=> $this->user->lang['CLICK_TO_LIKE'],
+								'toggle_title'	=> $this->language->lang('CLICK_TO_LIKE'),
 							));
 						}
 					}

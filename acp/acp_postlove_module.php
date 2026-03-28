@@ -1,35 +1,37 @@
 <?php
 /**
 *
-* @package Anavaro.com Post Love
+* @package Post Love
 * @copyright (c) 2013 Lucifer
+* @copyright (c) 2026 Avathar.be
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
 
-/**
-* @ignore
-*/
-
 namespace avathar\postlove\acp;
-
-/**
-* @package acp
-*/
 
 class acp_postlove_module
 {
 	public string $tpl_name;
 	public string $page_title;
 	public string $u_action;
-	function main($id, $mode)
-	{
-		global $db, $config, $template, $request, $table_prefix, $phpbb_root_path;
-		global $language, $phpbb_container;
 
+	public function main($id, $mode)
+	{
+		global $phpbb_container;
+
+		/** @var \phpbb\config\config $config */
+		$config = $phpbb_container->get('config');
+		/** @var \phpbb\db\driver\driver_interface $db */
+		$db = $phpbb_container->get('dbal.conn');
+		/** @var \phpbb\template\template $template */
+		$template = $phpbb_container->get('template');
+		/** @var \phpbb\request\request $request */
+		$request = $phpbb_container->get('request');
+		/** @var \phpbb\language\language $language */
 		$language = $phpbb_container->get('language');
-		//Define extension path (we will need it)
-		$ext_path =  $phpbb_root_path . 'ext/avathar/postlove/';
+
+		$likes_table = $phpbb_container->getParameter('tables.avathar.postlove');
 
 		$this->tpl_name = 'acp_postlove';
 		$this->page_title = 'ACP_POSTLOVE';
@@ -37,23 +39,24 @@ class acp_postlove_module
 		if ($request->is_set_post('submit'))
 		{
 			$postlove = $request->variable('poslove', array('' => ''));
-			foreach ($postlove as $id => $var)
+			foreach ($postlove as $key => $var)
 			{
-				$config->set($id, $var);
+				$config->set($key, $var);
 			}
 			trigger_error($language->lang('CONFIRM_MESSAGE', $this->u_action));
 		}
+
 		if ($request->variable('clean', false))
 		{
 			if (confirm_box(true))
 			{
-				// Now let's clean all post loves that have no posts
+				// Clean post loves that reference deleted posts
 				$sql_ary = array(
 					'SELECT'	=> 'pl.post_id as post_id',
-					'FROM'		=> array($table_prefix . 'posts_likes' => 'pl'),
+					'FROM'		=> array($likes_table => 'pl'),
 					'LEFT_JOIN'	=> array(
 						array(
-							'FROM'	=> array($table_prefix . 'posts' => 'p'),
+							'FROM'	=> array(POSTS_TABLE => 'p'),
 							'ON'	=> 'pl.post_id = p.post_id'
 						)
 					),
@@ -69,17 +72,17 @@ class acp_postlove_module
 				$db->sql_freeresult($result);
 				if (!empty($delete_post_likes))
 				{
-					$sql = 'DELETE FROM ' . $table_prefix . 'posts_likes WHERE ' . $db->sql_in_set('post_id', $delete_post_likes);
+					$sql = 'DELETE FROM ' . $likes_table . ' WHERE ' . $db->sql_in_set('post_id', $delete_post_likes);
 					$db->sql_query($sql);
-					$deleted_post_likes = $db->sql_affectedrows();
-//					var_dump($deleted_post_likes . ' post likes deleted');
 				}
+
+				// Clean post loves that reference deleted users
 				$sql_ary = array(
 					'SELECT'	=> 'pl.user_id as user_id',
-					'FROM'		=> array($table_prefix . 'posts_likes' => 'pl'),
+					'FROM'		=> array($likes_table => 'pl'),
 					'LEFT_JOIN'	=> array(
 						array(
-							'FROM'	=> array($table_prefix . 'users' => 'u'),
+							'FROM'	=> array(USERS_TABLE => 'u'),
 							'ON'	=> 'pl.user_id = u.user_id'
 						)
 					),
@@ -95,10 +98,8 @@ class acp_postlove_module
 				$db->sql_freeresult($result);
 				if (!empty($delete_user_likes))
 				{
-					$sql = 'DELETE FROM ' . $table_prefix . 'posts_likes WHERE ' . $db->sql_in_set('user_id', $delete_user_likes);
+					$sql = 'DELETE FROM ' . $likes_table . ' WHERE ' . $db->sql_in_set('user_id', $delete_user_likes);
 					$db->sql_query($sql);
-					$deleted_user_likes = $db->sql_affectedrows();
-					// $deleted_user_likes contains count of removed orphan likes
 				}
 			}
 			else
@@ -111,11 +112,11 @@ class acp_postlove_module
 		{
 			if (confirm_box(true))
 			{
-				// Now lets import thanks from the thanks table
-				$sql = 'INSERT INTO '. $table_prefix . 'posts_likes (post_id, user_id, liked_user_id, liketime)
+				// Import thanks from the Thanks for Posts extension
+				$sql = 'INSERT INTO ' . $likes_table . ' (post_id, user_id, liked_user_id, liketime)
 					SELECT t.post_id, t.user_id, t.poster_id as liked_user_id, t.thanks_time as liketime
-					FROM '. $table_prefix . 'thanks AS t
-					LEFT JOIN '. $table_prefix . 'posts_likes as l
+					FROM ' . $phpbb_container->getParameter('core.table_prefix') . 'thanks AS t
+					LEFT JOIN ' . $likes_table . ' as l
 					ON t.user_id = l.user_id
 					AND t.post_id = l.post_id
 					WHERE l.post_id IS NULL';
@@ -127,15 +128,16 @@ class acp_postlove_module
 			}
 		}
 
-		// Is there any Thanks for Posts data to import? - the query ignores data already imported
+		// Check for Thanks for Posts data available to import
 		$thanks_to_convert = 0;
-		/* @var $db_tools \phpbb\db\tools\tools_interface */
+		/** @var \phpbb\db\tools\tools_interface $db_tools */
 		$db_tools = $phpbb_container->get('dbal.tools');
-		if ($db_tools->sql_table_exists($table_prefix . 'thanks'))
+		$thanks_table = $phpbb_container->getParameter('core.table_prefix') . 'thanks';
+		if ($db_tools->sql_table_exists($thanks_table))
 		{
 			$sql = 'SELECT COUNT(t.thanks_time) as item_count
-			FROM '. $table_prefix . 'thanks AS t
-				LEFT JOIN '. $table_prefix . 'posts_likes as l
+				FROM ' . $thanks_table . ' AS t
+				LEFT JOIN ' . $likes_table . ' as l
 				ON t.user_id = l.user_id
 				AND t.post_id = l.post_id
 				WHERE l.post_id IS NULL';
@@ -146,21 +148,21 @@ class acp_postlove_module
 		}
 
 		$template->assign_vars(array(
-			'POST_LIKES'	=> ($config['postlove_show_likes'] == 1 ? true : false),
-			'POST_LIKED'	=> ($config['postlove_show_liked'] == 1 ? true : false),
-			'AUTHOR_LIKE'	=> ($config['postlove_author_like'] == 1 ? true : false),
-			'SHOW_BUTTON'	=> ($config['postlove_show_button'] == 1 ? true : false),
-			'INDEX_HOWMANY_TODAY'   	=> $config['postlove_index_most_liked_today'],
+			'POST_LIKES'	=> ($config['postlove_show_likes'] == 1),
+			'POST_LIKED'	=> ($config['postlove_show_liked'] == 1),
+			'AUTHOR_LIKE'	=> ($config['postlove_author_like'] == 1),
+			'SHOW_BUTTON'	=> ($config['postlove_show_button'] == 1),
+			'INDEX_HOWMANY_TODAY'		=> $config['postlove_index_most_liked_today'],
 			'INDEX_HOWMANY_THIS_WEEK'	=> $config['postlove_index_most_liked_this_week'],
 			'INDEX_HOWMANY_THIS_MONTH'	=> $config['postlove_index_most_liked_this_month'],
 			'INDEX_HOWMANY_THIS_YEAR'	=> $config['postlove_index_most_liked_this_year'],
 			'INDEX_HOWMANY_EVER'		=> $config['postlove_index_most_liked_ever'],
-			'FORUM_HOWMANY_TODAY'   	=> $config['postlove_forum_most_liked_today'],
+			'FORUM_HOWMANY_TODAY'		=> $config['postlove_forum_most_liked_today'],
 			'FORUM_HOWMANY_THIS_WEEK'	=> $config['postlove_forum_most_liked_this_week'],
 			'FORUM_HOWMANY_THIS_MONTH'	=> $config['postlove_forum_most_liked_this_month'],
 			'FORUM_HOWMANY_THIS_YEAR'	=> $config['postlove_forum_most_liked_this_year'],
 			'FORUM_HOWMANY_EVER'		=> $config['postlove_forum_most_liked_ever'],
-			'THANKS_TO_CONVERT'	=> $thanks_to_convert,
+			'THANKS_TO_CONVERT'			=> $thanks_to_convert,
 		));
 	}
 }

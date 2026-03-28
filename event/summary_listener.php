@@ -161,12 +161,12 @@ class summary_listener implements EventSubscriberInterface
 		$post_list[] = '0'; //SQL needs dummy array member
 
 		// build the array of most liked posts
-		$day_begin_time = (int) floor(($this->test_time ? $this->test_time : time()) / SECONDS_PER_DAY) * SECONDS_PER_DAY;
+		$day_begin_time = (int) floor(($this->test_time ? $this->test_time : time()) / self::SECONDS_PER_DAY) * self::SECONDS_PER_DAY;
 		$post_list = $this->topposts_of_period($forum_ary, $this->config['postlove_' . $page_type . '_most_liked_ever'],		2,										'LIKES_EVER',		$post_list);
-		$post_list = $this->topposts_of_period($forum_ary, $this->config['postlove_' . $page_type . '_most_liked_this_year'],	$day_begin_time - SECONDS_PER_DAY * 366, 'LIKES_THIS_YEAR',	$post_list);
-		$post_list = $this->topposts_of_period($forum_ary, $this->config['postlove_' . $page_type . '_most_liked_this_month'],	$day_begin_time - SECONDS_PER_DAY * 31,	'LIKES_THIS_MONTH', $post_list);
-		$post_list = $this->topposts_of_period($forum_ary, $this->config['postlove_' . $page_type . '_most_liked_this_week'],	$day_begin_time - SECONDS_PER_DAY * 7,	'LIKES_THIS_WEEK',	$post_list);
-		$post_list = $this->topposts_of_period($forum_ary, $this->config['postlove_' . $page_type . '_most_liked_today'],		$day_begin_time - SECONDS_PER_DAY,		'LIKES_TODAY',		$post_list);
+		$post_list = $this->topposts_of_period($forum_ary, $this->config['postlove_' . $page_type . '_most_liked_this_year'],	$day_begin_time - self::SECONDS_PER_DAY * 366, 'LIKES_THIS_YEAR',	$post_list);
+		$post_list = $this->topposts_of_period($forum_ary, $this->config['postlove_' . $page_type . '_most_liked_this_month'],	$day_begin_time - self::SECONDS_PER_DAY * 31,	'LIKES_THIS_MONTH', $post_list);
+		$post_list = $this->topposts_of_period($forum_ary, $this->config['postlove_' . $page_type . '_most_liked_this_week'],	$day_begin_time - self::SECONDS_PER_DAY * 7,	'LIKES_THIS_WEEK',	$post_list);
+		$post_list = $this->topposts_of_period($forum_ary, $this->config['postlove_' . $page_type . '_most_liked_today'],		$day_begin_time - self::SECONDS_PER_DAY,		'LIKES_TODAY',		$post_list);
 
 		$this->template->assign_vars(array(
 			'S_MOSTLIKEDSUMMARYCOUNT'	=>  count($post_list) - 1,
@@ -209,7 +209,7 @@ class summary_listener implements EventSubscriberInterface
 		// cache the query to reduce load on server
 		// the same query is run for all users with the same set of forum permissions
 		// note that the chache is cleared each time a user adds or removes a like in the database
-		$result = $this->db->sql_query_limit($sql, $howmany, 0, (SECONDS_PER_HOUR * 12) - 1);
+		$result = $this->db->sql_query_limit($sql, $howmany, 0, (self::SECONDS_PER_HOUR * 12) - 1);
 
 		$forums = $topic_ids = array();
 		while ($row = $this->db->sql_fetchrow($result))
