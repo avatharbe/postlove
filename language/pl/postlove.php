@@ -51,10 +51,10 @@ $lang = array_merge($lang, array(
 	),
 	'LIKES_THIS_MONTH'  	 => array(
 		1	=> 'Raz w tym miesiącu',
-		2	=> '%d razy w tym tygodniu',
+		2	=> '%d razy w tym miesiącu',
 	),
 	'LIKES_THIS_YEAR'   	=> array(
-		1	=> 'Raz year',
+		1	=> 'Raz w tym roku',
 		2	=> '%d razy w tym roku',
 	),
 	'LIKES_EVER'	   => array(

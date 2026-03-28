@@ -2,7 +2,7 @@
 
 /**
 *
-* newspage [Spanish]
+* Post Love [Spanish]
 *
 * @package language
 * @version $Id$
@@ -24,42 +24,42 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_USER_LIKED'	=> 'El usuario ha gustado',
 
 	'NOTIFICATION_POSTLOVE_ADD'	=> 'A %s le ha <b>gustado</b> su mensaje:',
-	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Liked posts.',
+	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Publicaciones gustadas.',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s - %2$s <b>gustó</b> el mensaje de %3$s en “%4$s” en el tema “%5$s”',
+	'LIKE_LINE'	=> '%1$s - %2$s <b>gustó</b> el mensaje de %3$s en "%4$s" en el tema "%5$s"',
 	'POSTLOVE_LIST'	=> 'Gustó',
 	'POSTLOVE_LIST_VIEW'	=> 'Mostrar lista con todas las acciones similares',
 
 	// Ver 2.0
-	'CLICK_TO_LIKE' 	=> 'click to like this post',
-	'CLICK_TO_UNLIKE'   => 'click to unlike this post',
-	'LOGIN_TO_LIKE_POST' => 'login to like this post',
-	'CANT_LIKE_OWN_POST' => 'sorry, you cant like your own post',
-	'POST_OF_THE_DAY'	=> 'Most liked posts',
-	'POST_LIKES'		=> 'Liked',
-	'POSTED_AT'			=> 'Posted',
-	'LIKED_BY'			=> 'post liked by: ',
-	'POSTED_BY'			=> 'Author',
+	'CLICK_TO_LIKE' 	=> 'haz clic para indicar que te gusta esta publicación',
+	'CLICK_TO_UNLIKE'   => 'haz clic para quitar tu Me gusta',
+	'LOGIN_TO_LIKE_POST' => 'inicia sesión para indicar que te gusta esta publicación',
+	'CANT_LIKE_OWN_POST' => 'no puedes indicar que te gusta tu propia publicación',
+	'POST_OF_THE_DAY'	=> 'Publicaciones más gustadas',
+	'POST_LIKES'		=> 'Gustado',
+	'POSTED_AT'			=> 'Publicado',
+	'LIKED_BY'			=> 'publicación gustada por: ',
+	'POSTED_BY'			=> 'Autor',
 	'LIKES_TODAY'   	=> array(
-		1	=> 'Once today',
-		2	=> '%d times today',
+		1	=> 'Una vez hoy',
+		2	=> '%d veces hoy',
 	),
 	'LIKES_THIS_WEEK'   	=> array(
-		1	=> 'Once this week',
-		2	=> '%d times this week',
+		1	=> 'Una vez esta semana',
+		2	=> '%d veces esta semana',
 	),
 	'LIKES_THIS_MONTH'  	 => array(
-		1	=> 'Once this month',
-		2	=> '%d times this month',
+		1	=> 'Una vez este mes',
+		2	=> '%d veces este mes',
 	),
 	'LIKES_THIS_YEAR'   	=> array(
-		1	=> 'Once this year',
-		2	=> '%d times this year',
+		1	=> 'Una vez este año',
+		2	=> '%d veces este año',
 	),
 	'LIKES_EVER'	   => array(
-		1	=> 'Once in total',
-		2	=> '%d times in total',
+		1	=> 'Una vez en total',
+		2	=> '%d veces en total',
 	),
-	'POSTLOVE_HIDE' 			=> 'Hide Like icons and summaries',
+	'POSTLOVE_HIDE' 			=> 'Ocultar iconos y resúmenes de Me gusta',
 ));

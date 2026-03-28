@@ -2,7 +2,7 @@
 
 /**
 *
-* Post Love [English]
+* Post Love [German]
 *
 * @package language
 * @version $Id$
@@ -20,39 +20,39 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'	=> 'Beitrag gefällt mir',
-	'POSTLOVE_SHOW_LIKES'	=> 'Zeige die Anzahl an Beiträge, die dem Benutzer gefallen.',
-	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Zeige die Anzahl an Beiträge in  <code>viewtopic</code> die Anzahl an Beiträge, die dem Benutzer gefallen.',
-	'POSTLOVE_SHOW_LIKED'	=> 'Zeige die Anzahl an Beiträgen des User\'s die Anderen gefallen haben.',
-	'POSTLOVE_SHOW_LIKED_EXPLAIN'	=> 'Zeige in <code>viewtopic</code> die Anzahl an Beiträgen des User\'s die Anderen gefallen haben.',
+	'POSTLOVE_CONTROL'				=> 'Beitrag gefällt mir',
+	'POSTLOVE_SHOW_LIKES'			=> 'Zeige die Anzahl an Beiträgen, die dem Benutzer gefallen',
+	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Zeige in <code>viewtopic</code> die Anzahl an Beiträgen, die dem Benutzer gefallen.',
+	'POSTLOVE_SHOW_LIKED'			=> 'Zeige die Anzahl an Beiträgen des Benutzers, die Anderen gefallen',
+	'POSTLOVE_SHOW_LIKED_EXPLAIN'	=> 'Zeige in <code>viewtopic</code> die Anzahl an Beiträgen des Benutzers, die Anderen gefallen.',
 
-	//Version 1.1 langs
+	//Version 1.1
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
-	'ACP_POSTLOVE'	=> 'Post love',
-	'POSTLOVE_EXPLAIN'	=> 'Hier kann man die Post Love Einstellungen ändern',
-	'CONFIRM_MESSAGE'	=> 'Änderungen gespeichert!<br><br><a href="%1$s">Zurück</а>',
+	'ACP_POSTLOVE'		=> 'Post Love',
+	'POSTLOVE_EXPLAIN'	=> 'Hier können die Post Love Einstellungen geändert werden',
+	'CONFIRM_MESSAGE'	=> 'Änderungen gespeichert!<br><br><a href="%1$s">Zurück</a>',
 
-	'POSTLOVE_AUTHOR_LIKE'	=> 'Autor können Beiträge gefallen',
-	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'Dürfen dem Autor seine eigenen Beiträge gefallen',
+	'POSTLOVE_AUTHOR_LIKE'			=> 'Autor darf eigene Beiträge liken',
+	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'Darf der Autor seine eigenen Beiträge liken oder nicht',
 
-	'POSTLOVE_CLEAN_LOVES'	=> 'Gefällt mir Angaben bereinigen',
-	'POSTLOVE_CLEAN_LOVES_EXPLAIN'	=> 'Wenn Du Post Love installiert hast, bervor automatisches Aufräumen aktiviert war - Bitte Reinigen drücken um ungewollte Gefällt-Mir-Angaben zu bereinigen',
-	'CLEAN'	=> 'Reinigen',
+	'POSTLOVE_CLEAN_LOVES'			=> 'Gefällt-mir-Angaben bereinigen',
+	'POSTLOVE_CLEAN_LOVES_EXPLAIN'	=> 'Falls Post Love installiert wurde, bevor die automatische Bereinigung aktiviert war, bitte "Bereinigen" drücken um verwaiste Gefällt-mir-Angaben zu entfernen',
+	'CLEAN'	=> 'Bereinigen',
 
 	//Version 2.0
-	'POSTLOVE_SUMMARY_PERIOD'			=> 'Summary Period',
-	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'How many liked-today posts to show',
-	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'How many liked-this-week posts to show',
-	'POSTLOVE_HOWMANY_MOST_LIKED_MONTH'	=> 'How many liked-this-month posts to show',
-	'POSTLOVE_HOWMANY_MOST_LIKED_YEAR'	=> 'How many liked-this-year posts to show',
-	'POSTLOVE_HOWMANY_MOST_LIKED_EVER'	=> 'How many liked-ever posts to show',
-	'POSTLOVE_FORUM'		=> 'How many to show on Forum pages',
-	'POSTLOVE_INDEX'		=> 'How many to show on Index page',
-	'POSTLOVE_SHOW_BUTTON'	=> 'Show the Post like count in a Post Button?',
-	'POSTLOVE_SHOW_BUTTON_EXPLAIN'	=>'The Post like count status and action link may be shown as a Post Button at the top of the post or in the old format at the bottom of the post',
+	'POSTLOVE_SUMMARY_PERIOD'			=> 'Zusammenfassungszeitraum',
+	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Anzahl der beliebtesten Beiträge von heute',
+	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Anzahl der beliebtesten Beiträge dieser Woche',
+	'POSTLOVE_HOWMANY_MOST_LIKED_MONTH'	=> 'Anzahl der beliebtesten Beiträge dieses Monats',
+	'POSTLOVE_HOWMANY_MOST_LIKED_YEAR'	=> 'Anzahl der beliebtesten Beiträge dieses Jahres',
+	'POSTLOVE_HOWMANY_MOST_LIKED_EVER'	=> 'Anzahl der beliebtesten Beiträge insgesamt',
+	'POSTLOVE_FORUM'					=> 'Anzahl auf Forenseiten anzeigen',
+	'POSTLOVE_INDEX'					=> 'Anzahl auf der Indexseite anzeigen',
+	'POSTLOVE_SHOW_BUTTON'				=> 'Gefällt-mir-Anzahl als Beitrags-Button anzeigen?',
+	'POSTLOVE_SHOW_BUTTON_EXPLAIN'		=> 'Die Gefällt-mir-Anzahl kann als Button oben im Beitrag oder im alten Format unten im Beitrag angezeigt werden',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'Thanks records able to be imported',
-	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Thanks records can be imported from the Thanks for Posts extension, this operation does not change the data of the other extension',
-	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Thanks records can be imported from the Thanks for Posts extension but no suitable records found',
-	'IMPORT'							=> 'Import',
+	'POSTLOVE_IMPORT_THANKS'			=> 'Danke-Einträge zum Importieren verfügbar',
+	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Danke-Einträge können aus der Thanks for Posts Erweiterung importiert werden. Die Daten der anderen Erweiterung werden nicht verändert',
+	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Danke-Einträge können aus der Thanks for Posts Erweiterung importiert werden, aber es wurden keine passenden Einträge gefunden',
+	'IMPORT'							=> 'Importieren',
 ));
