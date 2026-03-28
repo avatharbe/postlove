@@ -1,13 +1,12 @@
 <?php
 /**
-*
-* newspage [Turkish]
-*
-* @package language
-* @version $Id$
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
+ * Post Love extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2015 Stanislav Atanasov
+ * @copyright (c) 2026 Avathar.be
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ */
+
 if (!defined('IN_PHPBB'))
 {
 	exit;

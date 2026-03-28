@@ -1,13 +1,11 @@
 <?php
 /**
-*
-* Post Love extension for the phpBB Forum Software package.
-* French translation by Galixte (http://www.galixte.com)
-*
-* @copyright (c) 2015 Stanislav Atanasov
-* @license GNU General Public License, version 2 (GPL-2.0)
-*
-*/
+ * Post Love extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2015 Galixte
+ * @copyright (c) 2026 Avathar.be
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ */
 
 if (!defined('IN_PHPBB'))
 {
