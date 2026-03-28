@@ -84,6 +84,19 @@
 .postlove-count {
     color: #222222 !important;
 }
+/* topic list heart count */
+.postlove-topic-count {
+	display: inline-block;
+	margin-left: 8px;
+	font-size: 0.85em;
+	color: #999;
+	vertical-align: middle;
+}
+.postlove-topic-count .liked:before {
+	font-size: 1em;
+	padding-right: 3px;
+}
+
 /* keep postlove button out of responsive dropdown menu */
 .post-buttons .postlove-li {
     display: inline-block;

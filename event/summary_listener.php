@@ -38,6 +38,9 @@ class summary_listener implements EventSubscriberInterface
 	protected string $table_prefix;
 	protected int $test_time;
 
+	/** @var array Prefetched like counts per topic_id */
+	protected array $topic_like_counts = [];
+
 	public function __construct(\phpbb\auth\auth $auth,
 								\phpbb\config\config $config,
 								\phpbb\cache\service $cache,
@@ -70,8 +73,10 @@ class summary_listener implements EventSubscriberInterface
 	public static function getSubscribedEvents()
 	{
 		return array(
-			'core.index_modify_page_title'  => 'index_page_summary',
-			'core.viewforum_modify_page_title' => 'forum_page_summary',
+			'core.index_modify_page_title'			=> 'index_page_summary',
+			'core.viewforum_modify_page_title'		=> 'forum_page_summary',
+			'core.viewforum_modify_topics_data'		=> 'prefetch_topic_likes',
+			'core.viewforum_modify_topicrow'		=> 'inject_topic_like_count',
 		);
 	}
 
@@ -265,5 +270,42 @@ class summary_listener implements EventSubscriberInterface
 		}
 		$this->db->sql_freeresult($result);
 		return $post_list;
+	}
+
+	/**
+	 * Prefetch like counts for all topics on the current viewforum page
+	 */
+	public function prefetch_topic_likes($event)
+	{
+		$topic_list = $event['topic_list'];
+		if (empty($topic_list))
+		{
+			return;
+		}
+
+		$sql = 'SELECT p.topic_id, COUNT(pl.post_id) AS like_count
+			FROM ' . $this->table_prefix . 'posts_likes pl
+			JOIN ' . POSTS_TABLE . ' p ON p.post_id = pl.post_id
+			WHERE ' . $this->db->sql_in_set('p.topic_id', $topic_list) . '
+			GROUP BY p.topic_id';
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$this->topic_like_counts[(int) $row['topic_id']] = (int) $row['like_count'];
+		}
+		$this->db->sql_freeresult($result);
+	}
+
+	/**
+	 * Inject like count into each topic row on viewforum
+	 */
+	public function inject_topic_like_count($event)
+	{
+		$topic_id = (int) $event['row']['topic_id'];
+		$count = $this->topic_like_counts[$topic_id] ?? 0;
+
+		$topic_row = $event['topic_row'];
+		$topic_row['TOPIC_LIKE_COUNT'] = $count;
+		$event['topic_row'] = $topic_row;
 	}
 }
