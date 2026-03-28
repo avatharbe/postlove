@@ -3,7 +3,8 @@
 *
 * Post Love extension for the phpBB Forum Software package.
 *
-* @copyright (c) 2015 Lucifer <https://www.anavaro.com>
+* @copyright (c) 2015 Stanislav Atanasov
+* @copyright (c) 2026 Avathar.be
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
@@ -46,6 +47,11 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	public function setUp(): void
 	{
 		parent::setUp();
+		global $phpbb_root_path, $phpEx;
+
+		// Setup Auth
+		$this->auth = $this->createMock('\phpbb\auth\auth');
+
 		// Setup DB
 		$this->db = $this->new_dbal();
 
@@ -53,9 +59,10 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 		$this->config = new \phpbb\config\config(array());
 
 		// Setup User
-		$this->user = $this->createMock('\phpbb\user', array(), array(
-			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
-			'\phpbb\datetime'));
+		$this->user = $this->createMock('\phpbb\user');
+
+		// Setup Language
+		$this->language = $this->createMock('\phpbb\language\language');
 
 		$this->cache = new \phpbb\cache\service(
 			new \phpbb\cache\driver\dummy(),
@@ -67,8 +74,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 
 		$this->cache->purge();
 
-
-		// Setup notifyhelper (I should drop that in future versions)
+		// Setup notifyhelper
 		$this->notifyhelper = $this->getMockBuilder('\avathar\postlove\controller\notifyhelper')->disableOriginalConstructor()
 			->getMock();
 	}
@@ -76,16 +82,21 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	/**
 	* Create our controller
 	*/
-	protected function get_controller($user_id, $is_registered, $postlove_author_like)
+	protected function get_controller($user_id, $has_permission, $postlove_author_like)
 	{
 		$this->user->data['user_id'] = $user_id;
-		$this->user->data['user_type'] = $is_registered;
 		$this->config['postlove_author_like'] = $postlove_author_like;
 
+		$this->auth->method('acl_get')
+			->with('u_postlove')
+			->willReturn($has_permission);
+
 		return new \avathar\postlove\controller\ajaxify(
+			$this->auth,
 			$this->config,
 			$this->db,
 			$this->user,
+			$this->language,
 			$this->cache,
 			$this->notifyhelper,
 			'phpbb_posts_likes'
@@ -100,54 +111,47 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	public function controller_ajaxify_data()
 	{
 		return array(
-			'anon'	=> array(
-				1, // Anonimous
-				1, // bot / anon
+			'no_permission'	=> array(
+				1, // user_id
+				false, // has u_postlove permission
 				true, // Allow author to like
 				1, // post ID
 				'{"error":1}'
 			),
-			'inactive'	=> array(
-				1, // Anonimous
-				2, // inactive
-				true, // Allow author to like
-				1, // post ID
-				'{"error":1}'
-			),
-			'user_cant_like'	=> array(
-				1, // Anonimous
-				0, // Active
+			'user_cant_like_own'	=> array(
+				1, // user_id
+				true, // has u_postlove permission
 				false, // Allow author to like
 				4, // post ID
 				'{"error":1}'
 			),
 			'no_such_post'	=> array(
-				1, // Anonimous
-				0, // Active
+				1, // user_id
+				true, // has u_postlove permission
 				true, // Allow author to like
 				5, // post ID
 				'{"error":1}'
 			),
 			'user_can_like'	=> array(
-				1, // Anonimous
-				0, // Active
+				1, // user_id
+				true, // has u_postlove permission
 				true, // Allow author to like
 				4, // post ID
-				'{"toggle_action":"add","toggle_post":4,"toggle_title":null}'
+				'"toggle_action":"add"'
 			),
 			'like'	=> array(
-				2, // Anonimous
-				0, // Active
+				2, // user_id
+				true, // has u_postlove permission
 				true, // Allow author to like
 				3, // post ID
-				'{"toggle_action":"add","toggle_post":3,"toggle_title":null}'
+				'"toggle_action":"add"'
 			),
 			'unlike'	=> array(
-				2, // Anonimous
-				0, // Active
+				2, // user_id
+				true, // has u_postlove permission
 				true, // Allow author to like
 				1, // post ID
-				'{"toggle_action":"remove","toggle_post":1,"toggle_title":null}'
+				'"toggle_action":"remove"'
 			),
 		);
 	}
@@ -157,13 +161,12 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	 *
 	 * @dataProvider controller_ajaxify_data
 	 */
-	public function test_ajaxify_controller($user_id, $user_type, $postlove_author_like, $post_id, $expected)
+	public function test_ajaxify_controller($user_id, $has_permission, $postlove_author_like, $post_id, $expected)
 	{
-		$controller = $this->get_controller($user_id, $user_type, $postlove_author_like);
+		$controller = $this->get_controller($user_id, $has_permission, $postlove_author_like);
 		$response = $controller->base('toggle', $post_id);
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
 		$this->assertEquals(200, $response->getStatusCode());
-	//	var_dump($response->getContent());
-		$this->assertContains($expected, $response->getContent());
+		$this->assertStringContainsString($expected, $response->getContent());
 	}
 }

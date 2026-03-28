@@ -4,6 +4,7 @@
 * Post Love extension for the phpBB Forum Software package.
 *
 * @copyright (c) 2018 v12mike
+* @copyright (c) 2026 Avathar.be
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
@@ -116,6 +117,8 @@ class summary_event extends \phpbb_database_test_case
 		$this->assertEquals(array(
 			'core.index_modify_page_title',
 			'core.viewforum_modify_page_title',
+			'core.viewforum_modify_topics_data',
+			'core.viewforum_modify_topicrow',
 		), array_keys(\avathar\postlove\event\summary_listener::getSubscribedEvents()));
 	}
 

@@ -3,7 +3,8 @@
 *
 * Post Love extension for the phpBB Forum Software package.
 *
-* @copyright (c) 2015 Lucifer <https://www.anavaro.com>
+* @copyright (c) 2015 Stanislav Atanasov
+* @copyright (c) 2026 Avathar.be
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
@@ -113,7 +114,8 @@ class controller_lovelist_test extends \phpbb_database_test_case
 			$this->pagination,
 			$this->request,
 			'phpbb_posts_likes',
-			'./'
+			'./',
+			'php'
 		);
 
 		return $controller;

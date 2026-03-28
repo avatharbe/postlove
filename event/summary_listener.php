@@ -9,7 +9,6 @@
 
 namespace avathar\postlove\event;
 
-
 /**
 * @ignore
 */
@@ -47,9 +46,9 @@ class summary_listener implements EventSubscriberInterface
 								\phpbb\content_visibility $content_visibility,
 								\phpbb\db\driver\driver_interface $db,
 								\phpbb\event\dispatcher_interface $dispatcher,
-								\phpbb\template\template	$template,
-								\phpbb\user	$user,
-								\phpbb\language\language	$language,
+								\phpbb\template\template $template,
+								\phpbb\user $user,
+								\phpbb\language\language $language,
 								$phpbb_root_path,
 								$php_ext,
 								$table_prefix,
