@@ -89,6 +89,7 @@ class ajaxify
 								'toggle_action'	=> 'add',
 								'toggle_post'	=> $post,
 								'toggle_title'	=> $this->language->lang('CLICK_TO_UNLIKE'),
+								'toggle_likers'	=> $this->get_likers_string((int) $post),
 							));
 						}
 						else
@@ -102,6 +103,7 @@ class ajaxify
 							return new \Symfony\Component\HttpFoundation\JsonResponse(array(
 								'toggle_action' => 'remove',
 								'toggle_post'	=> $post,
+								'toggle_likers'	=> $this->get_likers_string((int) $post),
 								'toggle_title'	=> $this->language->lang('CLICK_TO_LIKE'),
 							));
 						}
@@ -111,5 +113,27 @@ class ajaxify
 		}
 		// We should never get this ... but hey - the code smells without it.
 		return 0;
+	}
+
+	protected function get_likers_string(int $post_id): string
+	{
+		$sql = 'SELECT u.username
+			FROM ' . $this->likes_table . ' pl
+			JOIN ' . USERS_TABLE . ' u ON u.user_id = pl.user_id
+			WHERE pl.post_id = ' . $post_id . '
+			ORDER BY pl.liketime ASC';
+		$result = $this->db->sql_query($sql);
+		$likers = [];
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$likers[] = $row['username'];
+		}
+		$this->db->sql_freeresult($result);
+
+		if (empty($likers))
+		{
+			return '';
+		}
+		return $this->language->lang('LIKED_BY') . implode(', ', $likers);
 	}
 }
