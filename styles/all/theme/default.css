@@ -30,7 +30,7 @@
 	left:-5px;
 	padding-right:10px;
 	font-size: 1.35em;
-	content: "\f004";
+	content: "\f08a";
 	color: #ff0000;
 }
 
@@ -51,9 +51,8 @@
 	left:-5px;
 	padding-right:10px;
 	font-size: 1.35em;
-	content: "\f08a";
+	content: "\f004";
 	color: #ff0000;
-	font-weight: bold;
 }
 
 .like_info {
