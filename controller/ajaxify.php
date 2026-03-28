@@ -146,7 +146,7 @@ class ajaxify
 		$sql = 'SELECT u.username
 			FROM ' . $this->likes_table . ' pl
 			JOIN ' . USERS_TABLE . ' u ON u.user_id = pl.user_id
-			WHERE pl.post_id = ' . $post_id . '
+			WHERE pl.post_id = ' . (int) $post_id . '
 			ORDER BY pl.liketime ASC';
 		$result = $this->db->sql_query($sql);
 		$likers = [];

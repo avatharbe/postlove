@@ -29,7 +29,7 @@ class ext extends \phpbb\extension\base
 
 				// Enable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->enable_notifications('notification.type.postlove');
+				$phpbb_notifications->enable_notifications('avathar.postlove.notification.type.postlove');
 				return 'notifications';
 
 			break;
@@ -57,7 +57,7 @@ class ext extends \phpbb\extension\base
 
 				// Disable board rules notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->disable_notifications('notification.type.postlove');
+				$phpbb_notifications->disable_notifications('avathar.postlove.notification.type.postlove');
 				return 'notifications';
 
 			break;
@@ -92,7 +92,7 @@ class ext extends \phpbb\extension\base
 				{
 					// Purge board rules notifications
 					$phpbb_notifications = $this->container->get('notification_manager');
-					$phpbb_notifications->purge_notifications('notification.type.postlove');
+					$phpbb_notifications->purge_notifications('avathar.postlove.notification.type.postlove');
 				}
 				catch (\phpbb\notification\exception $e)
 				{

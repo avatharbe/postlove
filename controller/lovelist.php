@@ -187,8 +187,8 @@ class lovelist
 
 			$this->pagination->generate_template_pagination(array(
 					'routes' => array(
-						'postlove_list',
-						'postlove_list_page',
+						'avathar_postlove_list',
+						'avathar_postlove_list_page',
 					),
 					'params' => array(
 						'user_id' => $user_id,

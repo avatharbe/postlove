@@ -215,7 +215,7 @@ class main_listener implements EventSubscriberInterface
 				$post_row['POST_LIKE_CLASS'] = 'like';
 				$post_row['ACTION_ON_CLICK'] = $this->language->lang('CLICK_TO_LIKE');
 			}
-			$post_row['POST_LIKE_URL'] = $this->helper->route('postlove_control', array('action' => 'toggle', 'post' => $post_id));
+			$post_row['POST_LIKE_URL'] = $this->helper->route('avathar_postlove_control', array('action' => 'toggle', 'post' => $post_id));
 			$event['post_row'] = $post_row;
 
 			$this->template->assign_var('SHOW_BUTTON', $this->config['postlove_show_button']);
@@ -271,7 +271,7 @@ class main_listener implements EventSubscriberInterface
 		$this->user->get_profile_fields($this->user->data['user_id']);
 		if (!(isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']))
 		{
-			$this->template->assign_var('POSTLOVE_STATS', $this->helper->route('postlove_list', array('user_id' => $event['member']['user_id'])) . '?short=1');
+			$this->template->assign_var('POSTLOVE_STATS', $this->helper->route('avathar_postlove_list', array('user_id' => $event['member']['user_id'])) . '?short=1');
 		}
 	}
 

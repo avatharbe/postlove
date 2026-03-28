@@ -1,16 +1,16 @@
-postlove_control:
+avathar_postlove_control:
     path: /postlove/{action}/{post}
     defaults: { _controller: avathar.postlove.ajaxify:base }
     requirements:
         post: \d+
 
-postlove_list:
+avathar_postlove_list:
     path: /postlove/{user_id}
     defaults: { _controller: avathar.postlove.lovelist:base, page: 1 }
     requirements:
         user_id: \d+
 
-postlove_list_page:
+avathar_postlove_list_page:
     path: /postlove/{user_id}/page/{page}
     defaults: { _controller: avathar.postlove.lovelist:base }
     requirements:

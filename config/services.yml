@@ -14,7 +14,7 @@ services:
             - '%tables.avathar.postlove%'
         tags:
             - {name: event.listener}
-    avathar.summary.listener:
+    avathar.postlove.summary_listener:
         class: avathar\postlove\event\summary_listener
         arguments:
             - '@auth'
@@ -69,7 +69,7 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%tables.avathar.postlove%'
-    notification.type.postlove:
+    avathar.postlove.notification.type.postlove:
         class: avathar\postlove\notification\postlove
         shared: false
         parent: notification.type.base

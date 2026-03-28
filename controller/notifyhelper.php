@@ -67,11 +67,11 @@ class notifyhelper
 			switch ($type)
 			{
 				case 'add':
-					$phpbb_notifications->add_notifications('notification.type.postlove', $notification_data);
+					$phpbb_notifications->add_notifications('avathar.postlove.notification.type.postlove', $notification_data);
 				break;
 				case 'remove':
-					$notifications = $phpbb_notifications->get_item_type_class('notification.type.postlove');
-					$phpbb_notifications->delete_notifications('notification.type.postlove', $notifications->get_item_id($notification_data));
+					$notifications = $phpbb_notifications->get_item_type_class('avathar.postlove.notification.type.postlove');
+					$phpbb_notifications->delete_notifications('avathar.postlove.notification.type.postlove', $notifications->get_item_id($notification_data));
 				break;
 			}
 		}

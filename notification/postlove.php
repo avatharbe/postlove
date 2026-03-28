@@ -35,7 +35,7 @@ class postlove extends \phpbb\notification\type\base
 	*/
 	public function get_type()
 	{
-		return 'notification.type.postlove';
+		return 'avathar.postlove.notification.type.postlove';
 	}
 
 	/**
