@@ -12,26 +12,17 @@ namespace avathar\postlove\controller;
 
 class lovelist
 {
-	/* @var \phpbb\user */
-	protected $user;
-
-	/* @var \phpbb\controller\helper */
-	protected $helper;
-
-	/* @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
-	/* @var \phpbb\auth\auth */
-	protected $auth;
-
-	/* @var \phpbb\user_loader */
-	protected $user_loader;
-
-	/* @var \phpbb\template\template */
-	protected $template;
-
-	/* @var \phpbb\request\request */
-	protected $request;
+	protected \phpbb\user $user;
+	protected \phpbb\language\language $lang;
+	protected \phpbb\controller\helper $helper;
+	protected \phpbb\db\driver\driver_interface $db;
+	protected \phpbb\auth\auth $auth;
+	protected \phpbb\user_loader $user_loader;
+	protected \phpbb\template\template $template;
+	protected \phpbb\pagination $pagination;
+	protected \phpbb\request\request $request;
+	protected string $likes_table;
+	protected string $root_path;
 
 	/**
 	 * Constructor

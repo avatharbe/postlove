@@ -18,6 +18,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class main_listener implements EventSubscriberInterface
 {
+	protected \phpbb\auth\auth $auth;
+	protected \phpbb\config\config $config;
+	protected \phpbb\db\driver\driver_interface $db;
+	protected \phpbb\template\template $template;
+	protected \phpbb\user $user;
+	protected \phpbb\controller\helper $helper;
+	protected string $loves_table;
+
 	static public function getSubscribedEvents()
 	{
 		return array(

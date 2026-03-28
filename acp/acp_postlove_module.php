@@ -19,6 +19,9 @@ namespace avathar\postlove\acp;
 
 class acp_postlove_module
 {
+	public string $tpl_name;
+	public string $page_title;
+	public string $u_action;
 	function main($id, $mode)
 	{
 		global $db, $config, $template, $request, $table_prefix, $phpbb_root_path;

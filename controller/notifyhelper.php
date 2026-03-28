@@ -16,19 +16,15 @@ use Symfony\Component\DependencyInjection\Container;
 */
 class notifyhelper
 {
-	/**
-	* Constructor
-	*
-	* @param \phpbb\config\config $config                      Config object
-	* @param \phpbb\db\driver\driver $db                       Database object
-	* @param \phpbb\request\request $request                   Request object
-	* @param \phpbb\template\template $template                Template object
-	* @param \phpbb\user $user                                 User object
-	* @param Container $phpbb_container
-	* @param string $root_path                                 phpBB root path
-	* @param string $php_ext                                   phpEx
-	* @access public
-	*/
+	protected \phpbb\config\config $config;
+	protected \phpbb\db\driver\driver_interface $db;
+	protected \phpbb\request\request $request;
+	protected \phpbb\template\template $template;
+	protected \phpbb\user $user;
+	protected Container $phpbb_container;
+	protected string $root_path;
+	protected string $php_ext;
+
 	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, Container $phpbb_container, $root_path, $php_ext)
 	{
 		$this->config = $config;

@@ -12,18 +12,13 @@ namespace avathar\postlove\controller;
 
 class ajaxify
 {
-	/**
-	 * Constructor
-	 * NOTE: The parameters of this method must match in order and type with
-	 * the dependencies defined in the services.yml file for this service.
-	 *
-	 * @param \phpbb\config|\phpbb\config\config $config Config object
-	 * @param \phpbb\db\driver|\phpbb\db\driver\driver_interface $db Database object
-	 * @param \phpbb\user $user User object
-	 * @param \avathar\postlove\controller\notifyhelper $notifyhelper Notification helper.
-	 * @param $likes_table
-	 * @internal param string $table_prefix phpBB Table Prefix
-	 */
+	protected \phpbb\config\config $config;
+	protected \phpbb\db\driver\driver_interface $db;
+	protected \phpbb\user $user;
+	protected \phpbb\cache\service $cache;
+	protected notifyhelper $notifyhelper;
+	protected string $likes_table;
+
 	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\cache\service $cache, \avathar\postlove\controller\notifyhelper $notifyhelper,
 								$likes_table)
 	{

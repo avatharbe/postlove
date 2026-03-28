@@ -23,17 +23,19 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 */
 class summary_listener implements EventSubscriberInterface
 {
-	/** @var \avathar\postlove\core\postlovesummary */
-	protected $functions;
-
-	/** @var \phpbb\config\config */
-	protected $config;
-
-	/** @var \phpbb\template\template */
-	protected $template;
-
-	/** @var \phpbb\user */
-	protected $user;
+	protected \phpbb\auth\auth $auth;
+	protected \phpbb\config\config $config;
+	protected \phpbb\cache\service $cache;
+	protected \phpbb\content_visibility $content_visibility;
+	protected \phpbb\db\driver\driver_interface $db;
+	protected \phpbb\event\dispatcher_interface $dispatcher;
+	protected \phpbb\template\template $template;
+	protected \phpbb\user $user;
+	protected \phpbb\language\language $language;
+	protected string $root_path;
+	protected string $php_ext;
+	protected string $table_prefix;
+	protected int $test_time;
 
 	public function __construct(\phpbb\auth\auth $auth,
 								\phpbb\config\config $config,
