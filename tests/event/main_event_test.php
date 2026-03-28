@@ -12,6 +12,17 @@
 namespace avathar\postlove\tests\event;
 
 /**
+* Tests for the main_listener event subscriber.
+*
+* Verifies that the listener correctly subscribes to the phpBB core events
+* needed for postlove functionality: permission registration, post data
+* prefetch, post row modification, user setup, memberlist profile view,
+* and cleanup after post/user deletion.
+*
+* Fixture: tests/event/fixtures/users.xml
+* Contains 4 topics, 4 posts, 6 likes, and 2 users to provide a
+* realistic dataset for the listener under test.
+*
 * @group event
 */
 
@@ -40,7 +51,17 @@ class main_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* Setup test environment
+	* Set up the test environment with all dependencies needed by main_listener.
+	*
+	* Mocks created:
+	* - auth: permission checks (acl_get, acl_getf)
+	* - config: empty config object for postlove settings
+	* - db: test DBAL backed by the XML fixture data
+	* - template: mock template for assign_vars/assign_block_vars assertions
+	* - user: mock user object for user_id and session data
+	* - language: mock language object for lang() string lookups
+	* - controller_helper: mock helper for route generation (disables constructor
+	*   to avoid requiring the full phpBB DI container)
 	*/
 	public function setUp(): void
 	{
@@ -71,7 +92,9 @@ class main_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* Create our controller
+	* Instantiate the main_listener with all mocked dependencies.
+	*
+	* Uses the table name 'phpbb_posts_likes' matching the test DB fixture.
 	*/
 	protected function set_listener()
 	{
@@ -88,7 +111,16 @@ class main_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* Test the event listener is subscribing events
+	* Verify that main_listener subscribes to exactly the expected phpBB core events.
+	*
+	* The required events are:
+	* - core.permissions: register the u_postlove permission
+	* - core.viewtopic_modify_post_data: prefetch like data for all posts in the topic
+	* - core.viewtopic_modify_post_row: inject like count and button into each post row
+	* - core.user_setup: load the postlove language file
+	* - core.memberlist_view_profile: show likes given/received on user profiles
+	* - core.delete_posts_after: clean up likes when posts are deleted
+	* - core.delete_user_after: clean up likes when a user account is removed
 	*/
 	public function test_getSubscribedEvents()
 	{

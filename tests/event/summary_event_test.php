@@ -12,6 +12,23 @@
 namespace avathar\postlove\tests\summaryevent;
 
 /**
+* Tests for the summary_listener (most-liked-posts summary panels).
+*
+* Verifies that the summary panels on the board index page and viewforum page
+* correctly query and display the most-liked posts, respecting forum read
+* permissions and configurable time period filters (ever, this year, this month,
+* this week, today).
+*
+* Fixture: tests/event/fixtures/summary_data.xml
+* Contains 2 forums, 3 topics, 5 posts, and 6 likes with timestamps carefully
+* chosen so that period-based filtering is deterministic. Likes span from
+* timestamp 1000 to 5000, with the test clock fixed at 1500000000 (July 2017)
+* to make year/month/week/today boundaries predictable.
+*
+* The template mock uses willReturnCallback() to capture assign_block_vars calls
+* in order, replacing the deprecated $this->at() PHPUnit matcher for PHPUnit 9+
+* compatibility.
+*
 * @group event
 */
 
@@ -40,7 +57,25 @@ class summary_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* Setup test environment
+	* Set up the test environment with all dependencies for summary_listener.
+	*
+	* Several objects are assigned to PHP globals ($auth, $config, $user, etc.)
+	* because phpBB core functions like get_username_string() and
+	* get_complete_topic_tracking() read from globals directly.
+	*
+	* Mocks and services:
+	* - auth: controls forum read permissions (acl_getf) per test case
+	* - config: empty config; each test sets the postlove_*_most_liked_* values
+	* - db: test DBAL with summary_data.xml fixture
+	* - dispatcher/phpbb_dispatcher: mock event dispatcher for cache and content_visibility
+	* - cache: real cache service backed by a dummy driver (purged each run)
+	* - request: mock returning empty strings (needed by append_sid in topic tracking)
+	* - template: mock to assert assign_vars and assign_block_vars calls
+	* - user: mock user with data array preset (user_id=2, registered, high lastmark
+	*   so all topics appear as read); format_date returns the raw timestamp for
+	*   easy assertion. Assigned to $user global for get_username_string().
+	* - content_visibility: real instance wired to test DB, controls post/topic visibility
+	* - language: mock that returns the first argument unchanged (language key passthrough)
 	*/
 	public function setUp(): void
 	{
@@ -101,7 +136,15 @@ class summary_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* Create our listener
+	* Instantiate summary_listener with all dependencies.
+	*
+	* The last constructor argument (1500000000 = 2017-07-14 02:40:00 UTC) is
+	* a fixed "now" timestamp used for period calculations instead of time().
+	* This makes the year/month/week/today boundary filters deterministic:
+	* - "this year" = likes since 2017-01-01
+	* - "this month" = likes since 2017-07-01
+	* - "this week" = likes since 2017-07-10 (Monday)
+	* - "today" = likes since 2017-07-14 00:00
 	*/
 	protected function set_listener()
 	{
@@ -123,7 +166,11 @@ class summary_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* Test the event listener is subscribing events
+	* Verify that summary_listener subscribes to exactly the four events it needs:
+	* - core.index_modify_page_title: render the summary panel on the board index
+	* - core.viewforum_modify_page_title: render the summary panel on viewforum
+	* - core.viewforum_modify_topics_data: inject like counts into topic data
+	* - core.viewforum_modify_topicrow: add like counts to individual topic rows
 	*/
 	public function test_getSubscribedEvents()
 	{
@@ -136,7 +183,28 @@ class summary_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* data provider for test_index_modify_page_title
+	* Data provider for test_index_modify_page_title.
+	*
+	* Test matrix (all on the board index, which shows posts across all readable forums):
+	*
+	* 'show all'              - registered user, "ever" limit=10, both forums readable
+	*                           => 5 most-liked posts across both forums
+	* 'show all only Forum 1' - registered user, "ever" limit=10, only forum 1 readable
+	*                           => 4 posts (forum 2 post excluded by permission)
+	* 'anonymous user'        - user_id=1 (ANONYMOUS), all periods enabled with limit=1,
+	*                           only forum 1 readable => 3 posts (one per period: ever,
+	*                           this_year, this_month); username renders as <a> link
+	*                           instead of <span> since anonymous users see profile links
+	* 'only this year'        - only postlove_liked_this_year=10, forum 1 readable
+	*                           => 3 posts with likes in current year + 1 duplicate
+	*                           from the "ever" bucket that also qualifies
+	* 'only this month'       - only postlove_liked_this_month=10 => 2 posts
+	* 'only this week'        - only postlove_liked_this_week=10 => 2 posts
+	* 'only today'            - only postlove_liked_today=10 => 1 post
+	* 'none at all'           - all period limits=0 => 0 results, empty summary
+	*
+	* Each entry provides: user_id, five period limits, permission array,
+	* expected template vars, expected block_vars count, expected block_vars data.
 	*/
 	public function data_index_modify_page_title()
 	{
@@ -513,7 +581,19 @@ class summary_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* Let's test index_modify_page_title
+	* Test that the index page summary panel renders the correct most-liked posts.
+	*
+	* For each data provider case, this test:
+	* 1. Configures the postlove_index_most_liked_* config values
+	* 2. Sets the user ID and forum read permissions
+	* 3. Dispatches the core.index_modify_page_title event through a real dispatcher
+	* 4. Asserts that template->assign_vars receives the correct summary count
+	* 5. Asserts that template->assign_block_vars is called the expected number of
+	*    times with the correct post data (topic URL, forum URL, username, like count, period)
+	*
+	* Uses willReturnCallback on assign_block_vars to capture calls in order,
+	* replacing the deprecated $this->at() matcher for PHPUnit 9+ compatibility.
+	*
 	* @dataProvider data_index_modify_page_title
 	*/
 	public function test_index_modify_page_title($user_id,
@@ -562,7 +642,17 @@ class summary_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* data provider for test_viewforum_modify_page_title
+	* Data provider for test_viewforum_modify_page_title.
+	*
+	* Same test matrix as data_index_modify_page_title but scoped to a single
+	* forum (forum_id=1). The viewforum summary only shows posts belonging to
+	* the viewed forum and its sub-forums, so forum 2 posts never appear
+	* regardless of read permissions. Each entry adds forum_id as the first
+	* parameter compared to the index data provider.
+	*
+	* Cases: 'show all', 'show all only in Forum 1', 'anonymous user',
+	* 'only this year', 'only this month', 'only this week', 'only today',
+	* 'none at all'.
 	*/
 	public function data_viewforum_modify_page_title()
 	{
@@ -925,7 +1015,13 @@ class summary_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* Let's test viewforum_modify_page_title
+	* Test that the viewforum summary panel renders correctly for a single forum.
+	*
+	* Similar to test_index_modify_page_title but dispatches
+	* core.viewforum_modify_page_title and passes forum_id and forum_data
+	* (with left_id/right_id for sub-forum tree bounds) in the event.
+	* Uses postlove_forum_most_liked_* config keys instead of the index variants.
+	*
 	* @dataProvider data_viewforum_modify_page_title
 	*/
 	public function test_viewforum_modify_page_title($forum_id,

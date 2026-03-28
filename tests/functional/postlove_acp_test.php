@@ -10,11 +10,27 @@
 namespace avathar\postlove\tests\functional;
 
 /**
+* Functional test for the postlove ACP (Admin Control Panel) module.
+*
+* Verifies that the ACP configuration page for Post Love loads correctly
+* and displays the expected settings form with proper language keys.
+*
 * @group functional
 */
 class postlove_acp_test extends postlove_base
 {
 
+	/**
+	* Test that the ACP postlove configuration page loads and contains
+	* the expected form fields.
+	*
+	* Steps:
+	* 1. Log in as admin
+	* 2. Load the extension's language file (info_acp_postlove)
+	* 3. Request the ACP module page
+	* 4. Assert that the POSTLOVE_SHOW_LIKES and POSTLOVE_SHOW_LIKED
+	*    language strings appear on the page (confirming the form rendered)
+	*/
 	public function test_acp_pages()
 	{
 		$this->login();

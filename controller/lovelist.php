@@ -9,6 +9,21 @@
 
 namespace avathar\postlove\controller;
 
+/**
+ * Controller for the user love list page.
+ *
+ * Renders a paginated list of all like actions involving a user (posts they
+ * liked and posts of theirs that were liked by others). Results are filtered
+ * by the viewer's forum read permissions — likes on posts in forums the
+ * viewer cannot access are hidden.
+ *
+ * Routes:
+ * - /postlove/{user_id} — first page
+ * - /postlove/{user_id}/page/{page} — paginated
+ *
+ * When called via AJAX (from the member profile modal), the template omits
+ * the page header/footer for embedding in the popup.
+ */
 class lovelist
 {
 	protected \phpbb\user $user;
@@ -25,21 +40,18 @@ class lovelist
 	protected string $php_ext;
 
 	/**
-	 * Constructor
-	 * NOTE: The parameters of this method must match in order and type with
-	 * the dependencies defined in the services.yml file for this service.
-	 *
-	 * @param \phpbb\user $user User object
-	 * @param \phpbb\language\language $language
-	 * @param \phpbb\controller\helper $helper
-	 * @param \phpbb\db\driver\driver_interface $db
-	 * @param \phpbb\auth\auth $auth
-	 * @param \phpbb\user_loader $user_loader
-	 * @param \phpbb\template\template $template
-	 * @param \phpbb\pagination $pagination
-	 * @param \phpbb\request\request $request
-	 * @param $likes_table
-	 * @param $root_path
+	 * @param \phpbb\user                       $user       Current user
+	 * @param \phpbb\language\language           $language   Language service
+	 * @param \phpbb\controller\helper           $helper     Route/render helper
+	 * @param \phpbb\db\driver\driver_interface  $db         Database
+	 * @param \phpbb\auth\auth                   $auth       Permissions (f_read check)
+	 * @param \phpbb\user_loader                 $user_loader Username loader for display
+	 * @param \phpbb\template\template           $template   Template engine
+	 * @param \phpbb\pagination                  $pagination Pagination helper
+	 * @param \phpbb\request\request             $request    HTTP request (AJAX detection)
+	 * @param string                             $likes_table Posts likes table name
+	 * @param string                             $root_path  phpBB root path
+	 * @param string                             $php_ext    PHP file extension
 	 */
 	public function __construct(\phpbb\user $user, \phpbb\language\language $language, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\auth\auth $auth, \phpbb\user_loader $user_loader,
 	\phpbb\template\template $template, \phpbb\pagination $pagination, \phpbb\request\request $request,
@@ -60,12 +72,15 @@ class lovelist
 	}
 
 	/**
-	* Post love list
-	*	Route: postlove/{user_id}
-	*
-	* @param int	$user_id	User ID
-	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
-	*/
+	 * Render the love list for a given user.
+	 *
+	 * Shows all like actions where the user either liked a post or had their
+	 * post liked. Filtered by the current viewer's forum read permissions.
+	 *
+	 * @param int  $user_id The user whose love list to display
+	 * @param int  $page    Current page number (1-based)
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
 	public function base ($user_id, $page)
 	{
 		//$short = $this->request->variable('short', '');

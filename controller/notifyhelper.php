@@ -12,8 +12,12 @@ namespace avathar\postlove\controller;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
-* Admin controller
-*/
+ * Notification helper for like/unlike events.
+ *
+ * Creates phpBB notifications when a post is liked and removes them
+ * when the like is undone. Self-likes (liker == poster) are silently
+ * ignored to avoid notifying users about their own actions.
+ */
 class notifyhelper
 {
 	protected \phpbb\config\config $config;
@@ -38,12 +42,15 @@ class notifyhelper
 	}
 
 	/**
-	* Main notification function
-	* @param type			Type of notification (add/confirm)
-	* @param post_id		Post ID
-	* @param poster_user	User to notify
-	* @param liker_user	User that trigered the action
-	*/
+	 * Create or remove a like notification.
+	 *
+	 * @param string $type         'add' to create a notification, 'remove' to delete it
+	 * @param int    $topic_id     Topic containing the liked post
+	 * @param int    $post_id      The liked post ID
+	 * @param string $post_subject Subject of the liked post (shown in notification)
+	 * @param int    $poster_user  User ID of the post author (notification recipient)
+	 * @param int    $liker_user   User ID who liked/unliked the post
+	 */
 	public function notify($type, $topic_id, $post_id, $post_subject, $poster_user, $liker_user)
 	{
 		$notification_data = array(
@@ -54,7 +61,6 @@ class notifyhelper
 			'requester_id'	=> (int) $liker_user,
 		);
 
-		//$this->test($notification_data);
 		$phpbb_notifications = $this->phpbb_container->get('notification_manager');
 		if ($notification_data['requester_id'] != $notification_data['user_id'])
 		{

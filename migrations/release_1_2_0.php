@@ -10,7 +10,7 @@
 namespace avathar\postlove\migrations;
 
 /**
-* Primary migration
+* Adds the postlove_show_button config entry for button display mode.
 */
 
 class release_1_2_0 extends \phpbb\db\migration\migration

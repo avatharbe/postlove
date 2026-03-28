@@ -9,6 +9,18 @@
 
 namespace avathar\postlove\controller;
 
+/**
+ * AJAX controller for the like/unlike toggle.
+ *
+ * Handles the POST /postlove/toggle/{post_id} route. Returns a JsonResponse
+ * with toggle_action (add/remove), toggle_title (tooltip text), and
+ * toggle_likers (updated likers string) on success, or {error: 1} on failure.
+ *
+ * Permission checks:
+ * - User must have the u_postlove ACL permission
+ * - Author self-like is controlled by the postlove_author_like config setting
+ * - Post must exist
+ */
 class ajaxify
 {
 	protected \phpbb\auth\auth $auth;
@@ -33,6 +45,13 @@ class ajaxify
 		$this->likes_table = $likes_table;
 	}
 
+	/**
+	 * Handle the like toggle action.
+	 *
+	 * @param string $action The action to perform ('toggle')
+	 * @param int    $post   The post ID to like/unlike
+	 * @return \Symfony\Component\HttpFoundation\JsonResponse|int
+	 */
 	public function base ($action, $post)
 	{
 		switch ($action)
@@ -112,10 +131,16 @@ class ajaxify
 				}
 			break;
 		}
-		// We should never get this ... but hey - the code smells without it.
+		// Fallback for unhandled actions
 		return 0;
 	}
 
+	/**
+	 * Build the "liked by: user1, user2" tooltip string for a post.
+	 *
+	 * @param int $post_id The post ID
+	 * @return string The formatted likers string, or empty if no likes
+	 */
 	protected function get_likers_string(int $post_id): string
 	{
 		$sql = 'SELECT u.username

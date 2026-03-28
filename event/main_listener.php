@@ -11,6 +11,17 @@ namespace avathar\postlove\event;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Main event listener for the Post Love extension.
+ *
+ * Handles the core like functionality on viewtopic pages:
+ * - Registers the u_postlove permission
+ * - Batch-prefetches like data for all posts on a page (avoids N+1 queries)
+ * - Injects the heart button, like count, and tooltip into each post row
+ * - Shows likes given/received counters in user mini profiles
+ * - Adds a love list link to member profile pages
+ * - Cleans up orphan likes when posts or users are deleted
+ */
 class main_listener implements EventSubscriberInterface
 {
 	protected \phpbb\auth\auth $auth;
@@ -59,11 +70,21 @@ class main_listener implements EventSubscriberInterface
 		$this->loves_table = $loves_table;
 	}
 
+	/**
+	 * Load the postlove language file on every page.
+	 *
+	 * @param \phpbb\event\data $event The core.user_setup event
+	 */
 	public function load_language_on_setup($event)
 	{
 		$this->language->add_lang('postlove', 'avathar/postlove');
 	}
 
+	/**
+	 * Register the u_postlove permission in phpBB's ACL system.
+	 *
+	 * @param \phpbb\event\data $event The core.permissions event
+	 */
 	public function add_permissions($event)
 	{
 		$permissions = $event['permissions'];
@@ -72,7 +93,18 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Prefetch all like data for posts on the current page (1-3 queries instead of 3 per post)
+	 * Prefetch all like data for posts on the current viewtopic page.
+	 *
+	 * Runs 1-3 batch queries to populate class-level caches:
+	 * - $post_likers: all likers per post (for tooltip + current user check)
+	 * - $user_likes_given: total likes given per poster (for mini profile)
+	 * - $user_likes_received: total likes received per poster (for mini profile)
+	 *
+	 * This replaces the original N+1 approach (3 queries per post) with at most
+	 * 3 queries total regardless of how many posts are on the page.
+	 *
+	 * @param \phpbb\event\data $event The core.viewtopic_modify_post_data event
+	 *        Contains 'post_list' (array of post IDs) and 'rowset' (post data)
 	 */
 	public function prefetch_likes($event)
 	{
@@ -142,6 +174,23 @@ class main_listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Inject heart button, like count, and tooltip into each post row.
+	 *
+	 * Uses prefetched data from prefetch_likes(). Sets template variables:
+	 * - POST_LIKERS: tooltip text ("post liked by: user1, user2")
+	 * - POST_LIKERS_COUNT: number of likes on this post
+	 * - POST_LIKE_CLASS: 'liked' (filled heart) or 'like' (outline heart)
+	 * - POST_LIKE_URL: AJAX toggle URL
+	 * - ACTION_ON_CLICK: tooltip action text
+	 * - DISABLE: set to 1 if user cannot like (no permission or own post)
+	 * - USER_LIKES: likes given count for the poster (mini profile)
+	 * - USER_LIKED: likes received count for the poster (mini profile)
+	 *
+	 * Respects the pf_postlove_hide custom profile field (user opt-out).
+	 *
+	 * @param \phpbb\event\data $event The core.viewtopic_modify_post_row event
+	 */
 	public function modify_post_row($event)
 	{
 		$this->user->get_profile_fields($this->user->data['user_id']);
@@ -209,6 +258,14 @@ class main_listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Add the love list link to the member profile statistics section.
+	 *
+	 * Sets the POSTLOVE_STATS template var with the URL to the user's love
+	 * list page, opened as a modal popup via jQuery modal.
+	 *
+	 * @param \phpbb\event\data $event The core.memberlist_view_profile event
+	 */
 	public function user_profile_likes($event)
 	{
 		$this->user->get_profile_fields($this->user->data['user_id']);
@@ -218,12 +275,22 @@ class main_listener implements EventSubscriberInterface
 		}
 	}
 
+	/**
+	 * Remove likes referencing permanently deleted posts.
+	 *
+	 * @param \phpbb\event\data $event The core.delete_posts_after event
+	 */
 	public function clean_posts_after($event)
 	{
 		$sql = 'DELETE FROM ' . $this->loves_table . ' WHERE ' . $this->db->sql_in_set('post_id', $event['post_ids']);
 		$this->db->sql_query($sql);
 	}
 
+	/**
+	 * Remove likes given by permanently deleted users.
+	 *
+	 * @param \phpbb\event\data $event The core.delete_user_after event
+	 */
 	public function clean_users_after($event)
 	{
 		$sql = 'DELETE FROM ' . $this->loves_table . ' WHERE ' . $this->db->sql_in_set('user_id', $event['user_ids']);

@@ -10,9 +10,22 @@
 namespace avathar\postlove\notification;
 
 /**
-*
-* @package notifications
-*/
+ * Notification type for post likes.
+ *
+ * Generates an in-board notification when a user likes another user's post.
+ * The notification shows the liker's username and links to the liked post.
+ *
+ * Deduplication: item_id = post_id, so each liked post generates a unique
+ * notification. item_parent_id = requester_id (the liker), used for deletion
+ * when a like is removed.
+ *
+ * Email notifications are not supported (get_email_template returns false).
+ * Users can disable this notification type in UCP -> Board preferences.
+ *
+ * Dependencies are injected via setter methods (set_config, set_user_loader)
+ * called from services.yml, since notification types extend the base class
+ * which has its own constructor.
+ */
 class postlove extends \phpbb\notification\type\base
 {
 	/**
@@ -41,11 +54,21 @@ class postlove extends \phpbb\notification\type\base
 	/** @var \phpbb\config\config */
 	protected $config;
 
+	/**
+	 * Inject the config service (called from services.yml).
+	 *
+	 * @param \phpbb\config\config $config
+	 */
 	public function set_config(\phpbb\config\config $config)
 	{
 		$this->config = $config;
 	}
 
+	/**
+	 * Inject the user_loader service (called from services.yml).
+	 *
+	 * @param \phpbb\user_loader $user_loader
+	 */
 	public function set_user_loader(\phpbb\user_loader $user_loader)
 	{
 		$this->user_loader = $user_loader;
@@ -84,12 +107,17 @@ class postlove extends \phpbb\notification\type\base
 	}
 
 	/**
-	* Find the users who will receive notifications
-	*
-	* @param array $data The data for the like
-	*
-	* @return array
-	*/
+	 * Find the users who should receive this notification.
+	 *
+	 * Returns the post author (user_id) as the sole recipient, filtered
+	 * through check_user_notification_options() to respect UCP preferences.
+	 * The liker (requester_id) is excluded by the notifyhelper before this
+	 * method is called (self-notifications are prevented there).
+	 *
+	 * @param array $data    Notification data (user_id = post author, requester_id = liker)
+	 * @param array $options Options including 'ignore_users'
+	 * @return array Users to notify, filtered by their notification preferences
+	 */
 	public function find_users_for_notification($data, $options = array())
 	{
 		$options = array_merge(array(
@@ -104,7 +132,9 @@ class postlove extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get the user's avatar
+	 * Get the avatar of the user who liked the post (the liker).
+	 *
+	 * @return string HTML for the avatar image
 	 */
 	public function get_avatar()
 	{
@@ -133,9 +163,9 @@ class postlove extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get email template
+	 * Email notifications are not supported for post likes.
 	 *
-	 * @return string|bool
+	 * @return false
 	 */
 	public function get_email_template()
 	{
@@ -143,9 +173,9 @@ class postlove extends \phpbb\notification\type\base
 	}
 
 	/**
-	 * Get email template variables
+	 * No email template variables (email not supported).
 	 *
-	 * @return array
+	 * @return array Empty array
 	 */
 	public function get_email_template_variables()
 	{
@@ -173,14 +203,16 @@ class postlove extends \phpbb\notification\type\base
 	}
 
 	/**
-	* Function for preparing the data for insertion in an SQL query
-	* (The service handles insertion)
-	*
-	* @param array $data The data for the updated rules
-	* @param array $pre_create_data Data from pre_create_insert_array()
-	*
-	* @return array Array of data ready to be inserted into the database
-	*/
+	 * Prepare notification data for database insertion.
+	 *
+	 * Stores the liker (requester_id), post author (user_id), post_id,
+	 * topic_id, and post_subject so they can be retrieved later for
+	 * display, URL generation, and deletion.
+	 *
+	 * @param array $data            Notification data from notifyhelper::notify()
+	 * @param array $pre_create_data Data from pre_create_insert_array()
+	 * @return array Data ready for database insertion
+	 */
 	public function create_insert_array($data, $pre_create_data = array())
 	{
 		$this->set_data('requester_id', $data['requester_id']);

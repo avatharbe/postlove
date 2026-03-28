@@ -10,7 +10,7 @@
 namespace avathar\postlove\migrations;
 
 /**
-* Primary migration
+* Creates the posts_likes table and adds the postlove_version config entry.
 */
 
 class release_1_0_0 extends \phpbb\db\migration\migration

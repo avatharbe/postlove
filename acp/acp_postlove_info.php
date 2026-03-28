@@ -10,17 +10,24 @@
 namespace avathar\postlove\acp;
 
 /**
-* @package module_install
-*/
-
+ * ACP module info class.
+ *
+ * Registers the Post Love ACP module under the ACP_POSTLOVE_GRP category.
+ * Requires the extension to be enabled and the acl_a_user permission.
+ */
 class acp_postlove_info
 {
+	/**
+	 * Return the module definition for phpBB's ACP module system.
+	 *
+	 * @return array Module metadata (filename, title, version, modes)
+	 */
 	function module()
 	{
 		return array(
 			'filename'	=> 'avathar\postlove\acp\acp_postlove_module',
-			'title'		=> 'ACP_POSTLOVE', // define in the lang/xx/acp/common.php language file
-			'version'	=> '2.0.0-a2',
+			'title'		=> 'ACP_POSTLOVE',
+			'version'	=> '2.1.0',
 			'modes'		=> array(
 				'main'		=> array(
 					'title'		=> 'ACP_POSTLOVE',

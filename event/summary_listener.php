@@ -9,14 +9,23 @@
 
 namespace avathar\postlove\event;
 
-/**
-* @ignore
-*/
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
-* Event listener
-*/
+ * Event listener for "most liked posts" summary panels and viewforum heart counts.
+ *
+ * Displays configurable summary panels of the most liked posts on the board
+ * index and viewforum pages, broken down by period (today, this week, this
+ * month, this year, all time). Also handles per-topic like count display
+ * on the viewforum topic list.
+ *
+ * The summary query uses raw SQL with subqueries for performance (aggregating
+ * likes, joining posts/topics/users/forums, filtering by content visibility).
+ * Results are cached for 12 hours to reduce database load.
+ *
+ * Users can opt out via the pf_postlove_hide custom profile field.
+ * Bots are excluded automatically.
+ */
 class summary_listener implements EventSubscriberInterface
 {
 	private const SECONDS_PER_MINUTE = 60;
@@ -79,6 +88,14 @@ class summary_listener implements EventSubscriberInterface
 		);
 	}
 
+	/**
+	 * Build the most-liked-posts summary for the board index page.
+	 *
+	 * Queries across all forums the user has read access to.
+	 * Skipped for bots and users who opted out via pf_postlove_hide.
+	 *
+	 * @param \phpbb\event\data $event The core.index_modify_page_title event
+	 */
 	public function  index_page_summary($event)
 	{
 		// first check that this user wants to see Post Like
@@ -116,6 +133,16 @@ class summary_listener implements EventSubscriberInterface
 		$this->build_summary_array($forum_ary, 'index');
 	}
 
+	/**
+	 * Build the most-liked-posts summary for a specific forum page.
+	 *
+	 * Queries the current forum plus any direct child sub-forums the user
+	 * has read access to. Uses forum_data left_id/right_id to detect
+	 * whether the forum has sub-forums.
+	 *
+	 * @param \phpbb\event\data $event The core.viewforum_modify_page_title event
+	 *        Contains 'forum_id' and 'forum_data' (with left_id/right_id)
+	 */
 	public function  forum_page_summary($event)
 	{
 		// first check that this user wants to see Post Like
@@ -138,7 +165,7 @@ class summary_listener implements EventSubscriberInterface
 
 			$sql = 'SELECT f.forum_id
 				FROM ' . FORUMS_TABLE . " f
-				WHERE f.parent_id = $forum_id"; // this is not recursive, maybe change in a later version?
+				WHERE f.parent_id = $forum_id"; // direct children only, not recursive
 
 			$result = $this->db->sql_query($sql);
 			while ($forum_data = $this->db->sql_fetchrow($result))
@@ -158,11 +185,23 @@ class summary_listener implements EventSubscriberInterface
 	}
 
 
+	/**
+	 * Build the summary across all configured time periods.
+	 *
+	 * Calls topposts_of_period() for each period (ever, year, month, week, today)
+	 * based on the ACP config settings. Each call excludes posts already shown
+	 * in prior periods to avoid duplicates.
+	 *
+	 * Sets S_MOSTLIKEDSUMMARYCOUNT template var (total posts across all periods).
+	 *
+	 * @param array  $forum_ary  Forum IDs to include in the query
+	 * @param string $page_type  'index' or 'forum' (determines which config keys to use)
+	 */
 	function build_summary_array($forum_ary, $page_type)
 	{
 
 		$post_list = array();
-		$post_list[] = '0'; //SQL needs dummy array member
+		$post_list[] = '0'; // Seed value so NOT IN clause is never empty
 
 		// build the array of most liked posts
 		$day_begin_time = (int) floor(($this->test_time ? $this->test_time : time()) / self::SECONDS_PER_DAY) * self::SECONDS_PER_DAY;
@@ -177,6 +216,27 @@ class summary_listener implements EventSubscriberInterface
 			));
 	}
 
+	/**
+	 * Query the top liked posts for a specific time period.
+	 *
+	 * Uses a raw SQL query with subqueries to:
+	 * 1. Aggregate like counts per post within the period (inner subquery)
+	 * 2. Join with posts table and filter by content visibility (middle subquery)
+	 * 3. Join with topics, users, forums for display data (outer query)
+	 *
+	 * Results are cached for 12 hours. Posts already shown in prior periods
+	 * (passed via $post_list) are excluded via NOT IN.
+	 *
+	 * Fires the avathar.postlove.modify_summary_tpl_ary event to allow
+	 * other extensions to modify the template data before rendering.
+	 *
+	 * @param array  $forum_ary        Forum IDs to include
+	 * @param int    $howmany          Max posts to show for this period (0 = skip)
+	 * @param int    $period_start_time Unix timestamp for the start of the period
+	 * @param string $period_name      Language key for the period label (e.g. 'LIKES_TODAY')
+	 * @param array  $post_list        Post IDs already shown (excluded from results)
+	 * @return array Updated post_list with newly shown post IDs appended
+	 */
 	function topposts_of_period($forum_ary, $howmany, $period_start_time, $period_name, $post_list)
 	{
 		if ($howmany == 0)
@@ -210,7 +270,7 @@ class summary_listener implements EventSubscriberInterface
 
 		// cache the query to reduce load on server
 		// the same query is run for all users with the same set of forum permissions
-		// note that the chache is cleared each time a user adds or removes a like in the database
+		// Note: cache is cleared each time a user adds or removes a like in the database
 		$result = $this->db->sql_query_limit($sql, $howmany, 0, (self::SECONDS_PER_HOUR * 12) - 1);
 
 		$forums = $topic_ids = array();
@@ -270,7 +330,14 @@ class summary_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Prefetch like counts for all topics on the current viewforum page
+	 * Prefetch total like counts for all topics on the current viewforum page.
+	 *
+	 * Runs a single aggregate query joining posts_likes with posts to get
+	 * the total like count per topic. Results are stored in $topic_like_counts
+	 * and read by inject_topic_like_count() for each topic row.
+	 *
+	 * @param \phpbb\event\data $event The core.viewforum_modify_topics_data event
+	 *        Contains 'topic_list' (array of topic IDs on the current page)
 	 */
 	public function prefetch_topic_likes($event)
 	{
@@ -294,7 +361,14 @@ class summary_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Inject like count into each topic row on viewforum
+	 * Inject the like count into each topic row on the viewforum page.
+	 *
+	 * Reads from the prefetched $topic_like_counts array and sets
+	 * TOPIC_LIKE_COUNT in the topic row template data. The template
+	 * (topiclist_row_append.html) shows a heart icon + count when > 0.
+	 *
+	 * @param \phpbb\event\data $event The core.viewforum_modify_topicrow event
+	 *        Contains 'row' (raw topic data) and 'topic_row' (template data)
 	 */
 	public function inject_topic_like_count($event)
 	{

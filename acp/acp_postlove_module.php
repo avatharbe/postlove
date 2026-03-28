@@ -9,12 +9,35 @@
 
 namespace avathar\postlove\acp;
 
+/**
+ * ACP module for Post Love settings.
+ *
+ * Provides the admin interface for configuring:
+ * - Mini profile counters (likes given / likes received)
+ * - Post button display mode
+ * - Author self-like permission
+ * - Most-liked summary periods (today/week/month/year/ever) for index and forum pages
+ * - Orphan like cleanup (removes likes referencing deleted posts/users)
+ * - Thanks for Posts import tool
+ *
+ * Note: phpBB ACP modules are not DI services — they are instantiated directly
+ * by phpBB's module system. Services are obtained from $phpbb_container.
+ */
 class acp_postlove_module
 {
 	public string $tpl_name;
 	public string $page_title;
 	public string $u_action;
 
+	/**
+	 * Main ACP module handler.
+	 *
+	 * Processes form submissions (settings save, orphan cleanup, thanks import)
+	 * and renders the settings template with current config values.
+	 *
+	 * @param int    $id   Module ID
+	 * @param string $mode Module mode ('main')
+	 */
 	public function main($id, $mode)
 	{
 		global $phpbb_container;

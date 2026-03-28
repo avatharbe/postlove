@@ -10,7 +10,7 @@
 namespace avathar\postlove\migrations;
 
 /**
-* Primary migration
+* Creates the pf_postlove_hide custom profile field (user opt-out).
 */
 class release_1_2_0_create_cpf extends \phpbb\db\migration\profilefield_base_migration
 {

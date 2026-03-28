@@ -10,7 +10,7 @@
 namespace avathar\postlove\migrations;
 
 /**
-* Primary migration
+* Registers the ACP module and adds the postlove_author_like config entry.
 */
 
 class release_1_1_0 extends \phpbb\db\migration\migration

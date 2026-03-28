@@ -10,7 +10,7 @@
 namespace avathar\postlove\migrations;
 
 /**
-* Primary migration
+* Adds the liketime column and converts old timestamp data.
 */
 class release_2_0_0 extends \phpbb\db\migration\profilefield_base_migration
 {

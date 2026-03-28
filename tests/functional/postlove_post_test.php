@@ -10,11 +10,32 @@
 namespace avathar\postlove\tests\functional;
 
 /**
+* End-to-end functional tests for the postlove like feature on viewtopic.
+*
+* Tests the full like lifecycle: creating content, toggling likes via the AJAX
+* endpoint, and verifying that like counts display correctly on the page in
+* both inline mode (CSS class .postlove) and button mode (CSS class .postlove-li).
+* Also tests guest visibility, guest like prevention, ACP-driven profile
+* counter toggles (likes given/received), and the love list page.
+*
 * @group functional
 */
 class postlove_post_test extends postlove_base
 {
 	protected $post2 = array();
+
+	/**
+	* Test the full like/unlike cycle in both display modes (inline and button).
+	*
+	* Steps:
+	* 1. Log in and create a topic with a reply post
+	* 2. Switch to inline mode (button_mode=0) and verify the .postlove span exists
+	* 3. Toggle a like on the reply via AJAX, reload, and verify "1 x" appears
+	* 4. Toggle unlike via AJAX (removes the like)
+	* 5. Switch to button mode (button_mode=1) and verify the .postlove-li span exists
+	* 6. Toggle like again, reload, and verify "1" appears in .postlove-count
+	* 7. Log out
+	*/
 	public function test_post()
 	{
 		$this->login();
@@ -57,6 +78,13 @@ class postlove_post_test extends postlove_base
 		$this->logout();
 	}
 
+	/**
+	* Test that guests (not logged in) can see like counts on posts.
+	*
+	* Verifies in both inline mode and button mode that the like count
+	* from test_post (which left a like on post 3) is visible to an
+	* unauthenticated visitor.
+	*/
 	public function test_guest_see_loves()
 	{
         $this->set_button_mode(0);
@@ -70,6 +98,14 @@ class postlove_post_test extends postlove_base
 		$this->assertStringContainsString('1', $crawler->filter('#p3')->filter('.postlove-count')->text());
 	}
 	
+	/**
+	* Test that guests cannot toggle likes.
+	*
+	* Attempts to toggle a like via AJAX as a guest (not logged in),
+	* then verifies the like count remains unchanged (still "1 x").
+	* The controller should reject the request because the guest user
+	* does not have the u_postlove permission.
+	*/
 	public function test_guests_cannot_like()
 	{
 		$crw1 = self::request('GET', 'app.php/postlove/toggle/3', array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
@@ -79,6 +115,20 @@ class postlove_post_test extends postlove_base
 		$this->assertStringContainsString('1 x', $crawler->filter('#p3')->filter('.postlove')->text());
 		
 	}
+	/**
+	* Test the ACP toggles for showing likes given/received counters on profiles.
+	*
+	* Exercises four configurations via the ACP form:
+	* 1. Both counters disabled (default) => neither .liked_info nor .like_info present
+	* 2. Show likes received only (postlove_show_likes=1, show_liked=0)
+	*    => .liked_info visible with count, .like_info absent
+	* 3. Show likes given only (postlove_show_likes=0, show_liked=1)
+	*    => .like_info visible with count, .liked_info absent
+	* 4. Both counters enabled => both .liked_info and .like_info visible
+	*
+	* Each step logs into ACP, submits the settings form, then verifies
+	* the viewtopic page reflects the change in the post profile area.
+	*/
 	public function test_show_likes_given()
 	{
 		$this->login();
@@ -151,6 +201,12 @@ class postlove_post_test extends postlove_base
 		$this->logout();
 	}
 
+	/**
+	* Test the love list page (app.php/postlove/{user_id}).
+	*
+	* Logs in, loads the love list for user 2, and verifies that exactly
+	* one liked post appears in the list (rendered as a topiclist item).
+	*/
 	public function test_show_list()
 	{
 		$this->login();

@@ -10,7 +10,7 @@
 namespace avathar\postlove\migrations;
 
 /**
-* Primary migration
+* Adds the postlove_show_likes and postlove_show_liked config entries.
 */
 
 class release_1_0_1 extends \phpbb\db\migration\migration

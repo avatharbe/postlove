@@ -12,6 +12,19 @@
 namespace avathar\postlove\tests\controller;
 
 /**
+* Tests for the ajaxify controller (AJAX like/unlike toggle endpoint).
+*
+* Verifies the /postlove/toggle/{post_id} endpoint correctly handles:
+* - Permission checks: users without the u_postlove permission get an error
+* - Self-like prevention: when postlove_author_like is disabled, authors cannot
+*   like their own posts
+* - Non-existent posts: toggling a post that does not exist returns an error
+* - Like action: toggling a post the user has not liked adds a like (toggle_action=add)
+* - Unlike action: toggling a post the user has already liked removes it (toggle_action=remove)
+*
+* Fixture: tests/controller/fixtures/users.xml
+* Contains 4 topics, 4 posts (all by poster_id=1), and 6 existing likes.
+*
 * @group controller
 */
 
@@ -42,7 +55,22 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	}
 
 	/**
-	* Setup test environment
+	* Set up all dependencies required by the ajaxify controller.
+	*
+	* Mocks and services:
+	* - auth: mock for acl_get('u_postlove') permission check; configured per
+	*   test case in get_controller()
+	* - db: test DBAL backed by the controller fixtures XML
+	* - config: empty config; postlove_author_like is set per test in get_controller()
+	* - user: mock user; user_id is set per test in get_controller()
+	* - language: mock language for error message lookups
+	* - dispatcher: mock event dispatcher for the cache service
+	* - cache: real cache service with dummy driver, purged to avoid stale data
+	*   between tests (needed because the controller updates post like counts
+	*   which phpBB caches)
+	* - notifyhelper: mock notification helper (constructor disabled); the
+	*   controller calls it on successful like/unlike but we don't verify
+	*   notification behavior here
 	*/
 	public function setUp(): void
 	{
@@ -83,7 +111,12 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	}
 
 	/**
-	* Create our controller
+	* Create an ajaxify controller instance configured for a specific test scenario.
+	*
+	* @param int  $user_id              The acting user's ID
+	* @param bool $has_permission        Whether the user has the u_postlove ACL permission
+	* @param bool $postlove_author_like  Whether post authors are allowed to like their own posts
+	* @return \avathar\postlove\controller\ajaxify The configured controller
 	*/
 	protected function get_controller($user_id, $has_permission, $postlove_author_like)
 	{
@@ -107,7 +140,22 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	}
 
 	/**
-	* Test data for the test_ajaxify_controller test
+	* Data provider for test_ajaxify_controller.
+	*
+	* All posts in the fixture are authored by poster_id=1. The fixture has
+	* existing likes: user 2 has liked posts 1 and 2.
+	*
+	* Test matrix (user_id, has_permission, author_like_allowed, post_id, expected JSON):
+	*
+	* 'no_permission'      - User 1, no u_postlove permission => error
+	*                        (permission gate rejects the request)
+	* 'user_cant_like_own' - User 1 (=poster), has permission, but author_like=false,
+	*                        post 4 => error (self-like prevention)
+	* 'no_such_post'       - User 1, has permission, post 5 does not exist => error
+	* 'user_can_like'      - User 1 (=poster), has permission, author_like=true,
+	*                        post 4 => add (author can like own post when allowed)
+	* 'like'               - User 2, post 3 (no existing like) => add
+	* 'unlike'             - User 2, post 1 (already liked in fixture) => remove
 	*
 	* @return array Test data
 	*/
@@ -160,7 +208,15 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	}
 
 	/**
-	 * Test the controller
+	 * Test the ajaxify controller's toggle action for each scenario.
+	 *
+	 * Calls controller->base('toggle', $post_id) and verifies:
+	 * 1. The response is a Symfony JsonResponse (always, even on error)
+	 * 2. HTTP status is 200
+	 * 3. The response body contains the expected JSON fragment:
+	 *    - '{"error":1}' for permission/validation failures
+	 *    - '"toggle_action":"add"' when a new like is inserted
+	 *    - '"toggle_action":"remove"' when an existing like is deleted
 	 *
 	 * @dataProvider controller_ajaxify_data
 	 */

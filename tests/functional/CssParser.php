@@ -8,17 +8,35 @@
  */
 
 namespace avathar\postlove\tests\functional;
- 
+
+/**
+* CSS parsing utility for test assertions.
+*
+* This is NOT a test class itself. It provides helper methods to load CSS
+* from strings or files, parse it into a structured PHP array (keyed by
+* @media block and selector), and optionally reconstitute it via glue().
+*
+* Used by other functional tests to verify that the extension's CSS files
+* are loaded correctly and contain expected selectors/properties.
+*
+* The parsed output structure is:
+*   ['main' => ['selector' => ['property' => 'value', ...], ...],
+*    '@media ...' => ['selector' => [...], ...]]
+*/
 class CssParser {
 
-
+	/** @var string Raw CSS text loaded via load_string/load_file */
 	public $css;
+
+	/** @var array Parsed CSS structure, populated by parse() */
 	public $parsed;
 
 
 	/**
-	 * LOAD_STRING
-	 * Loads a css string
+	 * Load a CSS string into the parser.
+	 *
+	 * @param string $string    The CSS text to load
+	 * @param bool   $overwrite If true, replaces existing CSS; if false, appends
 	 */
 	public function load_string($string, $overwrite = false){
 		if($overwrite){
@@ -30,8 +48,10 @@ class CssParser {
 
 
 	/**
-	 * LOAD_FILE
-	 * Loads a file
+	 * Load CSS from a file path.
+	 *
+	 * @param string $file      Path to the CSS file
+	 * @param bool   $overwrite If true, replaces existing CSS; if false, appends
 	 */
 	public function load_file($file, $overwrite = false){
 		$this->load_string(file_get_contents($file), $overwrite);
@@ -39,8 +59,9 @@ class CssParser {
 
 
 	/**
-	 * LOAD_FILES
-	 * Loads a number of files
+	 * Load multiple CSS files at once.
+	 *
+	 * @param string $files Semicolon-separated list of file paths
 	 */
 	public function load_files($files){
 		$files = explode(';', $files);
@@ -51,8 +72,15 @@ class CssParser {
 
 
 	/**
-	 * PARSE
-	 * Parses some CSS into an array
+	 * Parse the loaded CSS text into a structured array.
+	 *
+	 * Processing steps:
+	 * 1. Strip CSS and HTML comments
+	 * 2. Extract @media blocks and the remaining "main" rules
+	 * 3. Split each block into selector => property => value mappings
+	 * 4. Handle !important precedence (later !important overrides earlier)
+	 *
+	 * Result is stored in $this->parsed.
 	 */
 	public function parse(){
 		$css = $this->css;
@@ -117,8 +145,13 @@ class CssParser {
 
 
 	/**
-	 * GLUE
-	 * Turn an array back into CSS
+	 * Reconstitute the parsed CSS array back into a CSS string.
+	 *
+	 * Iterates over $this->parsed and rebuilds valid CSS text with
+	 * proper indentation for @media blocks. Returns the CSS string
+	 * or null if nothing has been parsed.
+	 *
+	 * @return string|null The reconstructed CSS text
 	 */
 	public function glue(){
 		if($this->parsed){
