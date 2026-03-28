@@ -101,7 +101,6 @@ class postlove_post_test extends postlove_base
 		$crawler = self::submit($form);
 		$this->assertStringContainsString('Changes saved!', $crawler->text());
 		$this->logout();
-		$this->logout();
 
 		$this->login();
 		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
@@ -123,8 +122,7 @@ class postlove_post_test extends postlove_base
 		$crawler = self::submit($form);
 		$this->assertStringContainsString('Changes saved!', $crawler->text());
 		$this->logout();
-		$this->logout();
-		
+
 		$this->login();
 		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
 		$this->assertStringContainsString('x 1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.like_info')->parents()->text());
@@ -145,8 +143,7 @@ class postlove_post_test extends postlove_base
 		$crawler = self::submit($form);
 		$this->assertStringContainsString('Changes saved!', $crawler->text());
 		$this->logout();
-		$this->logout();
-		
+
 		$this->login();
 		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
 		$this->assertStringContainsString('x 1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.like_info')->parents()->text());

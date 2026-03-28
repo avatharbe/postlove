@@ -74,7 +74,13 @@ class summary_event extends \phpbb_database_test_case
 			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
 			'\phpbb\datetime',
 			));
-		$this->user->data = array('user_id' => 2, 'is_bot' => false);
+		$this->user->data = array(
+			'user_id' => 2,
+			'is_bot' => false,
+			'is_registered' => true,
+			'user_type' => 0,
+		);
+		$this->user->profile_fields = array();
 		$this->user->method('format_date')
 			->will($this->returnArgument(0));
 		$user = $this->user;
