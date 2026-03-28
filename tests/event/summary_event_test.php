@@ -44,7 +44,7 @@ class summary_event extends \phpbb_database_test_case
 	*/
 	public function setUp(): void
 	{
-		global $phpbb_root_path, $phpEx, $phpbb_dispatcher, $user, $config, $auth, $cache;
+		global $phpbb_root_path, $phpEx, $phpbb_dispatcher, $user, $config, $auth, $cache, $request;
 
 		parent::setUp();
 		// Setup Auth
@@ -64,6 +64,11 @@ class summary_event extends \phpbb_database_test_case
 		//Setup Cache
 		$this->cache = new \phpbb\cache\service(new \phpbb\cache\driver\dummy(), $this->config, $this->db, $this->dispatcher, $phpbb_root_path, $phpEx);
 		$cache = $this->cache;
+
+		// Setup Request (needed by get_complete_topic_tracking -> append_sid)
+		$request = $this->createMock('\phpbb\request\request');
+		$request->method('variable')
+			->willReturn('');
 
 		// Setup template
 		$this->template = $this->getMockBuilder('\phpbb\template\template')

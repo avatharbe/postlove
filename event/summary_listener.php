@@ -201,8 +201,6 @@ class summary_listener implements EventSubscriberInterface
 					) AS liked_posts
 			LEFT JOIN ' . POSTS_TABLE .   ' ON post = post_id
 			WHERE  ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ary, POSTS_TABLE .'.') . '
-			ORDER BY sum_likes DESC, post_time DESC
-			LIMIT ' . $howmany . '
 			)AS most_liked_posts
 		LEFT JOIN ' . TOPICS_TABLE .  ' ON most_liked_posts.topic_id = '  . TOPICS_TABLE . '.topic_id
 		LEFT JOIN ' . USERS_TABLE .   ' ON most_liked_posts.poster_id = ' . USERS_TABLE .  '.user_id

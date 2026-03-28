@@ -101,33 +101,45 @@ class lovelist
 			return -1;
 		}
 
+		$sql_where = 'p.topic_id = t.topic_id AND (p.poster_id = ' . (int) $user_id . ' OR pl.user_id = ' . (int) $user_id . ') AND pl.user_id > 0 AND ' . $this->db->sql_in_set('p.forum_id', $forum_ids);
+
+		// Count total results for pagination
 		$sql_array = array(
 			'SELECT'	=> 'COUNT(*) as count',
-			'FROM'	=> array(
-				POSTS_TABLE	=> 'p',
+			'FROM'		=> array(
+				POSTS_TABLE		=> 'p',
 				TOPICS_TABLE	=> 't',
 			),
 			'LEFT_JOIN'	=> array(
 				array(
-					'FROM'	=> array($this->likes_table	=> 'pl'),
+					'FROM'	=> array($this->likes_table => 'pl'),
 					'ON'	=> 'pl.post_id = p.post_id'
 				),
 			),
-			'WHERE'	=> 'p.topic_id = t.topic_id AND (p.poster_id = ' . (int) $user_id . ' OR  pl.user_id = ' . (int) $user_id . ') AND pl.user_id > 0 AND ' . $this->db->sql_in_set('p.forum_id', $forum_ids),
-			'ORDER_BY'	=> 'pl.liketime DESC',
-			'GROUP_BY'	=> 'pl.liketime, pl.user_id, p.post_id, t.topic_title'
+			'WHERE'		=> $sql_where,
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
-		$counter = 0;
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$counter = $counter + $row['count'];
-		}
+		$counter = (int) $this->db->sql_fetchfield('count');
 		$this->db->sql_freeresult($result);
+
 		if ($counter > 0)
 		{
-			$sql_array['SELECT'] = 'pl.liketime as liketime, pl.user_id as liker_id, p.post_id as post_id, p.topic_id as topic_id, p.poster_id as poster, p.post_subject as post_subject, t.topic_title as topic_title';
+			$sql_array = array(
+				'SELECT'	=> 'pl.liketime as liketime, pl.user_id as liker_id, p.post_id as post_id, p.topic_id as topic_id, p.poster_id as poster, p.post_subject as post_subject, t.topic_title as topic_title',
+				'FROM'		=> array(
+					POSTS_TABLE		=> 'p',
+					TOPICS_TABLE	=> 't',
+				),
+				'LEFT_JOIN'	=> array(
+					array(
+						'FROM'	=> array($this->likes_table => 'pl'),
+						'ON'	=> 'pl.post_id = p.post_id'
+					),
+				),
+				'WHERE'		=> $sql_where,
+				'ORDER_BY'	=> 'pl.liketime DESC',
+			);
 			$sql = $this->db->sql_build_query('SELECT', $sql_array);
 			$result = $this->db->sql_query_limit($sql, $limit, $start);
 			$users = $output = $raw_output = array();
