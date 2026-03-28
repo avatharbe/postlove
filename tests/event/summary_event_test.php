@@ -546,14 +546,19 @@ class summary_event extends \phpbb_database_test_case
 		$this->template->expects($this->once())
 			->method('assign_vars')
 			->with($expected1);
-		$this->template->expects($this->exactly($count))->method('assign_block_vars');
-		for ($i = 0; $i < $count; $i++) {
-			$this->template->expects($this->at($i))
-				->method('assign_block_vars')
-				->with('most_liked_posts', $expected2[$i]);
-		}
+		$block_vars_calls = [];
+		$this->template->expects($this->exactly($count))
+			->method('assign_block_vars')
+			->willReturnCallback(function ($block, $data) use (&$block_vars_calls) {
+				$block_vars_calls[] = [$block, $data];
+			});
 
 		$dispatcher->dispatch('core.index_modify_page_title', $event);
+
+		for ($i = 0; $i < $count; $i++) {
+			$this->assertEquals('most_liked_posts', $block_vars_calls[$i][0]);
+			$this->assertEquals($expected2[$i], $block_vars_calls[$i][1]);
+		}
 	}
 
 	/**
@@ -981,14 +986,19 @@ class summary_event extends \phpbb_database_test_case
 		$this->template->expects($this->once())
 			->method('assign_vars')
 			->with($expected1);
-		$this->template->expects($this->exactly($count))->method('assign_block_vars');
-		for ($i = 0; $i < $count; $i++) {
-			$this->template->expects($this->at($i))
-				->method('assign_block_vars')
-				->with('most_liked_posts', $expected2[$i]);
-		}
+		$block_vars_calls = [];
+		$this->template->expects($this->exactly($count))
+			->method('assign_block_vars')
+			->willReturnCallback(function ($block, $data) use (&$block_vars_calls) {
+				$block_vars_calls[] = [$block, $data];
+			});
 
 		$dispatcher->dispatch('core.viewforum_modify_page_title', $event);
+
+		for ($i = 0; $i < $count; $i++) {
+			$this->assertEquals('most_liked_posts', $block_vars_calls[$i][0]);
+			$this->assertEquals($expected2[$i], $block_vars_calls[$i][1]);
+		}
 	}
 }
 
