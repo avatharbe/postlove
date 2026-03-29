@@ -617,6 +617,11 @@ class summary_event extends \phpbb_database_test_case
 		$this->auth->expects($this->any())
 			->method('acl_getf')
 			->willreturn($permissions);
+		$this->auth->expects($this->any())
+			->method('acl_get')
+			->willReturnCallback(function ($permission) {
+				return ($permission === 'u_postlove_summary') ? true : false;
+			});
 
 		$event_data = array();
 		$event = new \phpbb\event\data(compact($event_data));
@@ -1046,6 +1051,11 @@ class summary_event extends \phpbb_database_test_case
 		$this->auth->expects($this->any())
 			->method('acl_getf')
 			->willreturn($permissions);
+		$this->auth->expects($this->any())
+			->method('acl_get')
+			->willReturnCallback(function ($permission) {
+				return ($permission === 'u_postlove_summary') ? true : false;
+			});
 
 		$forum_data = array(
 			'forum_id' => $forum_id,
