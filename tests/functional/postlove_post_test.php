@@ -30,7 +30,7 @@ class postlove_post_test extends postlove_base
 	* Steps:
 	* 1. Log in and create a topic with a reply post
 	* 2. Switch to inline mode (button_mode=0) and verify the .postlove span exists
-	* 3. Toggle a like on the reply via AJAX, reload, and verify "1 x" appears
+	* 3. Toggle a like on the reply via AJAX, reload, and verify "1" appears
 	* 4. Toggle unlike via AJAX (removes the like)
 	* 5. Switch to button mode (button_mode=1) and verify the .postlove-li span exists
 	* 6. Toggle like again, reload, and verify "1" appears in .postlove-count
@@ -57,7 +57,7 @@ class postlove_post_test extends postlove_base
 
 		//reload page and test ...
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid={$this->sid}");
-		$this->assertStringContainsString('1 x', $crawler->filter('#p' . $post2['post_id'])->filter('.postlove')->text());
+		$this->assertStringContainsString('1', $crawler->filter('#p' . $post2['post_id'])->filter('.postlove')->text());
 
 		//toggle like
 		$crw1 = self::request('GET', 'app.php/postlove/toggle/' . $post2['post_id'], array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
@@ -89,7 +89,7 @@ class postlove_post_test extends postlove_base
 	{
         $this->set_button_mode(0);
 		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
-		$this->assertStringContainsString('1 x', $crawler->filter('#p3')->filter('.postlove')->text());
+		$this->assertStringContainsString('1', $crawler->filter('#p3')->filter('.postlove')->text());
 
         $this->set_button_mode(1);
 
@@ -102,17 +102,17 @@ class postlove_post_test extends postlove_base
 	* Test that guests cannot toggle likes.
 	*
 	* Attempts to toggle a like via AJAX as a guest (not logged in),
-	* then verifies the like count remains unchanged (still "1 x").
+	* then verifies the like count remains unchanged (still "1").
 	* The controller should reject the request because the guest user
-	* does not have the u_postlove permission.
+	* does not have the u_postlove permission (guests are blocked since 2.2.0).
 	*/
 	public function test_guests_cannot_like()
 	{
 		$crw1 = self::request('GET', 'app.php/postlove/toggle/3', array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
-		
+
         $this->set_button_mode(0);
 		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
-		$this->assertStringContainsString('1 x', $crawler->filter('#p3')->filter('.postlove')->text());
+		$this->assertStringContainsString('1', $crawler->filter('#p3')->filter('.postlove')->text());
 		
 	}
 	/**
@@ -154,7 +154,7 @@ class postlove_post_test extends postlove_base
 
 		$this->login();
 		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
-		$this->assertStringContainsString('x 1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.liked_info')->parents()->text());
+		$this->assertStringContainsString('1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.liked_info')->parents()->text());
 		$this->assertEquals(0,  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.like_info')->count());
 		$this->logout();
 		
@@ -175,7 +175,7 @@ class postlove_post_test extends postlove_base
 
 		$this->login();
 		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
-		$this->assertStringContainsString('x 1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.like_info')->parents()->text());
+		$this->assertStringContainsString('1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.like_info')->parents()->text());
 		$this->assertEquals(0,  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.liked_info')->count());
 		$this->logout();
 		
@@ -196,8 +196,8 @@ class postlove_post_test extends postlove_base
 
 		$this->login();
 		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
-		$this->assertStringContainsString('x 1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.like_info')->parents()->text());
-		$this->assertStringContainsString('x 1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.liked_info')->parents()->text());
+		$this->assertStringContainsString('1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.like_info')->parents()->text());
+		$this->assertStringContainsString('1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.liked_info')->parents()->text());
 		$this->logout();
 	}
 
