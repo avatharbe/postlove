@@ -37,6 +37,8 @@ $lang = array_merge($lang, array(
 	'CLEAN'	=> 'LIMPAR',
 
 	//Version 2.0
+	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Comportamento das curtidas',
+	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Resumo das publicações mais curtidas',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Período de resumo',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Publicações mais curtidas hoje a exibir',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Publicações mais curtidas esta semana a exibir',

@@ -38,6 +38,8 @@ $lang = array_merge($lang, array(
 	'CLEAN'	=> 'Nettoyer',
 
 	//Version 2.0
+	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Comportement des J\'aime',
+	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Résumé des messages les plus aimés',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Période de résumé',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Nombre de messages les plus aimés aujourd\'hui à afficher',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Nombre de messages les plus aimés cette semaine à afficher',

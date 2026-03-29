@@ -37,6 +37,8 @@ $lang = array_merge($lang, array(
 	'CLEAN'	=> 'Limpiar',
 
 	//Version 2.0
+	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Comportamiento de Me gusta',
+	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Resumen de mensajes más gustados',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Período de resumen',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Publicaciones más gustadas hoy a mostrar',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Publicaciones más gustadas esta semana a mostrar',

@@ -37,6 +37,8 @@ $lang = array_merge($lang, array(
 	'CLEAN'	=> 'Bereinigen',
 
 	//Version 2.0
+	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Like-Verhalten',
+	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Zusammenfassung der beliebtesten Beiträge',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Zusammenfassungszeitraum',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Anzahl der beliebtesten Beiträge von heute',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Anzahl der beliebtesten Beiträge dieser Woche',

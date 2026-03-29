@@ -37,6 +37,8 @@ $lang = array_merge($lang, array(
 	'CLEAN'	=> 'WYCZYŚĆ',
 
 	//Version 2.0
+	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Zachowanie polubień',
+	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Podsumowanie najpopularniejszych postów',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Okres podsumowania',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Ile wyświetlać postów polubionych dzisiaj',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Ile wyświetlać postów polubionych w tym tygodniu',

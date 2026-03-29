@@ -37,6 +37,8 @@ $lang = array_merge($lang, array(
 	'CLEAN'	=> 'Opschonen',
 
 	//Version 2.0
+	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Vind-ik-leuk-gedrag',
+	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Samenvatting populairste berichten',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Samenvattingsperiode',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Aantal populairste berichten van vandaag',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Aantal populairste berichten van deze week',

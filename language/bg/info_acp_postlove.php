@@ -37,6 +37,8 @@ $lang = array_merge($lang, array(
 	'CLEAN'	=> 'Почисти',
 
 	//Version 2.0
+	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Поведение на харесванията',
+	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Обобщение на най-харесваните публикации',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Период на обобщение',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Колко най-харесвани публикации за деня да се показват',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Колко най-харесвани публикации за седмицата да се показват',

@@ -35,6 +35,8 @@ $lang = array_merge($lang, array(
 	'CLEAN'	=> 'Clean',
 
 	//Version 2.0
+	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Beğeni davranışı',
+	'POSTLOVE_FIELDSET_SUMMARY'			=> 'En çok beğenilen gönderi özeti',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Özet Dönemi',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Bugün en çok beğenilen gösterilecek gönderi sayısı',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Bu hafta en çok beğenilen gösterilecek gönderi sayısı',

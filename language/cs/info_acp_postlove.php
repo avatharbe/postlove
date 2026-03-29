@@ -36,6 +36,8 @@ $lang = array_merge($lang, array(
 	'CLEAN'	=> 'Vyčistit',
 
 	//Version 2.0
+	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Chování oblíbení',
+	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Souhrn nejoblíbenějších příspěvků',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Období souhrnu',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Kolik nejoblíbenějších příspěvků dne zobrazit',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Kolik nejoblíbenějších příspěvků týdne zobrazit',

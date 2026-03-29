@@ -6,7 +6,7 @@
 
 	<form id="acp_postlove" method="post" action="{U_ACTION}">
 		<fieldset>
-			<legend>{L_POSTLOVE_CONTROL}</legend>
+			<legend>{L_POSTLOVE_FIELDSET_BEHAVIOUR}</legend>
 			<dl>
 				<dt>
 					<label>{L_POSTLOVE_SHOW_LIKES}</label><br />
@@ -43,39 +43,44 @@
 					<label><input type="radio" id="postlove_show-button" name="poslove[postlove_show_button]" value="1"<!-- IF SHOW_BUTTON --> checked<!-- ENDIF --> />{L_YES}</label><label><input type="radio" id="postlove_show_button" name="poslove[postlove_show_button]" value="0"<!-- IF !SHOW_BUTTON -->	checked<!-- ENDIF --> />{L_NO}</label>
 				</dd>
 			</dl>
-		<table>
-			<tr>
-				<th><label>{L_POSTLOVE_SUMMARY_PERIOD}</label></th>
-				<th><label>{L_POSTLOVE_INDEX}</label></th>
-				<th><label>{L_POSTLOVE_FORUM}</label></th>
-			</tr>
-			<tr>
-				<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_EVER}</td>
-				<td><input type="text" name="poslove[postlove_index_most_liked_ever]" size="4" value="{INDEX_HOWMANY_EVER}" /></td>
-				<td><input type="text" name="poslove[postlove_forum_most_liked_ever]" size="4" value="{FORUM_HOWMANY_EVER}" /></td>
-			</tr>
-			<tr>
-				<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_YEAR}</td>
-				<td><input type="text" name="poslove[postlove_index_most_liked_this_year]" size="4" value="{INDEX_HOWMANY_THIS_YEAR}" /></td>
-				<td><input type="text" name="poslove[postlove_forum_most_liked_this_year]" size="4" value="{FORUM_HOWMANY_THIS_YEAR}" /></td>
-			</tr>
-			<tr>
-				<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_MONTH}</td>
-				<td><input type="text" name="poslove[postlove_index_most_liked_this_month]" size="4" value="{INDEX_HOWMANY_THIS_MONTH}" /></td>
-				<td><input type="text" name="poslove[postlove_forum_most_liked_this_month]" size="4" value="{FORUM_HOWMANY_THIS_MONTH}" /></td>
-			</tr>
-			<tr>
-				<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_WEEK}</td>
-				<td><input type="text" name="poslove[postlove_index_most_liked_this_week]" size="4" value="{INDEX_HOWMANY_THIS_WEEK}" /></td>
-				<td><input type="text" name="poslove[postlove_forum_most_liked_this_week]" size="4" value="{FORUM_HOWMANY_THIS_WEEK}" /></td>
-			</tr>
-			<tr>
-				<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_DAY}</td>
-				<td><input type="text" name="poslove[postlove_index_most_liked_today]" size="4" value="{INDEX_HOWMANY_TODAY}" /></td>
-				<td><input type="text" name="poslove[postlove_forum_most_liked_today]" size="4" value="{FORUM_HOWMANY_TODAY}" /></td>
-			</tr>
-		</table>
 		</fieldset>
+
+		<fieldset>
+			<legend>{L_POSTLOVE_FIELDSET_SUMMARY}</legend>
+			<table>
+				<tr>
+					<th><label>{L_POSTLOVE_SUMMARY_PERIOD}</label></th>
+					<th><label>{L_POSTLOVE_INDEX}</label></th>
+					<th><label>{L_POSTLOVE_FORUM}</label></th>
+				</tr>
+				<tr>
+					<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_EVER}</td>
+					<td><input type="text" name="poslove[postlove_index_most_liked_ever]" size="4" value="{INDEX_HOWMANY_EVER}" /></td>
+					<td><input type="text" name="poslove[postlove_forum_most_liked_ever]" size="4" value="{FORUM_HOWMANY_EVER}" /></td>
+				</tr>
+				<tr>
+					<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_YEAR}</td>
+					<td><input type="text" name="poslove[postlove_index_most_liked_this_year]" size="4" value="{INDEX_HOWMANY_THIS_YEAR}" /></td>
+					<td><input type="text" name="poslove[postlove_forum_most_liked_this_year]" size="4" value="{FORUM_HOWMANY_THIS_YEAR}" /></td>
+				</tr>
+				<tr>
+					<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_MONTH}</td>
+					<td><input type="text" name="poslove[postlove_index_most_liked_this_month]" size="4" value="{INDEX_HOWMANY_THIS_MONTH}" /></td>
+					<td><input type="text" name="poslove[postlove_forum_most_liked_this_month]" size="4" value="{FORUM_HOWMANY_THIS_MONTH}" /></td>
+				</tr>
+				<tr>
+					<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_WEEK}</td>
+					<td><input type="text" name="poslove[postlove_index_most_liked_this_week]" size="4" value="{INDEX_HOWMANY_THIS_WEEK}" /></td>
+					<td><input type="text" name="poslove[postlove_forum_most_liked_this_week]" size="4" value="{FORUM_HOWMANY_THIS_WEEK}" /></td>
+				</tr>
+				<tr>
+					<td>{L_POSTLOVE_HOWMANY_MOST_LIKED_DAY}</td>
+					<td><input type="text" name="poslove[postlove_index_most_liked_today]" size="4" value="{INDEX_HOWMANY_TODAY}" /></td>
+					<td><input type="text" name="poslove[postlove_forum_most_liked_today]" size="4" value="{FORUM_HOWMANY_TODAY}" /></td>
+				</tr>
+			</table>
+		</fieldset>
+
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
 			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
@@ -111,4 +116,3 @@
 			</fieldset>
 	</form>
 <!-- INCLUDE overall_footer.html -->
-
