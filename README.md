@@ -5,7 +5,7 @@ Add a simple heart/like button to posts with AJAX toggle.
 Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanasov/postlove)). Now maintained by [Avathar.be](https://www.avathar.be).
 
 #### Version
-2.1.0
+2.2.0
 
 [![Tests](https://github.com/avatharbe/postlove/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avatharbe/postlove/actions/workflows/tests.yml)
 
@@ -25,6 +25,8 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Summary of most liked posts by day/week/month/year/ever on index and forum views (configurable)
 - Notification when a post is liked (respects UCP notification preferences)
 - Permission system (`u_postlove`) to control who can like posts per user/group
+- Permission system (`u_postlove_summary`) to control who can see the most liked posts summary
+- Configurable summary position (above or below the forum list on the index page)
 - ACP settings for CSS, mini profile counters, summary display and cache time
 - Import tool for migrating data from the Thanks for Posts extension
 
@@ -32,6 +34,14 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Bulgarian, Czech, Dutch, English, French, German, Polish, Portuguese (BR), Spanish, Turkish
 
 ### Changelog
+- 2.2.0
+  - UX aligned with Meta Threads conventions (heart icon before count, removed "x" separators)
+  - Improved ACP option labels and descriptions across all 10 languages
+  - ACP settings grouped into "Like behaviour" and "Most liked posts summary" fieldsets
+  - Added `u_postlove_summary` permission to gate visibility of the most liked posts summary per user group
+  - Added configurable summary position on the index page (above or below the forum list)
+  - Blocked like permission for guests — anonymous users can no longer like posts (defence-in-depth)
+  - Migration to fix notification type service name after namespace rename
 - 2.1.0
   - Namespace changed from `anavaro/postlove` to `avathar/postlove`
   - Migrated CI from Travis to GitHub Actions (PHP 8.1-8.4, MySQL, MariaDB, PostgreSQL, SQLite)

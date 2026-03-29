@@ -57,7 +57,7 @@ class ajaxify
 		switch ($action)
 		{
 			case 'toggle':
-				if (!$this->auth->acl_get('u_postlove'))
+				if ($this->user->data['user_id'] == ANONYMOUS || !$this->auth->acl_get('u_postlove'))
 				{
 					return new \Symfony\Component\HttpFoundation\JsonResponse(array(
 						'error'	=> 1
