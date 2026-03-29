@@ -24,6 +24,11 @@
 		"display-name": "Post Love",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.3.0"
+		},
+		"version-check": {
+			"host": "www.avathar.be",
+			"directory": "/versioncheck",
+			"filename": "postlove.json"
 		}
 	}
 }
