@@ -60,4 +60,5 @@ $lang = array_merge($lang, array(
 	),
 	'POSTLOVE_HIDE'		=> 'Gefällt-mir-Symbole und Zusammenfassungen ausblenden',
 	'ACL_U_POSTLOVE'			=> 'Kann Beiträge liken',
+	'ACL_U_POSTLOVE_SUMMARY'	=> 'Kann die Zusammenfassung der beliebtesten Beiträge sehen',
 ));

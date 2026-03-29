@@ -39,6 +39,11 @@ $lang = array_merge($lang, array(
 	//Version 2.0
 	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Zachowanie polubień',
 	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Podsumowanie najpopularniejszych postów',
+	'POSTLOVE_SUMMARY_PERMISSION_NOTICE'	=> 'Widoczność tego podsumowania jest kontrolowana przez uprawnienie użytkownika <em>Może widzieć podsumowanie najpopularniejszych postów</em>. Skonfiguruj je w ACP &raquo; Uprawnienia.',
+	'POSTLOVE_SUMMARY_POSITION'			=> 'Pozycja podsumowania na stronie głównej',
+	'POSTLOVE_SUMMARY_POSITION_EXPLAIN'	=> 'Wybierz, czy podsumowanie najpopularniejszych postów pojawia się nad czy pod listą forów.',
+	'POSTLOVE_SUMMARY_ABOVE'			=> 'Nad listą forów',
+	'POSTLOVE_SUMMARY_BELOW'			=> 'Pod listą forów',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Okres podsumowania',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Ile wyświetlać postów polubionych dzisiaj',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Ile wyświetlać postów polubionych w tym tygodniu',

@@ -39,6 +39,11 @@ $lang = array_merge($lang, array(
 	//Version 2.0
 	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Vind-ik-leuk-gedrag',
 	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Samenvatting populairste berichten',
+	'POSTLOVE_SUMMARY_PERMISSION_NOTICE'	=> 'De zichtbaarheid van deze samenvatting wordt bepaald door de gebruikersrecht <em>Kan de samenvatting van populairste berichten zien</em>. Configureer dit onder ACP &raquo; Rechten.',
+	'POSTLOVE_SUMMARY_POSITION'			=> 'Positie van de samenvatting op de indexpagina',
+	'POSTLOVE_SUMMARY_POSITION_EXPLAIN'	=> 'Kies of de samenvatting van populairste berichten boven of onder de forumlijst verschijnt.',
+	'POSTLOVE_SUMMARY_ABOVE'			=> 'Boven de forumlijst',
+	'POSTLOVE_SUMMARY_BELOW'			=> 'Onder de forumlijst',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Samenvattingsperiode',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Aantal populairste berichten van vandaag',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Aantal populairste berichten van deze week',

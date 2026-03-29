@@ -40,6 +40,11 @@ $lang = array_merge($lang, array(
 	//Version 2.0
 	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Comportement des J\'aime',
 	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Résumé des messages les plus aimés',
+	'POSTLOVE_SUMMARY_PERMISSION_NOTICE'	=> 'La visibilité de ce résumé est contrôlée par la permission utilisateur <em>Peut voir le résumé des messages les plus aimés</em>. Configurez-la sous ACP &raquo; Permissions.',
+	'POSTLOVE_SUMMARY_POSITION'			=> 'Position du résumé sur la page d\'index',
+	'POSTLOVE_SUMMARY_POSITION_EXPLAIN'	=> 'Choisissez si le résumé des messages les plus aimés apparaît au-dessus ou en dessous de la liste des forums.',
+	'POSTLOVE_SUMMARY_ABOVE'			=> 'Au-dessus de la liste des forums',
+	'POSTLOVE_SUMMARY_BELOW'			=> 'En dessous de la liste des forums',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Période de résumé',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Nombre de messages les plus aimés aujourd\'hui à afficher',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Nombre de messages les plus aimés cette semaine à afficher',

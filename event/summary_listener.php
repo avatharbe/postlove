@@ -101,6 +101,7 @@ class summary_listener implements EventSubscriberInterface
 		// first check that this user wants to see Post Like
 		$this->user->get_profile_fields($this->user->data['user_id']);
 		if ($this->user->data['is_bot'] || // bots dont want to see this
+			!$this->auth->acl_get('u_postlove_summary') || // user group not allowed to see summary
 			(isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']) // user doesnt want
 			)
 		{
@@ -148,6 +149,7 @@ class summary_listener implements EventSubscriberInterface
 		// first check that this user wants to see Post Like
 		$this->user->get_profile_fields($this->user->data['user_id']);
 		if ($this->user->data['is_bot'] || // we dont want bots to see summaries
+			 !$this->auth->acl_get('u_postlove_summary') || // user group not allowed to see summary
 			 (isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']) // user doesnt want
 			)
 		{
@@ -213,6 +215,7 @@ class summary_listener implements EventSubscriberInterface
 
 		$this->template->assign_vars(array(
 			'S_MOSTLIKEDSUMMARYCOUNT'	=>  count($post_list) - 1,
+			'S_POSTLOVE_SUMMARY_BELOW'	=>  (int) $this->config['postlove_summary_position'],
 			));
 	}
 

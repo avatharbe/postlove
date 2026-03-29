@@ -39,6 +39,11 @@ $lang = array_merge($lang, array(
 	//Version 2.0
 	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Like behaviour',
 	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Most liked posts summary',
+	'POSTLOVE_SUMMARY_PERMISSION_NOTICE'	=> 'Visibility of this summary is controlled by the <em>Can see most liked posts summary</em> user permission. Configure it under ACP &raquo; Permissions.',
+	'POSTLOVE_SUMMARY_POSITION'			=> 'Summary position on the index page',
+	'POSTLOVE_SUMMARY_POSITION_EXPLAIN'	=> 'Choose whether the most liked posts summary appears above or below the forum list on the board index.',
+	'POSTLOVE_SUMMARY_ABOVE'			=> 'Above the forum list',
+	'POSTLOVE_SUMMARY_BELOW'			=> 'Below the forum list',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Summary Period',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'How many liked-today posts to show',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'How many liked-this-week posts to show',

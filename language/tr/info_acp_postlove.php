@@ -37,6 +37,11 @@ $lang = array_merge($lang, array(
 	//Version 2.0
 	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Beğeni davranışı',
 	'POSTLOVE_FIELDSET_SUMMARY'			=> 'En çok beğenilen gönderi özeti',
+	'POSTLOVE_SUMMARY_PERMISSION_NOTICE'	=> 'Bu özetin görünürlüğü <em>En çok beğenilen gönderi özetini görebilir</em> kullanıcı izni ile kontrol edilir. Bunu YKP &raquo; İzinler altından yapılandırın.',
+	'POSTLOVE_SUMMARY_POSITION'			=> 'Özetin ana sayfadaki konumu',
+	'POSTLOVE_SUMMARY_POSITION_EXPLAIN'	=> 'En çok beğenilen gönderi özetinin forum listesinin üstünde mi yoksa altında mı görüneceğini seçin.',
+	'POSTLOVE_SUMMARY_ABOVE'			=> 'Forum listesinin üstünde',
+	'POSTLOVE_SUMMARY_BELOW'			=> 'Forum listesinin altında',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Özet Dönemi',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Bugün en çok beğenilen gösterilecek gönderi sayısı',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Bu hafta en çok beğenilen gösterilecek gönderi sayısı',

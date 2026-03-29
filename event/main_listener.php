@@ -89,6 +89,7 @@ class main_listener implements EventSubscriberInterface
 	{
 		$permissions = $event['permissions'];
 		$permissions['u_postlove'] = array('lang' => 'ACL_U_POSTLOVE', 'cat' => 'misc');
+		$permissions['u_postlove_summary'] = array('lang' => 'ACL_U_POSTLOVE_SUMMARY', 'cat' => 'misc');
 		$event['permissions'] = $permissions;
 	}
 

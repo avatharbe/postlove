@@ -39,6 +39,11 @@ $lang = array_merge($lang, array(
 	//Version 2.0
 	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Comportamento das curtidas',
 	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Resumo das publicações mais curtidas',
+	'POSTLOVE_SUMMARY_PERMISSION_NOTICE'	=> 'A visibilidade deste resumo é controlada pela permissão de usuário <em>Pode ver o resumo das publicações mais curtidas</em>. Configure-a em ACP &raquo; Permissões.',
+	'POSTLOVE_SUMMARY_POSITION'			=> 'Posição do resumo na página inicial',
+	'POSTLOVE_SUMMARY_POSITION_EXPLAIN'	=> 'Escolha se o resumo das publicações mais curtidas aparece acima ou abaixo da lista de fóruns.',
+	'POSTLOVE_SUMMARY_ABOVE'			=> 'Acima da lista de fóruns',
+	'POSTLOVE_SUMMARY_BELOW'			=> 'Abaixo da lista de fóruns',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Período de resumo',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Publicações mais curtidas hoje a exibir',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Publicações mais curtidas esta semana a exibir',

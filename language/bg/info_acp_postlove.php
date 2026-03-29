@@ -39,6 +39,11 @@ $lang = array_merge($lang, array(
 	//Version 2.0
 	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Поведение на харесванията',
 	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Обобщение на най-харесваните публикации',
+	'POSTLOVE_SUMMARY_PERMISSION_NOTICE'	=> 'Видимостта на това обобщение се контролира от потребителското право <em>Може да вижда обобщението на най-харесваните публикации</em>. Конфигурирайте го в АКП &raquo; Права.',
+	'POSTLOVE_SUMMARY_POSITION'			=> 'Позиция на обобщението на началната страница',
+	'POSTLOVE_SUMMARY_POSITION_EXPLAIN'	=> 'Изберете дали обобщението на най-харесваните публикации да се показва над или под списъка с форуми.',
+	'POSTLOVE_SUMMARY_ABOVE'			=> 'Над списъка с форуми',
+	'POSTLOVE_SUMMARY_BELOW'			=> 'Под списъка с форуми',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Период на обобщение',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Колко най-харесвани публикации за деня да се показват',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Колко най-харесвани публикации за седмицата да се показват',

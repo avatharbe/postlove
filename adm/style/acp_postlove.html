@@ -47,6 +47,17 @@
 
 		<fieldset>
 			<legend>{L_POSTLOVE_FIELDSET_SUMMARY}</legend>
+			<p>{L_POSTLOVE_SUMMARY_PERMISSION_NOTICE}</p>
+			<dl>
+				<dt>
+					<label>{L_POSTLOVE_SUMMARY_POSITION}</label><br />
+					<span>{L_POSTLOVE_SUMMARY_POSITION_EXPLAIN}</span>
+				</dt>
+				<dd>
+					<label><input type="radio" name="poslove[postlove_summary_position]" value="0"<!-- IF not SUMMARY_POSITION --> checked<!-- ENDIF --> />{L_POSTLOVE_SUMMARY_ABOVE}</label>
+					<label><input type="radio" name="poslove[postlove_summary_position]" value="1"<!-- IF SUMMARY_POSITION --> checked<!-- ENDIF --> />{L_POSTLOVE_SUMMARY_BELOW}</label>
+				</dd>
+			</dl>
 			<table>
 				<tr>
 					<th><label>{L_POSTLOVE_SUMMARY_PERIOD}</label></th>

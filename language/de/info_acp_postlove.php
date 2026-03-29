@@ -39,6 +39,11 @@ $lang = array_merge($lang, array(
 	//Version 2.0
 	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Like-Verhalten',
 	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Zusammenfassung der beliebtesten Beiträge',
+	'POSTLOVE_SUMMARY_PERMISSION_NOTICE'	=> 'Die Sichtbarkeit dieser Zusammenfassung wird durch die Benutzerrecht <em>Kann die Zusammenfassung der beliebtesten Beiträge sehen</em> gesteuert. Konfigurieren Sie dies unter ACP &raquo; Berechtigungen.',
+	'POSTLOVE_SUMMARY_POSITION'			=> 'Position der Zusammenfassung auf der Indexseite',
+	'POSTLOVE_SUMMARY_POSITION_EXPLAIN'	=> 'Wählen Sie, ob die Zusammenfassung der beliebtesten Beiträge über oder unter der Forenliste erscheint.',
+	'POSTLOVE_SUMMARY_ABOVE'			=> 'Über der Forenliste',
+	'POSTLOVE_SUMMARY_BELOW'			=> 'Unter der Forenliste',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Zusammenfassungszeitraum',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Anzahl der beliebtesten Beiträge von heute',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Anzahl der beliebtesten Beiträge dieser Woche',

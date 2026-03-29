@@ -60,4 +60,5 @@ $lang = array_merge($lang, array(
 	),
 	'POSTLOVE_HIDE' 			=> 'Ukryj polubienia i podsumowanie',
 	'ACL_U_POSTLOVE'			=> 'Może polubić posty',
+	'ACL_U_POSTLOVE_SUMMARY'	=> 'Może widzieć podsumowanie najpopularniejszych postów',
 ));

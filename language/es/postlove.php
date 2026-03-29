@@ -60,4 +60,5 @@ $lang = array_merge($lang, array(
 	),
 	'POSTLOVE_HIDE' 			=> 'Ocultar iconos y resúmenes de Me gusta',
 	'ACL_U_POSTLOVE'			=> 'Puede indicar que le gustan publicaciones',
+	'ACL_U_POSTLOVE_SUMMARY'	=> 'Puede ver el resumen de mensajes más gustados',
 ));

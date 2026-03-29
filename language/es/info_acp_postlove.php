@@ -39,6 +39,11 @@ $lang = array_merge($lang, array(
 	//Version 2.0
 	'POSTLOVE_FIELDSET_BEHAVIOUR'		=> 'Comportamiento de Me gusta',
 	'POSTLOVE_FIELDSET_SUMMARY'			=> 'Resumen de mensajes más gustados',
+	'POSTLOVE_SUMMARY_PERMISSION_NOTICE'	=> 'La visibilidad de este resumen se controla mediante el permiso de usuario <em>Puede ver el resumen de mensajes más gustados</em>. Configúrelo en ACP &raquo; Permisos.',
+	'POSTLOVE_SUMMARY_POSITION'			=> 'Posición del resumen en la página de inicio',
+	'POSTLOVE_SUMMARY_POSITION_EXPLAIN'	=> 'Elija si el resumen de mensajes más gustados aparece encima o debajo de la lista de foros.',
+	'POSTLOVE_SUMMARY_ABOVE'			=> 'Encima de la lista de foros',
+	'POSTLOVE_SUMMARY_BELOW'			=> 'Debajo de la lista de foros',
 	'POSTLOVE_SUMMARY_PERIOD'			=> 'Período de resumen',
 	'POSTLOVE_HOWMANY_MOST_LIKED_DAY'	=> 'Publicaciones más gustadas hoy a mostrar',
 	'POSTLOVE_HOWMANY_MOST_LIKED_WEEK'	=> 'Publicaciones más gustadas esta semana a mostrar',
