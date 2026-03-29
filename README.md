@@ -4,8 +4,8 @@ Post Love for phpBB 3.3
 Add a simple heart/like button to posts with AJAX toggle.
 Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanasov/postlove)). Now maintained by [Avathar.be](https://www.avathar.be).
 
-#### Version 
-2.2.0
+#### Version
+2.2.1
 
 [![Tests](https://github.com/avatharbe/postlove/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avatharbe/postlove/actions/workflows/tests.yml)
 
@@ -34,6 +34,8 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Bulgarian, Czech, Dutch, English, French, German, Polish, Portuguese (BR), Spanish, Turkish
 
 ### Changelog
+- 2.2.1
+  - Added `is_enableable()` check to enforce PHP 8.1+ and phpBB 3.3+ requirements before enabling (#29)
 - 2.2.0
   - UX aligned with Meta Threads conventions (heart icon before count, removed "x" separators)
   - Improved ACP option labels and descriptions across all 10 languages
