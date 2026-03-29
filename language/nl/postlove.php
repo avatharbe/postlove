@@ -59,6 +59,6 @@ $lang = array_merge($lang, array(
 		2	=> '%d keer in totaal',
 	),
 	'POSTLOVE_HIDE'		=> 'Vind-ik-leuk-pictogrammen en samenvattingen verbergen',
-	'ACL_U_POSTLOVE'			=> 'Kan berichten leuk vinden',
-	'ACL_U_POSTLOVE_SUMMARY'	=> 'Kan de samenvatting van populairste berichten zien',
+	'ACL_U_POSTLOVE'			=> 'Post Love: Kan berichten leuk vinden',
+	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Kan de samenvatting van populairste berichten zien',
 ));

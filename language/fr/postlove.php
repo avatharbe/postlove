@@ -60,6 +60,6 @@ $lang = array_merge($lang, array(
 		2	=> '%d fois au total',
 	),
 	'POSTLOVE_HIDE'		=> 'Masquer les icônes et résumés des J\'aime',
-	'ACL_U_POSTLOVE'			=> 'Peut aimer des messages',
-	'ACL_U_POSTLOVE_SUMMARY'	=> 'Peut voir le résumé des messages les plus aimés',
+	'ACL_U_POSTLOVE'			=> 'Post Love : Peut aimer des messages',
+	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love : Peut voir le résumé des messages les plus aimés',
 ));

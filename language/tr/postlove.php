@@ -57,6 +57,6 @@ $lang = array_merge($lang, array(
 		2	=> 'Toplamda %d kez',
 	),
 	'POSTLOVE_HIDE' 			=> 'Beğeni simgelerini ve özetleri gizle',
-	'ACL_U_POSTLOVE'			=> 'Gönderileri beğenebilir',
-	'ACL_U_POSTLOVE_SUMMARY'	=> 'En çok beğenilen gönderi özetini görebilir',
+	'ACL_U_POSTLOVE'			=> 'Post Love: Gönderileri beğenebilir',
+	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: En çok beğenilen gönderi özetini görebilir',
 ));

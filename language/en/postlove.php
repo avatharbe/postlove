@@ -59,6 +59,6 @@ $lang = array_merge($lang, array(
 		2	=> '%d times in total',
 	),
 	'POSTLOVE_HIDE' 			=> 'Hide Like icons and summaries',
-	'ACL_U_POSTLOVE'			=> 'Can like posts',
-	'ACL_U_POSTLOVE_SUMMARY'	=> 'Can see most liked posts summary',
+	'ACL_U_POSTLOVE'			=> 'Post Love: Can like posts',
+	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Can see most liked posts summary',
 ));
