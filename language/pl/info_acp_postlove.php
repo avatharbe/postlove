@@ -18,10 +18,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'POSTLOVE_CONTROL'	=> 'Polubienia postów',
-	'POSTLOVE_SHOW_LIKES'	=> 'Pokaż sumę postów, jakie zostały polubione przez tego użytkownika',
-	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Pokazuje w <code>viewtopic</code> sumę postów, jakie zostały polubione przez tego użytkownika.',
-	'POSTLOVE_SHOW_LIKED'	=> 'Pokaż sumę postów tego użytkownika, jakie zostały polubione przez innych',
-	'POSTLOVE_SHOW_LIKED_EXPLAIN'	=> 'Pokazuje w <code>viewtopic</code> sumę postów tego użytkownika, jakie zostały polubione przez innych.',
+	'POSTLOVE_SHOW_LIKES'	=> 'Pokaż, ile postów użytkownik polubił',
+	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Wyświetla łączną liczbę postów, które użytkownik polubił, w jego obszarze profilu przy każdym poście.',
+	'POSTLOVE_SHOW_LIKED'	=> 'Pokaż, ile polubień otrzymał użytkownik',
+	'POSTLOVE_SHOW_LIKED_EXPLAIN'	=> 'Wyświetla łączną liczbę polubień, które posty użytkownika otrzymały, w jego obszarze profilu przy każdym poście.',
 
 	//Version 1.1 langs
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
@@ -29,8 +29,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_EXPLAIN'	=> 'Z tego miejsca możesz zmienić ustawienia rozszerzenia Post Love',
 	'CONFIRM_MESSAGE'	=> 'Zmiany zostały zapisane pomyślnie!<br><br><a href="%1$s">Powrót</a>',
 
-	'POSTLOVE_AUTHOR_LIKE'	=> 'Autor może polubić swoje posty',
-	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'Określa, czy autor postu może polubić swoje własne posty czy też nie',
+	'POSTLOVE_AUTHOR_LIKE'	=> 'Pozwól użytkownikom polubić własne posty',
+	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'Jeśli włączone, użytkownicy mogą polubić własne posty. Jeśli wyłączone, przycisk polubienia jest ukryty przy własnych postach.',
 
 	'POSTLOVE_CLEAN_LOVES'	=> 'Wyczyść wszystkie polubienia postów',
 	'POSTLOVE_CLEAN_LOVES_EXPLAIN'	=> 'Jeżeli zainstalowałeś rozszerzenie Post Love przed automatycznym postowaniem i czyszczeniem polubień użytkowników - użyj powyższej opcji, aby wyczyścić niepotrzebne polubienia postów.',
@@ -45,8 +45,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HOWMANY_MOST_LIKED_EVER'	=> 'Ile wyświetlać postów polubionych ogółem',
 	'POSTLOVE_FORUM'		=> 'Ile wyświetlać na forum',
 	'POSTLOVE_INDEX'		=> 'Ile wyświetlać na stronie głównej',
-	'POSTLOVE_SHOW_BUTTON'	=> 'Wyświetlać liczbę polubień na przycisku posta?',
-	'POSTLOVE_SHOW_BUTTON_EXPLAIN'	=> 'Status liczby polubień i link akcji mogą się wyświetlać w formie przycisku nad postem, bądź pod postem zgodnie ze starym formatem.',
+	'POSTLOVE_SHOW_BUTTON'	=> 'Wyświetlać liczbę polubień na pasku akcji?',
+	'POSTLOVE_SHOW_BUTTON_EXPLAIN'	=> 'Jeśli włączone, liczba polubień i link akcji pojawią się jako przycisk na pasku akcji posta (obok Odpowiedz, Cytuj itp.). Jeśli wyłączone, pojawią się pod treścią posta.',
 
 	'POSTLOVE_IMPORT_THANKS'			=> 'Thanks records able to be imported',
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Thanks records can be imported from the Thanks for Posts extension, this operation does not change the data of the other extension',

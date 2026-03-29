@@ -19,10 +19,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'POSTLOVE_CONTROL'				=> 'J\'aime un message',
-	'POSTLOVE_SHOW_LIKES'			=> 'Afficher le nombre de J\'aime exprimés par l\'utilisateur',
-	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Afficher le nombre de messages aimés par l\'utilisateur sur les pages des sujets.',
-	'POSTLOVE_SHOW_LIKED'			=> 'Afficher le nombre de J\'aime reçus par les utilisateurs',
-	'POSTLOVE_SHOW_LIKED_EXPLAIN'	=> 'Afficher le nombre de messages aimés des autres utilisateurs sur les pages des sujets.',
+	'POSTLOVE_SHOW_LIKES'			=> 'Afficher combien de messages un utilisateur a aimés',
+	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Affiche le nombre total de messages qu\'un utilisateur a aimés dans sa zone de profil sur chaque message.',
+	'POSTLOVE_SHOW_LIKED'			=> 'Afficher combien de J\'aime un utilisateur a reçus',
+	'POSTLOVE_SHOW_LIKED_EXPLAIN'	=> 'Affiche le nombre total de J\'aime que les messages d\'un utilisateur ont reçus dans sa zone de profil sur chaque message.',
 
 	//Version 1.1
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
@@ -30,8 +30,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_EXPLAIN'	=> 'Modifier les paramètres de l\'extension Post Love.',
 	'CONFIRM_MESSAGE'	=> 'Les modifications ont été sauvegardées !<br><br><a href="%1$s">Retour</a>',
 
-	'POSTLOVE_AUTHOR_LIKE'			=> 'L\'auteur peut aimer ses messages',
-	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'Permettre ou non à l\'auteur d\'aimer ses propres messages.',
+	'POSTLOVE_AUTHOR_LIKE'			=> 'Autoriser les utilisateurs à aimer leurs propres messages',
+	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'Si activé, les utilisateurs peuvent aimer leurs propres messages. Si désactivé, le bouton J\'aime est masqué sur les messages de l\'utilisateur.',
 
 	'POSTLOVE_CLEAN_LOVES'			=> 'Nettoyer les J\'aime des messages',
 	'POSTLOVE_CLEAN_LOVES_EXPLAIN'	=> 'Nettoyer les J\'aime inutiles des messages.',
@@ -46,8 +46,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HOWMANY_MOST_LIKED_EVER'	=> 'Nombre de messages les plus aimés de tous les temps à afficher',
 	'POSTLOVE_FORUM'					=> 'Nombre à afficher sur les pages des forums',
 	'POSTLOVE_INDEX'					=> 'Nombre à afficher sur la page d\'index',
-	'POSTLOVE_SHOW_BUTTON'				=> 'Afficher le compteur de J\'aime dans un bouton ?',
-	'POSTLOVE_SHOW_BUTTON_EXPLAIN'		=> 'Le compteur de J\'aime peut être affiché comme bouton en haut du message ou dans l\'ancien format en bas du message',
+	'POSTLOVE_SHOW_BUTTON'				=> 'Afficher le compteur de J\'aime dans la barre d\'actions ?',
+	'POSTLOVE_SHOW_BUTTON_EXPLAIN'		=> 'Si activé, le compteur de J\'aime et le lien d\'action apparaissent comme un bouton dans la barre d\'actions du message (à côté de Répondre, Citer, etc.). Si désactivé, ils apparaissent sous le contenu du message.',
 
 	'POSTLOVE_IMPORT_THANKS'			=> 'Enregistrements de remerciements disponibles pour l\'importation',
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Les remerciements peuvent être importés depuis l\'extension Thanks for Posts. Les données de l\'autre extension ne seront pas modifiées',

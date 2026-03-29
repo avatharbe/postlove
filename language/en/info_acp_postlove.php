@@ -18,10 +18,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'POSTLOVE_CONTROL'				=> 'Post like',
-	'POSTLOVE_SHOW_LIKES'			=> 'Show number of posts this user has liked',
-	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Show in  <code>viewtopic</code> the number of posts the user has liked.',
-	'POSTLOVE_SHOW_LIKED'			=> 'Show the number of liked user\'s posts',
-	'POSTLOVE_SHOW_LIKED_EXPLAIN'	=> 'Show in <code>viewtopic</code> how many of the user\'s posts have been liked by others.',
+	'POSTLOVE_SHOW_LIKES'			=> 'Show how many posts a user has liked',
+	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Display the total number of posts a user has liked in their profile area on each post.',
+	'POSTLOVE_SHOW_LIKED'			=> 'Show how many likes a user has received',
+	'POSTLOVE_SHOW_LIKED_EXPLAIN'	=> 'Display the total number of likes a user\'s posts have received in their profile area on each post.',
 
 	//Version 1.1 langs
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
@@ -29,8 +29,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_EXPLAIN'	=> 'From here you can change some Post Love settings',
 	'CONFIRM_MESSAGE'	=> 'Changes saved!<br><br><a href="%1$s">Back</a>',
 
-	'POSTLOVE_AUTHOR_LIKE'			=> 'Author can like posts',
-	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'Can the author like his/her own posts or not',
+	'POSTLOVE_AUTHOR_LIKE'			=> 'Allow users to like their own posts',
+	'POSTLOVE_AUTHOR_LIKE_EXPLAIN'	=> 'If enabled, users can like their own posts. If disabled, the like button is hidden on the user\'s own posts.',
 
 	'POSTLOVE_CLEAN_LOVES'			=> 'Clean post loves',
 	'POSTLOVE_CLEAN_LOVES_EXPLAIN'	=> 'If you have installed Post Love before automatic post and user love cleaning - please press Clean to clean the unneeded Post Loves',
@@ -45,8 +45,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HOWMANY_MOST_LIKED_EVER'	=> 'How many liked-ever posts to show',
 	'POSTLOVE_FORUM'					=> 'How many to show on Forum pages',
 	'POSTLOVE_INDEX'					=> 'How many to show on Index page',
-	'POSTLOVE_SHOW_BUTTON'				=> 'Show the Post like count in a Post Button?',
-	'POSTLOVE_SHOW_BUTTON_EXPLAIN'		=> 'The Post like count status and action link may be shown as a Post Button at the top of the post or in the old format at the bottom of the post',
+	'POSTLOVE_SHOW_BUTTON'				=> 'Show like count in the post action bar?',
+	'POSTLOVE_SHOW_BUTTON_EXPLAIN'		=> 'If enabled, the like count and action link appear as a button in the post action bar (next to Reply, Quote, etc.). If disabled, they appear below the post content instead.',
 
 	'POSTLOVE_IMPORT_THANKS'			=> 'Thanks records able to be imported',
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Thanks records can be imported from the Thanks for Posts extension, this operation does not change the data of the other extension',
