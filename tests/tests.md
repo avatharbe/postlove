@@ -8,63 +8,75 @@ Tests run via the [phpbb-extensions/test-framework](https://github.com/phpbb-ext
 
 ### Unit Tests
 
-#### `tests/controller/controller_ajaxyfy_test.php`
+#### 1. `tests/controller/controller_ajaxyfy_test.php`
 
 Tests the AJAX like/unlike toggle endpoint (`/postlove/toggle/{post_id}`).
 
-| Data Set | Scenario | Expected |
-|----------|----------|----------|
-| `no_permission` | User without `u_postlove` permission | `{"error":1}` |
-| `anonymous` | Anonymous user (user_id=1) | `{"error":1}` |
-| `user_cant_like_own` | Author tries to like own post when `postlove_author_like=false` | `{"error":1}` |
-| `no_such_post` | Toggle on non-existent post (id=99) | `{"error":1}` |
-| `user_can_like` | Author likes own post when `postlove_author_like=true` | `toggle_action: add` |
-| `like` | User likes a post they haven't liked before | `toggle_action: add` |
-| `unlike` | User unlikes a post they previously liked | `toggle_action: remove` |
+| # | Data Set | Scenario | Expected |
+|---|----------|----------|----------|
+| 1.1 | `no_permission` | User without `u_postlove` permission | `{"error":1}` |
+| 1.2 | `anonymous` | Anonymous user (user_id=1) | `{"error":1}` |
+| 1.3 | `user_cant_like_own` | Author tries to like own post when `postlove_author_like=false` | `{"error":1}` |
+| 1.4 | `no_such_post` | Toggle on non-existent post (id=99) | `{"error":1}` |
+| 1.5 | `user_can_like` | Author likes own post when `postlove_author_like=true` | `toggle_action: add` |
+| 1.6 | `like` | User likes a post they haven't liked before | `toggle_action: add` |
+| 1.7 | `unlike` | User unlikes a post they previously liked | `toggle_action: remove` |
 
 **Fixture:** `tests/controller/fixtures/users.xml` — 4 topics, 4 posts (all by poster_id=2), 6 existing likes, 4 users.
 
-#### `tests/controller/controller_lovelist_test.php`
+#### 2. `tests/controller/controller_lovelist_test.php`
 
 Tests the love list page (`/postlove/{user_id}`) which shows posts a user has liked or received likes on, filtered by forum read permissions.
 
-| Data Set | Scenario | Expected Rows |
-|----------|----------|---------------|
-| `normal` | All 3 forums readable, viewing user 2's likes | 6 |
-| `test_forum` | Forums 1+2 readable, forum 3 restricted | 5 |
-| `test2` | Only forum 1 readable | 1 |
-
-Also includes `test_install` which verifies the `posts_likes` table exists after migration.
+| # | Data Set | Scenario | Expected Rows |
+|---|----------|----------|---------------|
+| 2.1 | `test_install` | Verify `posts_likes` table exists after migration | table exists |
+| 2.2 | `normal` | All 3 forums readable, viewing user 2's likes | 6 |
+| 2.3 | `test_forum` | Forums 1+2 readable, forum 3 restricted | 5 |
+| 2.4 | `test2` | Only forum 1 readable | 1 |
 
 **Fixture:** Same as ajaxify tests (`tests/controller/fixtures/users.xml`).
 
-#### `tests/event/main_event_test.php`
+#### 3. `tests/event/main_event_test.php`
 
 Tests the main event listener that renders like buttons/counts on posts during `viewtopic`.
 
-- Verifies `getSubscribedEvents()` returns the correct event list
-- Tests like count display, button rendering, and tooltip generation across viewtopic events
+| # | Test | Scenario |
+|---|------|----------|
+| 3.1 | `test_getSubscribedEvents` | Verifies the listener subscribes to the correct event list |
+| 3.2 | viewtopic tests | Like count display, button rendering, and tooltip generation across viewtopic events |
 
 **Fixture:** `tests/event/fixtures/users.xml`
 
-#### `tests/event/summary_event_test.php`
+#### 4. `tests/event/summary_event_test.php`
 
 Tests the summary panel that shows most-liked posts on the board index and viewforum pages.
 
 **Index page tests** (`test_index_modify_page_title`):
 
-| Data Set | Scenario | Expected Posts |
-|----------|----------|----------------|
-| `show all` | All time, both forums readable | 5 |
-| `show all only in Forum 1` | All time, only forum 1 readable | 4 |
-| `anonymous user` | Anonymous viewing, 1 per period | 3 |
-| `only this year` | Year period only | 3 |
-| `only this month` | Month period only | 2 |
-| `only this week` | Week period only | 2 |
-| `only today` | Today period only | 1 |
-| `none at all` | All period counts = 0 | 0 |
+| # | Data Set | Scenario | Expected Posts |
+|---|----------|----------|----------------|
+| 4.1 | `show all` | All time, both forums readable | 5 |
+| 4.2 | `show all only in Forum 1` | All time, only forum 1 readable | 4 |
+| 4.3 | `anonymous user` | Anonymous viewing, 1 per period | 3 |
+| 4.4 | `only this year` | Year period only | 3 |
+| 4.5 | `only this month` | Month period only | 2 |
+| 4.6 | `only this week` | Week period only | 2 |
+| 4.7 | `only today` | Today period only | 1 |
+| 4.8 | `none at all` | All period counts = 0 | 0 |
 
-**Forum page tests** (`test_viewforum_modify_page_title`): Same matrix as index tests but scoped to a single forum (forum_id=1) with sub-forum handling.
+**Forum page tests** (`test_viewforum_modify_page_title`):
+
+| # | Data Set | Scenario | Expected Posts |
+|---|----------|----------|----------------|
+| 4.9 | `show all` | All time, forum 1 with sub-forums | 4 |
+| 4.10 | `show all only in Forum 1` | All time, only forum 1 readable | 4 |
+| 4.11 | `anonymous user` | Anonymous viewing, 1 per period | 3 |
+| 4.12 | `only this year` | Year period only | 3 |
+| 4.13 | `only this month` | Month period only | 2 |
+| 4.14 | `only this week` | Week period only | 2 |
+| 4.15 | `only today` | Today period only | 1 |
+| 4.16 | `none at all` | All period counts = 0 | 0 |
 
 **Viewforum topic row tests**: Verify that like counts are injected into topic rows on the viewforum page.
 
@@ -72,20 +84,22 @@ Tests the summary panel that shows most-liked posts on the board index and viewf
 
 ### Functional Tests
 
-#### `tests/functional/postlove_acp_test.php`
+#### 5. `tests/functional/postlove_acp_test.php`
 
-End-to-end test of the ACP settings page. Logs in as admin, navigates to the Postlove ACP module, and verifies settings can be saved.
+| # | Test | Scenario |
+|---|------|----------|
+| 5.1 | `test_acp` | Log in as admin, navigate to Postlove ACP module, verify settings can be saved |
 
-#### `tests/functional/postlove_post_test.php`
+#### 6. `tests/functional/postlove_post_test.php`
 
 End-to-end tests of the like functionality in a real phpBB installation.
 
-| Test | Scenario |
-|------|----------|
-| `test_post` | Create a post, toggle a like via AJAX, verify the like count appears |
-| `test_guest_see_loves` | Verify guests can see like counts on posts |
-| `test_guests_cannot_like` | Verify guest like toggle returns an error |
-| `test_show_likes_given` | Verify the "likes given" count appears in user profiles |
+| # | Test | Scenario |
+|---|------|----------|
+| 6.1 | `test_post` | Create a post, toggle a like via AJAX, verify the like count appears |
+| 6.2 | `test_guest_see_loves` | Verify guests can see like counts on posts |
+| 6.3 | `test_guests_cannot_like` | Verify guest like toggle returns an error |
+| 6.4 | `test_show_likes_given` | Verify the "likes given" count appears in user profiles |
 
 **Helper:** `tests/functional/CssParser.php` — parses CSS for button mode assertions.
 **Base class:** `tests/functional/postlove_base.php` — shared setup (creates test posts, provides helper methods).
