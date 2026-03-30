@@ -69,6 +69,11 @@ services:
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%tables.avathar.postlove%'
+    avathar.postlove.topic_likes:
+        class: avathar\postlove\service\topic_likes
+        arguments:
+            - '@dbal.conn'
+            - '%tables.avathar.postlove%'
     avathar.postlove.notification.type.postlove:
         class: avathar\postlove\notification\postlove
         shared: false

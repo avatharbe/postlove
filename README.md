@@ -5,7 +5,7 @@ Add a simple heart/like button to posts with AJAX toggle.
 Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanasov/postlove)). Now maintained by [Avathar.be](https://www.avathar.be).
 
 #### Version
-2.2.1
+2.2.2
 
 [![Tests](https://github.com/avatharbe/postlove/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avatharbe/postlove/actions/workflows/tests.yml)
 
@@ -34,6 +34,9 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Bulgarian, Czech, Dutch, English, French, German, Polish, Portuguese (BR), Spanish, Turkish
 
 ### Changelog
+- 2.2.2
+  - Added `avathar.postlove.topic_likes` service for cross-extension integration (#33)
+  - Other extensions can consume like counts via optional DI without querying the posts_likes table directly
 - 2.2.1
   - Added `is_enableable()` check to enforce PHP 8.1+ and phpBB 3.3+ requirements before enabling (#29)
 - 2.2.0
