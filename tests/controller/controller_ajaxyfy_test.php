@@ -23,7 +23,7 @@ namespace avathar\postlove\tests\controller;
 * - Unlike action: toggling a post the user has already liked removes it (toggle_action=remove)
 *
 * Fixture: tests/controller/fixtures/users.xml
-* Contains 4 topics, 4 posts (all by poster_id=1), and 6 existing likes.
+* Contains 4 topics, 4 posts (all by poster_id=2), and 6 existing likes.
 *
 * @group controller
 */
@@ -142,20 +142,22 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	/**
 	* Data provider for test_ajaxify_controller.
 	*
-	* All posts in the fixture are authored by poster_id=1. The fixture has
-	* existing likes: user 2 has liked posts 1 and 2.
+	* All posts in the fixture are authored by poster_id=2. The fixture has
+	* existing likes: user 3 has liked posts 1 and 2. User 1 is ANONYMOUS.
 	*
 	* Test matrix (user_id, has_permission, author_like_allowed, post_id, expected JSON):
 	*
-	* 'no_permission'      - User 1, no u_postlove permission => error
+	* 'no_permission'      - User 2, no u_postlove permission => error
 	*                        (permission gate rejects the request)
-	* 'user_cant_like_own' - User 1 (=poster), has permission, but author_like=false,
+	* 'anonymous'          - User 1 (ANONYMOUS), has permission => error
+	*                        (ANONYMOUS is always rejected)
+	* 'user_cant_like_own' - User 2 (=poster), has permission, but author_like=false,
 	*                        post 4 => error (self-like prevention)
-	* 'no_such_post'       - User 1, has permission, post 5 does not exist => error
-	* 'user_can_like'      - User 1 (=poster), has permission, author_like=true,
+	* 'no_such_post'       - User 2, has permission, post 99 does not exist => error
+	* 'user_can_like'      - User 2 (=poster), has permission, author_like=true,
 	*                        post 4 => add (author can like own post when allowed)
-	* 'like'               - User 2, post 3 (no existing like) => add
-	* 'unlike'             - User 2, post 1 (already liked in fixture) => remove
+	* 'like'               - User 3, post 3 (no existing like) => add
+	* 'unlike'             - User 3, post 1 (already liked in fixture) => remove
 	*
 	* @return array Test data
 	*/
@@ -163,45 +165,52 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	{
 		return array(
 			'no_permission'	=> array(
-				1, // user_id
+				2, // user_id
 				false, // has u_postlove permission
 				true, // Allow author to like
 				1, // post ID
 				'{"error":1}'
 			),
+			'anonymous'	=> array(
+				1, // user_id (ANONYMOUS)
+				true, // has u_postlove permission
+				true, // Allow author to like
+				1, // post ID
+				'{"error":1}'
+			),
 			'user_cant_like_own'	=> array(
-				1, // user_id
+				2, // user_id (=poster)
 				true, // has u_postlove permission
 				false, // Allow author to like
 				4, // post ID
 				'{"error":1}'
 			),
 			'no_such_post'	=> array(
-				1, // user_id
+				2, // user_id
 				true, // has u_postlove permission
 				true, // Allow author to like
-				5, // post ID
+				99, // post ID (does not exist)
 				'{"error":1}'
 			),
 			'user_can_like'	=> array(
-				1, // user_id
+				2, // user_id (=poster)
 				true, // has u_postlove permission
 				true, // Allow author to like
 				4, // post ID
 				'"toggle_action":"add"'
 			),
 			'like'	=> array(
-				2, // user_id
+				3, // user_id
 				true, // has u_postlove permission
 				true, // Allow author to like
-				3, // post ID
+				3, // post ID (no existing like from user 3)
 				'"toggle_action":"add"'
 			),
 			'unlike'	=> array(
-				2, // user_id
+				3, // user_id
 				true, // has u_postlove permission
 				true, // Allow author to like
-				1, // post ID
+				1, // post ID (user 3 already liked post 1 in fixture)
 				'"toggle_action":"remove"'
 			),
 		);
