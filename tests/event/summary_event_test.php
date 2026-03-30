@@ -222,6 +222,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 5,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				5, // count
 				array(
@@ -294,6 +295,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 4,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				4, // count
 				array(
@@ -355,6 +357,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 3,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 					),
 				3, // count
 				array(
@@ -405,6 +408,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 3,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				3, // count
 				array(
@@ -466,6 +470,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 2,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				2, // count
 				array(
@@ -505,6 +510,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 2,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				2, // count
 				array(
@@ -544,6 +550,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 1,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				1, // count
 				array(
@@ -573,6 +580,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 0,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				0, // count
 				array(),
@@ -676,6 +684,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 4,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				4, // count (only forum 1 posts, no sub-forums)
 				array(
@@ -738,6 +747,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 4,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				4, // count
 				array(
@@ -800,6 +810,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 3,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 					),
 				3, // count
 				array(
@@ -851,6 +862,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 3,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				3, // count
 				array(
@@ -902,6 +914,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 2,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				2, // count
 				array(
@@ -942,6 +955,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 2,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				2, // count
 				array(
@@ -982,6 +996,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 1,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				1, // count
 				array(
@@ -1012,6 +1027,7 @@ class summary_event extends \phpbb_database_test_case
 					), // user permissions
 				array(
 					'S_MOSTLIKEDSUMMARYCOUNT'	=> 0,
+					'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
 				),
 				0, // count
 				array(),

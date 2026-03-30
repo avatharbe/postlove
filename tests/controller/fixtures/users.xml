@@ -117,29 +117,34 @@
 	<table name="phpbb_users">
 		<column>user_id</column>
 		<column>username</column>
+		<column>username_clean</column>
 		<column>user_permissions</column>
 		<column>user_sig</column>
 		<row>
 			<value>1</value>
 			<value>Anonymous</value>
+			<value>anonymous</value>
 			<value></value>
 			<value></value>
 		</row>
 		<row>
 			<value>2</value>
 			<value>Test user</value>
+			<value>test user</value>
 			<value></value>
 			<value></value>
 		</row>
 		<row>
 			<value>3</value>
 			<value>Test user 2</value>
+			<value>test user 2</value>
 			<value></value>
 			<value></value>
 		</row>
 		<row>
 			<value>4</value>
 			<value>Test user 3</value>
+			<value>test user 3</value>
 			<value></value>
 			<value></value>
 		</row>
