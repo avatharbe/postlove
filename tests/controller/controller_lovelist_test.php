@@ -67,7 +67,7 @@ class controller_lovelist_test extends \phpbb_database_test_case
 	*/
 	public function setUp(): void
 	{
-		global $phpbb_root_path, $phpEx, $phpbb_dispatcher;
+		global $phpbb_root_path, $phpEx, $phpbb_dispatcher, $user, $auth;
 
 		parent::setUp();
 		$this->db = $this->new_dbal();
@@ -78,6 +78,8 @@ class controller_lovelist_test extends \phpbb_database_test_case
 			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
 			'\phpbb\datetime'
 		));
+		$this->user->data['user_id'] = ANONYMOUS;
+		$user = $this->user;
 		$this->language = $this->getMockBuilder('\phpbb\language\language')
 			->disableOriginalConstructor()
 			->getMock();
@@ -94,6 +96,7 @@ class controller_lovelist_test extends \phpbb_database_test_case
 			});
 
 		$this->auth = $this->createMock('\phpbb\auth\auth');
+		$auth = $this->auth;
 
 		$this->user_loader = new \phpbb\user_loader($this->db, $phpbb_root_path, $phpEx, 'phpbb_users');
 		// Mock the template
@@ -180,7 +183,7 @@ class controller_lovelist_test extends \phpbb_database_test_case
 			'normal' => array(
 				1, // User Id
 				true, // Is user registered
-				1, // Request Id
+				2, // Request Id (user 2 is poster of all posts + liked post 1)
 				6, // Expected
 				array(
 					1 => array(
@@ -197,7 +200,7 @@ class controller_lovelist_test extends \phpbb_database_test_case
 			'test_forum' => array(
 				2, // User Id
 				true, // Is user registered
-				1, // Request Id
+				2, // Request Id (user 2 is poster of all posts + liked post 1)
 				5, // Expected
 				array(
 					1 => array(

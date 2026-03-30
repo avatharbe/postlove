@@ -203,7 +203,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 				3, // user_id
 				true, // has u_postlove permission
 				true, // Allow author to like
-				3, // post ID (no existing like from user 3)
+				4, // post ID (no existing like from user 3)
 				'"toggle_action":"add"'
 			),
 			'unlike'	=> array(
