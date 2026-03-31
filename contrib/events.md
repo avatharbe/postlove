@@ -11,7 +11,7 @@ This section is the public API contract. These are the events and services that 
 Modify or add template variables for a post row in the most-liked summary panel just before it is assigned to the template. Use this to inject extra display data per row (e.g. avatars, reputation scores, custom badges).
 
 - **Placement:** `event\summary_listener::topposts_of_period()`
-- **Since:** 1.0.0
+- **Since:** 2.2.2
 - **Arguments:**
   - `row` (array) — Raw post/topic data from the query (`post_id`, `topic_id`, `forum_id`, `post_time`, `user_id`, `username`, `user_colour`, `topic_title`, `forum_name`, `sum_likes`)
   - `tpl_ary` (array) — Template block array about to be assigned to `most_liked_posts`

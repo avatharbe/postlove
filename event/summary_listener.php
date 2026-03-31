@@ -321,7 +321,7 @@ class summary_listener implements EventSubscriberInterface
 			* @event avathar.postlove.modify_summary_tpl_ary
 			* @var  array   row 		Array with topic data
 			* @var  array   tpl_ary 	Template block array with topic data
-			* @since 1.0.0
+			* @since 2.2.2
 			*/
 			$vars = array('row', 'tpl_ary');
 			extract($this->dispatcher->trigger_event('avathar.postlove.modify_summary_tpl_ary', compact($vars)));
