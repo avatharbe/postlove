@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git remote:*)",
+      "Bash(gh issue:*)",
+      "Bash(cp /Users/Andreas/Sites/avathar/forum/ext/avathar/postlove/language/bg/info_acp_postlove.php /Users/Andreas/development/PHP/phpbb33_extensions/avathar/postlove/language/bg/info_acp_postlove.php)",
+      "Bash(cp /Users/Andreas/Sites/avathar/forum/ext/avathar/postlove/language/cs/info_acp_postlove.php /Users/Andreas/development/PHP/phpbb33_extensions/avathar/postlove/language/cs/info_acp_postlove.php)",
+      "Bash(cp /Users/Andreas/Sites/avathar/forum/ext/avathar/postlove/language/de/info_acp_postlove.php /Users/Andreas/development/PHP/phpbb33_extensions/avathar/postlove/language/de/info_acp_postlove.php)",
+      "Bash(cp /Users/Andreas/Sites/avathar/forum/ext/avathar/postlove/language/en/info_acp_postlove.php /Users/Andreas/development/PHP/phpbb33_extensions/avathar/postlove/language/en/info_acp_postlove.php)",
+      "Bash(cp /Users/Andreas/Sites/avathar/forum/ext/avathar/postlove/language/es/info_acp_postlove.php /Users/Andreas/development/PHP/phpbb33_extensions/avathar/postlove/language/es/info_acp_postlove.php)",
+      "Bash(mkdir -p /Users/Andreas/development/PHP/phpbb33_extensions/avathar/postlove/contrib)",
+      "Bash(cp /Users/Andreas/Sites/avathar/forum/ext/avathar/postlove/contrib/cdb_description.txt /Users/Andreas/development/PHP/phpbb33_extensions/avathar/postlove/contrib/)",
+      "Bash(cp /Users/Andreas/Sites/avathar/forum/ext/avathar/postlove/contrib/forum_announcement.txt /Users/Andreas/development/PHP/phpbb33_extensions/avathar/postlove/contrib/)",
+      "Bash(gh run:*)",
+      "Bash(gh search:*)",
+      "Bash(gh api:*)",
+      "Bash(for lang:*)",
+      "Bash(do cp:*)",
+      "Bash(done)",
+      "Bash(for f:*)",
+      "Read(//Users/Andreas/Sites/avathar/forum/phpBB/styles/prosilver/template/**)",
+      "Bash(find:*)",
+      "Bash(grep -r postlove /Users/Andreas/Sites/avathar/forum/styles/pbwow3*/)",
+      "Bash(ls -la /Users/Andreas/Sites/avathar/forum/styles/pbwow3_*)"
+    ]
+  }
+}

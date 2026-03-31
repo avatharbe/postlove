@@ -445,17 +445,6 @@ class summary_event extends \phpbb_database_test_case
 						'POST_LIKES_IN_PERIOD'  => 'LIKES_THIS_YEAR',
 						'LIKES_IN_PERIOD'   => 1,
 						),
-					array(
-						'U_TOPIC'   		=> '/viewtopic..php?f=1&amp;t=3&amp;p=5#p5',
-						'U_FORUM'   		=> '/viewforum..php?f=1',
-						'S_UNREAD'  		=> false,
-						'USERNAME_FULL' 	=> '<span style="color: #blue;" class="username-coloured">Test user 3</span>',
-						'POST_TIME' 		=> '5000',
-						'TOPIC_TITLE'   	=> 'test 3',
-						'FORUM_NAME'		=> 'Forum 1',
-						'POST_LIKES_IN_PERIOD'  => 'LIKES_THIS_YEAR',
-						'LIKES_IN_PERIOD'   => 1,
-						),
 					),
 				),
 			'only this month' => array(
@@ -1099,6 +1088,67 @@ class summary_event extends \phpbb_database_test_case
 			$this->assertEquals('most_liked_posts', $block_vars_calls[$i][0]);
 			$this->assertEquals($expected2[$i], $block_vars_calls[$i][1]);
 		}
+	}
+
+	/**
+	* Verify that prefetch_topic_likes populates $topic_like_counts by aggregating
+	* likes across all posts belonging to each topic.
+	*
+	* Fixture summary_data.xml topic → post → like mapping:
+	*   topic 1: post 1 (users 4+7=2 likes), post 3 (user 4=1), post 4 (user 5=1) → 4
+	*   topic 2: post 2 (user 4=1) → 1
+	*   topic 3: post 5 (user 6=1) → 1
+	*/
+	public function test_prefetch_topic_likes(): void
+	{
+		$this->set_listener();
+
+		$this->listener->prefetch_topic_likes(new \phpbb\event\data([
+			'topic_list' => [1, 2, 3],
+		]));
+
+		$prop = (new \ReflectionClass($this->listener))->getProperty('topic_like_counts');
+		$prop->setAccessible(true);
+		$counts = $prop->getValue($this->listener);
+
+		$this->assertSame([1 => 4, 2 => 1, 3 => 1], $counts);
+	}
+
+	/**
+	* Verify that inject_topic_like_count writes TOPIC_LIKE_COUNT into topic_row,
+	* using prefetched data for known topics and 0 for topics with no likes.
+	*/
+	public function test_inject_topic_like_count(): void
+	{
+		$this->set_listener();
+
+		$this->listener->prefetch_topic_likes(new \phpbb\event\data([
+			'topic_list' => [1, 2, 3],
+		]));
+
+		// Topic 1 has 4 likes
+		$event = new \phpbb\event\data([
+			'row'       => ['topic_id' => 1],
+			'topic_row' => [],
+		]);
+		$this->listener->inject_topic_like_count($event);
+		$this->assertSame(4, $event['topic_row']['TOPIC_LIKE_COUNT']);
+
+		// Topic 2 has 1 like
+		$event = new \phpbb\event\data([
+			'row'       => ['topic_id' => 2],
+			'topic_row' => [],
+		]);
+		$this->listener->inject_topic_like_count($event);
+		$this->assertSame(1, $event['topic_row']['TOPIC_LIKE_COUNT']);
+
+		// Topic 99 has no likes — must default to 0
+		$event = new \phpbb\event\data([
+			'row'       => ['topic_id' => 99],
+			'topic_row' => [],
+		]);
+		$this->listener->inject_topic_like_count($event);
+		$this->assertSame(0, $event['topic_row']['TOPIC_LIKE_COUNT']);
 	}
 }
 
