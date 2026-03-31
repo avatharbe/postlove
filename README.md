@@ -16,7 +16,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - phpBB 3.3.0 or higher
 - PHP 8.1 or higher
 
-#### Features
+#### Features 
 - Heart button under every post with AJAX toggle (no page reload)
 - Outline heart for "not liked", filled heart for "liked"
 - Tooltip showing who liked the post, updated live via AJAX
