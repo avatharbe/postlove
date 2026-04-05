@@ -107,6 +107,38 @@
     display: none;
 }
 
+/* normalize postlove button in post-buttons area to match icon-button style */
+.post-buttons .postlove-button {
+    background: none !important;
+    border: none;
+    box-shadow: none !important;
+    color: inherit;
+    line-height: inherit;
+    padding: 0 3px;
+    height: auto;
+    width: auto;
+    text-shadow: none;
+}
+
+.post-buttons .postlove-button .like:before,
+.post-buttons .postlove-button .liked:before {
+    font-size: 1.3em;
+    padding-right: 3px;
+    left: 0;
+    color: #ff0000;
+}
+
+.post-buttons .postlove-button .like:hover:before,
+.post-buttons .postlove-button .liked:hover:before {
+    color: #ff726c;
+}
+
+.post-buttons .postlove-button .postlove-count {
+    color: inherit !important;
+    font-family: inherit;
+    font-style: normal;
+}
+
 /* MODALS */
 .modal {
   display: none;

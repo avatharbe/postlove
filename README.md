@@ -5,7 +5,7 @@ Add a simple heart/like button to posts with AJAX toggle.
 Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanasov/postlove)). Now maintained by [Avathar.be](https://www.avathar.be).
 
 #### Version
-2.2.2
+2.2.3
 
 [![Tests](https://github.com/avatharbe/postlove/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avatharbe/postlove/actions/workflows/tests.yml)
 
@@ -16,7 +16,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - phpBB 3.3.0 or higher
 - PHP 8.1 or higher
 
-#### Features 
+#### Features
 - Heart button under every post with AJAX toggle (no page reload)
 - Outline heart for "not liked", filled heart for "liked"
 - Tooltip showing who liked the post, updated live via AJAX
@@ -34,6 +34,9 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Bulgarian, Czech, Dutch, English, French, German, Polish, Portuguese (BR), Spanish, Turkish
 
 ### Changelog
+- 2.2.3
+  - Fixed heart button displaying as a blue rectangle in pbTech and other styles that override `.button` styling (#34)
+  - Heart icon and like count in post buttons now inherit theme-appropriate colours
 - 2.2.2
   - Added `avathar.postlove.topic_likes` service for cross-extension integration (#33)
   - Other extensions can consume like counts via optional DI without querying the posts_likes table directly

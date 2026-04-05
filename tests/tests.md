@@ -175,7 +175,7 @@ Finally, `clean_posts_after` and `clean_users_after` keep the `posts_likes` tabl
 
 ### Functional Tests
 
-Functional tests run against a full live phpBB installation. They use a real browser-like HTTP client (`GuzzleHttp`) to make requests, follow redirects, parse HTML, and fill in forms. They are slower than unit tests and require the phpBB test environment to be installed and running.
+Functional tests run against a full live phpBB installation. They use a real browser-like HTTP client (`GuzzleHttp`) to make requests, follow redirects, parse HTML, and fill in forms. They are slower than unit tests and require the phpBB test environment to be installed and running — either locally (see the Test Framework section above) or via the GitHub Actions workflow.
 
 ---
 
