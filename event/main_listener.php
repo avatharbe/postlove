@@ -207,7 +207,8 @@ class main_listener implements EventSubscriberInterface
 				$post_likers = implode(', ', $likers);
 				$post_row['POST_LIKERS'] = $this->language->lang('LIKED_BY') . $post_likers;
 				$post_row['POST_LIKERS_COUNT'] = count($likers);
-				$post_row['POST_LIKE_CLASS'] = $current_user_has_liked ? 'liked' : 'like';
+				$is_anonymous = ($this->user->data['user_id'] == ANONYMOUS || !$this->auth->acl_get('u_postlove'));
+			$post_row['POST_LIKE_CLASS'] = ($current_user_has_liked || $is_anonymous) ? 'liked' : 'like';
 				$post_row['ACTION_ON_CLICK'] = $current_user_has_liked ? $this->language->lang('CLICK_TO_UNLIKE') : $this->language->lang('CLICK_TO_LIKE');
 			}
 			else
