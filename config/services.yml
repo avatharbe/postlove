@@ -61,9 +61,6 @@ services:
         class: avathar\postlove\controller\notifyhelper
         arguments:
             - '@config'
-            - '@dbal.conn'
-            - '@request'
-            - '@template'
             - '@user'
             - '@service_container'
             - '%core.root_path%'

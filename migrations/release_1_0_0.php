@@ -22,6 +22,13 @@ class release_1_0_0 extends \phpbb\db\migration\migration
 		);
 	}
 
+	public function revert_data()
+	{
+		return array(
+			array('config.remove', array('postlove_version')),
+		);
+	}
+
 	//lets create the needed table
 	public function update_schema()
 	{

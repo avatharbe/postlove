@@ -83,7 +83,6 @@ class lovelist
 	 */
 	public function base ($user_id, $page)
 	{
-		//$short = $this->request->variable('short', '');
 		$short = $this->request->is_ajax();
 		if ($short)
 		{
@@ -195,7 +194,7 @@ class lovelist
 					),
 				), 'pagination', 'page', $counter, $limit, $start);
 		}
-		$page_title = 'Post Love';
+		$page_title = $this->lang->lang('POSTLOVE_PAGE_TITLE');
 		return $this->helper->render('postlove_base.html', $page_title);
 	}
 }

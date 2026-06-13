@@ -172,8 +172,8 @@ class summary_listener implements EventSubscriberInterface
 			$result = $this->db->sql_query($sql);
 			while ($forum_data = $this->db->sql_fetchrow($result))
 			{
-				// ony add forums that are visible to this user
-				if ($forum_read_ary[$forum_id]['f_read'] == 1)
+				// only add child forums that are visible to this user
+				if ($forum_read_ary[$forum_data['forum_id']]['f_read'] == 1)
 				{
 					$forum_ary[] = $forum_data['forum_id'];
 				}
@@ -199,7 +199,7 @@ class summary_listener implements EventSubscriberInterface
 	 * @param array  $forum_ary  Forum IDs to include in the query
 	 * @param string $page_type  'index' or 'forum' (determines which config keys to use)
 	 */
-	function build_summary_array($forum_ary, $page_type)
+	protected function build_summary_array($forum_ary, $page_type)
 	{
 
 		$post_list = array();
@@ -240,7 +240,7 @@ class summary_listener implements EventSubscriberInterface
 	 * @param array  $post_list        Post IDs already shown (excluded from results)
 	 * @return array Updated post_list with newly shown post IDs appended
 	 */
-	function topposts_of_period($forum_ary, $howmany, $period_start_time, $period_name, $post_list)
+	protected function topposts_of_period($forum_ary, $howmany, $period_start_time, $period_name, $post_list)
 	{
 		if ($howmany == 0)
 		{

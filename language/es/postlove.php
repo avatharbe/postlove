@@ -65,4 +65,6 @@ $lang = array_merge($lang, array(
 	// Ver 2.1 — mensajes de error de is_enableable()
 	'POSTLOVE_PHP_VERSION_FAIL'		=> 'Esta extensión requiere PHP %1$s o superior. Está ejecutando PHP %2$s.',
 	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Esta extensión requiere phpBB %1$s o superior. Está ejecutando phpBB %2$s.',
+
+	'POSTLOVE_PAGE_TITLE'			=> 'Post Love',
 ));

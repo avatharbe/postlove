@@ -65,4 +65,6 @@ $lang = array_merge($lang, array(
 	// Ver 2.1 — is_enableable() foutmeldingen
 	'POSTLOVE_PHP_VERSION_FAIL'		=> 'Deze extensie vereist PHP %1$s of hoger. Je gebruikt PHP %2$s.',
 	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Deze extensie vereist phpBB %1$s of hoger. Je gebruikt phpBB %2$s.',
+
+	'POSTLOVE_PAGE_TITLE'			=> 'Post Love',
 ));

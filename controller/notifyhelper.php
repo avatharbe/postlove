@@ -21,20 +21,14 @@ use Symfony\Component\DependencyInjection\Container;
 class notifyhelper
 {
 	protected \phpbb\config\config $config;
-	protected \phpbb\db\driver\driver_interface $db;
-	protected \phpbb\request\request $request;
-	protected \phpbb\template\template $template;
 	protected \phpbb\user $user;
 	protected Container $phpbb_container;
 	protected string $root_path;
 	protected string $php_ext;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, Container $phpbb_container, $root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\user $user, Container $phpbb_container, $root_path, $php_ext)
 	{
 		$this->config = $config;
-		$this->db = $db;
-		$this->request = $request;
-		$this->template = $template;
 		$this->user = $user;
 		$this->phpbb_container = $phpbb_container;
 		$this->root_path = $root_path;
