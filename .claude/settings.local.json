@@ -21,7 +21,9 @@
       "Read(//Users/Andreas/Sites/avathar/forum/phpBB/styles/prosilver/template/**)",
       "Bash(find:*)",
       "Bash(grep -r postlove /Users/Andreas/Sites/avathar/forum/styles/pbwow3*/)",
-      "Bash(ls -la /Users/Andreas/Sites/avathar/forum/styles/pbwow3_*)"
+      "Bash(ls -la /Users/Andreas/Sites/avathar/forum/styles/pbwow3_*)",
+      "Bash(grep -n 'array_merge\\\\|^$lang' /Users/Andreas/Sites/avathar/forum/ext/avathar/bbguild/language/en/common.php)",
+      "Bash(grep -n 'array_merge\\\\|^$lang' /Users/Andreas/Sites/avathar/forum/ext/avathar/bbguildwow/language/en/wow.php)"
     ]
   }
 }

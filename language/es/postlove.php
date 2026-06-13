@@ -61,4 +61,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HIDE' 			=> 'Ocultar iconos y resúmenes de Me gusta',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Puede indicar que le gustan publicaciones',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Puede ver el resumen de mensajes más gustados',
+
+	// Ver 2.1 — mensajes de error de is_enableable()
+	'POSTLOVE_PHP_VERSION_FAIL'		=> 'Esta extensión requiere PHP %1$s o superior. Está ejecutando PHP %2$s.',
+	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Esta extensión requiere phpBB %1$s o superior. Está ejecutando phpBB %2$s.',
 ));

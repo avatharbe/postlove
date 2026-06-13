@@ -59,4 +59,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HIDE' 			=> 'Skrýt ikony a souhrny oblíbených',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Může označit příspěvky jako oblíbené',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Může vidět souhrn nejoblíbenějších příspěvků',
+
+	// Ver 2.1 — chybové hlášky is_enableable()
+	'POSTLOVE_PHP_VERSION_FAIL'		=> 'Toto rozšíření vyžaduje PHP %1$s nebo vyšší. Používáte PHP %2$s.',
+	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Toto rozšíření vyžaduje phpBB %1$s nebo vyšší. Používáte phpBB %2$s.',
 ));

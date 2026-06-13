@@ -62,4 +62,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HIDE'		=> 'Masquer les icônes et résumés des J\'aime',
 	'ACL_U_POSTLOVE'			=> 'Post Love : Peut aimer des messages',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love : Peut voir le résumé des messages les plus aimés',
+
+	// Ver 2.1 — messages d'erreur is_enableable()
+	'POSTLOVE_PHP_VERSION_FAIL'		=> 'Cette extension nécessite PHP %1$s ou supérieur. Vous utilisez PHP %2$s.',
+	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Cette extension nécessite phpBB %1$s ou supérieur. Vous utilisez phpBB %2$s.',
 ));

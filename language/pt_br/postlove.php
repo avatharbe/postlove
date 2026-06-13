@@ -61,4 +61,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HIDE' 			=> 'Ocultar ícones e resumos de curtidas',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Pode curtir publicações',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Pode ver o resumo das publicações mais curtidas',
+
+	// Ver 2.1 — mensagens de erro de is_enableable()
+	'POSTLOVE_PHP_VERSION_FAIL'		=> 'Esta extensão requer PHP %1$s ou superior. Você está executando PHP %2$s.',
+	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Esta extensão requer phpBB %1$s ou superior. Você está executando phpBB %2$s.',
 ));

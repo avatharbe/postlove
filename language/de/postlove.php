@@ -61,4 +61,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HIDE'		=> 'Gefällt-mir-Symbole und Zusammenfassungen ausblenden',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Kann Beiträge liken',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Kann die Zusammenfassung der beliebtesten Beiträge sehen',
+
+	// Ver 2.1 — is_enableable() Fehlermeldungen
+	'POSTLOVE_PHP_VERSION_FAIL'		=> 'Diese Erweiterung benötigt PHP %1$s oder höher. Du verwendest PHP %2$s.',
+	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Diese Erweiterung benötigt phpBB %1$s oder höher. Du verwendest phpBB %2$s.',
 ));

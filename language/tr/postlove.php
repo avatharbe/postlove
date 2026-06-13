@@ -59,4 +59,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HIDE' 			=> 'Beğeni simgelerini ve özetleri gizle',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Gönderileri beğenebilir',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: En çok beğenilen gönderi özetini görebilir',
+
+	// Ver 2.1 — is_enableable() hata mesajları
+	'POSTLOVE_PHP_VERSION_FAIL'		=> 'Bu eklenti PHP %1$s veya üstünü gerektirir. Şu anda PHP %2$s kullanıyorsunuz.',
+	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Bu eklenti phpBB %1$s veya üstünü gerektirir. Şu anda phpBB %2$s kullanıyorsunuz.',
 ));

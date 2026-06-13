@@ -61,4 +61,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HIDE' 			=> 'Скриване на иконите и обобщенията за харесвания',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Може да харесва публикации',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Може да вижда обобщението на най-харесваните публикации',
+
+	// Ver 2.1 — съобщения за грешка от is_enableable()
+	'POSTLOVE_PHP_VERSION_FAIL'		=> 'Това разширение изисква PHP %1$s или по-нов. Използвате PHP %2$s.',
+	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Това разширение изисква phpBB %1$s или по-нов. Използвате phpBB %2$s.',
 ));

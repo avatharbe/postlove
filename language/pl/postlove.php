@@ -61,4 +61,8 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_HIDE' 			=> 'Ukryj polubienia i podsumowanie',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Może polubić posty',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Może widzieć podsumowanie najpopularniejszych postów',
+
+	// Ver 2.1 — komunikaty błędów is_enableable()
+	'POSTLOVE_PHP_VERSION_FAIL'		=> 'To rozszerzenie wymaga PHP %1$s lub wyższego. Używasz PHP %2$s.',
+	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'To rozszerzenie wymaga phpBB %1$s lub wyższego. Używasz phpBB %2$s.',
 ));
