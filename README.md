@@ -5,7 +5,7 @@ Add a simple heart/like button to posts with AJAX toggle.
 Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanasov/postlove)). Now maintained by [Avathar.be](https://www.avathar.be).
 
 #### Version
-2.2.3
+2.2.4
 
 [![Tests](https://github.com/avatharbe/postlove/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avatharbe/postlove/actions/workflows/tests.yml)
 
@@ -34,6 +34,15 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Bulgarian, Czech, Dutch, English, French, German, Polish, Portuguese (BR), Spanish, Turkish
 
 ### Changelog
+- 2.2.4
+  - Security: added CSRF protection (`add_form_key` / `check_form_key`) and `{S_FORM_TOKEN}` to the ACP settings form
+  - Security: whitelisted permitted config keys in the ACP submit handler to prevent arbitrary phpBB config writes via crafted POST keys
+  - Hardcoded English error messages in `is_enableable()` and the love list page title replaced with translatable language keys
+  - Fixed child-forum `f_read` permission check in the summary listener (was incorrectly checking the parent forum's permission, exposing posts from unreadable sub-forums or hiding posts from readable ones)
+  - Fixed broken alternating row colours in the most-liked summary (template variable was `ROWCOUNT` instead of `S_ROW_COUNT`)
+  - Added missing `NO_ACTIONS_FOUND` language key (empty-state message on the love list page rendered the raw key)
+  - Added `revert_data()` so `postlove_version` config row is removed on uninstall
+  - Cleanup: removed unused notifyhelper dependencies, redundant SQL round-trip in like toggle, dead commented code; added explicit method visibility; standardized HTML5 IDs in the ACP form; refactored INSERT to use `sql_build_array()`
 - 2.2.3
   - Fixed heart button displaying as a blue rectangle in pbTech and other styles that override `.button` styling (#34)
   - Heart icon and like count in post buttons now inherit theme-appropriate colours

@@ -65,4 +65,5 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Bu eklenti phpBB %1$s veya üstünü gerektirir. Şu anda phpBB %2$s kullanıyorsunuz.',
 
 	'POSTLOVE_PAGE_TITLE'			=> 'Post Love',
+	'NO_ACTIONS_FOUND'				=> 'Hiçbir beğeni bulunamadı.',
 ));

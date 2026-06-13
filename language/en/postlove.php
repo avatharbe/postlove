@@ -67,4 +67,5 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'This extension requires phpBB %1$s or higher. You are running phpBB %2$s.',
 
 	'POSTLOVE_PAGE_TITLE'			=> 'Post Love',
+	'NO_ACTIONS_FOUND'				=> 'No like actions found.',
 ));

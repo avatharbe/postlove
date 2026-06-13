@@ -67,4 +67,5 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Това разширение изисква phpBB %1$s или по-нов. Използвате phpBB %2$s.',
 
 	'POSTLOVE_PAGE_TITLE'			=> 'Post Love',
+	'NO_ACTIONS_FOUND'				=> 'Не са намерени харесвания.',
 ));

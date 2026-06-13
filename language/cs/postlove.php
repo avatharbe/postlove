@@ -65,4 +65,5 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_PHPBB_VERSION_FAIL'	=> 'Toto rozšíření vyžaduje phpBB %1$s nebo vyšší. Používáte phpBB %2$s.',
 
 	'POSTLOVE_PAGE_TITLE'			=> 'Post Love',
+	'NO_ACTIONS_FOUND'				=> 'Nebyly nalezeny žádné akce oblíbenosti.',
 ));
