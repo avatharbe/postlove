@@ -68,7 +68,6 @@ services:
             - '@service_container'
             - '%core.root_path%'
             - '%core.php_ext%'
-            - '%tables.avathar.postlove%'
     avathar.postlove.topic_likes:
         class: avathar\postlove\service\topic_likes
         arguments:

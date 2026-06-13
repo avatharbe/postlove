@@ -94,17 +94,19 @@ class ajaxify
 					{
 						if (!$row['liketime'])
 						{
-							//so we don't have record for this user loving this post ... give some love!
-							$sql = 'SELECT topic_id, poster_id, post_subject FROM ' . POSTS_TABLE . ' WHERE post_id = ' . (int) $post;
-							$result = $this->db->sql_query($sql);
-							$row1 = $this->db->sql_fetchrow($result);
-							$this->db->sql_freeresult($result);
-
-							$sql = 'INSERT INTO ' . $this->likes_table . ' (post_id, user_id, type, liketime, liked_user_id) VALUES (' . (int) $post . ', ' . $this->user->data['user_id'] . ', \'post\', ' . time() . ', ' . $row1['poster_id'] . ')';
-							$result = $this->db->sql_query($sql);
-							$this->db->sql_freeresult($result);
+							// No record for this user loving this post yet — insert one.
+							// topic_id, post_subject and poster (aliased poster_id) are already in $row.
+							$insert_data = array(
+								'post_id'		=> (int) $post,
+								'user_id'		=> (int) $this->user->data['user_id'],
+								'type'			=> 'post',
+								'liketime'		=> time(),
+								'liked_user_id'	=> (int) $row['poster'],
+							);
+							$sql = 'INSERT INTO ' . $this->likes_table . ' ' . $this->db->sql_build_array('INSERT', $insert_data);
+							$this->db->sql_query($sql);
 							$this->cache->destroy('sql', $this->likes_table);
-							$this->notifyhelper->notify('add', $row1['topic_id'], (int) $post, $row1['post_subject'], $row1['poster_id'] , $this->user->data['user_id']);
+							$this->notifyhelper->notify('add', (int) $row['topic_id'], (int) $post, $row['post_subject'], (int) $row['poster'], (int) $this->user->data['user_id']);
 							return new \Symfony\Component\HttpFoundation\JsonResponse(array(
 								'toggle_action'	=> 'add',
 								'toggle_post'	=> $post,

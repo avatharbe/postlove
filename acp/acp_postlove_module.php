@@ -60,11 +60,48 @@ class acp_postlove_module
 
 		if ($request->is_set_post('submit'))
 		{
-			$postlove = $request->variable('poslove', array('' => ''));
-			foreach ($postlove as $key => $var)
+			if (!check_form_key('acp_postlove'))
 			{
-				$config->set($key, $var);
+				trigger_error('FORM_INVALID', E_USER_WARNING);
 			}
+
+			$posted = $request->variable('poslove', array('' => ''));
+
+			$bool_keys = array(
+				'postlove_show_likes',
+				'postlove_show_liked',
+				'postlove_author_like',
+				'postlove_show_button',
+				'postlove_summary_position',
+			);
+			foreach ($bool_keys as $key)
+			{
+				if (isset($posted[$key]))
+				{
+					$config->set($key, (int) (bool) $posted[$key]);
+				}
+			}
+
+			$count_keys = array(
+				'postlove_index_most_liked_today',
+				'postlove_index_most_liked_this_week',
+				'postlove_index_most_liked_this_month',
+				'postlove_index_most_liked_this_year',
+				'postlove_index_most_liked_ever',
+				'postlove_forum_most_liked_today',
+				'postlove_forum_most_liked_this_week',
+				'postlove_forum_most_liked_this_month',
+				'postlove_forum_most_liked_this_year',
+				'postlove_forum_most_liked_ever',
+			);
+			foreach ($count_keys as $key)
+			{
+				if (isset($posted[$key]))
+				{
+					$config->set($key, max(0, (int) $posted[$key]));
+				}
+			}
+
 			trigger_error($language->lang('CONFIRM_MESSAGE', $this->u_action));
 		}
 
@@ -168,6 +205,8 @@ class acp_postlove_module
 			$thanks_to_convert = (int) $db->sql_fetchfield('item_count');
 			$db->sql_freeresult($result);
 		}
+
+		add_form_key('acp_postlove');
 
 		$template->assign_vars(array(
 			'POST_LIKES'	=> ($config['postlove_show_likes'] == 1),

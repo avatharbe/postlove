@@ -49,7 +49,7 @@ class ext extends \phpbb\extension\base
 	* @param mixed $old_state State returned by previous call of this method
 	* @return mixed Returns false after last step, otherwise temporary state
 	*/
-	function enable_step($old_state)
+	public function enable_step($old_state)
 	{
 		switch ($old_state)
 		{
@@ -77,7 +77,7 @@ class ext extends \phpbb\extension\base
 	* @param mixed $old_state State returned by previous call of this method
 	* @return mixed Returns false after last step, otherwise temporary state
 	*/
-	function disable_step($old_state)
+	public function disable_step($old_state)
 	{
 		switch ($old_state)
 		{
@@ -105,7 +105,7 @@ class ext extends \phpbb\extension\base
 	* @param mixed $old_state State returned by previous call of this method
 	* @return mixed Returns false after last step, otherwise temporary state
 	*/
-	function purge_step($old_state)
+	public function purge_step($old_state)
 	{
 		switch ($old_state)
 		{
