@@ -62,9 +62,12 @@ class main_event extends \phpbb_database_test_case
 	* - language: mock language object for lang() string lookups
 	* - controller_helper: mock helper for route generation (disables constructor
 	*   to avoid requiring the full phpBB DI container)
+	* - phpbb_dispatcher: mock event dispatcher required by get_username_string()
 	*/
 	public function setUp(): void
 	{
+		global $phpbb_dispatcher;
+
 		parent::setUp();
 		// Setup Auth
 		$this->auth = $this->createMock('\phpbb\auth\auth');
@@ -74,6 +77,9 @@ class main_event extends \phpbb_database_test_case
 
 		// Setup DB
 		$this->db = $this->new_dbal();
+
+		$this->dispatcher = new \phpbb_mock_event_dispatcher();
+		$phpbb_dispatcher = $this->dispatcher;
 
 		// Setup template
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
