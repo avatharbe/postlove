@@ -124,7 +124,10 @@ class main_listener implements EventSubscriberInterface
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$this->post_likers[(int) $row['post_id']][(int) $row['user_id']] = $row['username'];
+			// Render through get_username_string() rather than the raw username so
+			// username-rewriting extensions (e.g. guest pseudonyms) and phpBB's own
+			// handling of guests/deleted users apply to the "liked by" list too.
+			$this->post_likers[(int) $row['post_id']][(int) $row['user_id']] = get_username_string('username', (int) $row['user_id'], $row['username']);
 		}
 		$this->db->sql_freeresult($result);
 
