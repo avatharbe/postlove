@@ -67,7 +67,7 @@ class ajaxify
 				{
 					//get state for the like
 					$sql_array = array(
-						'SELECT'	=> 'pl.liketime as liketime, pl.user_id as liker_id, p.topic_id as topic_id, p.poster_id as poster, p.post_subject as post_subject',
+						'SELECT'	=> 'pl.liketime as liketime, pl.user_id as liker_id, p.forum_id as forum_id, p.topic_id as topic_id, p.poster_id as poster, p.post_subject as post_subject',
 						'FROM'	=> array(
 							POSTS_TABLE	=> 'p',
 						),
@@ -90,46 +90,52 @@ class ajaxify
 						));
 					}
 
-					else
+					// u_postlove is a global permission and $post comes straight from the
+					// URL, so the post's forum has to be checked separately. Without this
+					// the toggle would write a like against a post in a forum the caller
+					// cannot read, notify its author, and hand back its liker list.
+					if (!$this->auth->acl_get('f_read', (int) $row['forum_id']))
 					{
-						if (!$row['liketime'])
-						{
-							// No record for this user loving this post yet — insert one.
-							// topic_id, post_subject and poster (aliased poster_id) are already in $row.
-							$insert_data = array(
-								'post_id'		=> (int) $post,
-								'user_id'		=> (int) $this->user->data['user_id'],
-								'type'			=> 'post',
-								'liketime'		=> time(),
-								'liked_user_id'	=> (int) $row['poster'],
-							);
-							$sql = 'INSERT INTO ' . $this->likes_table . ' ' . $this->db->sql_build_array('INSERT', $insert_data);
-							$this->db->sql_query($sql);
-							$this->cache->destroy('sql', $this->likes_table);
-							$this->notifyhelper->notify('add', (int) $row['topic_id'], (int) $post, $row['post_subject'], (int) $row['poster'], (int) $this->user->data['user_id']);
-							return new \Symfony\Component\HttpFoundation\JsonResponse(array(
-								'toggle_action'	=> 'add',
-								'toggle_post'	=> $post,
-								'toggle_title'	=> $this->language->lang('CLICK_TO_UNLIKE'),
-								'toggle_likers'	=> $this->get_likers_string((int) $post),
-							));
-						}
-						else
-						{
-							//so we have a record ... and the user don't love it anymore!
-							$sql = 'DELETE FROM ' . $this->likes_table . ' WHERE post_id = ' . (int) $post . ' AND user_id = ' . (int) $this->user->data['user_id'];
-							$result = $this->db->sql_query($sql);
-							$this->db->sql_freeresult($result);
-							$this->cache->destroy('sql', $this->likes_table);
-							$this->notifyhelper->notify('remove', $row['topic_id'], (int) $post, $row['post_subject'], $row['poster'], $this->user->data['user_id']);
-							return new \Symfony\Component\HttpFoundation\JsonResponse(array(
-								'toggle_action' => 'remove',
-								'toggle_post'	=> $post,
-								'toggle_likers'	=> $this->get_likers_string((int) $post),
-								'toggle_title'	=> $this->language->lang('CLICK_TO_LIKE'),
-							));
-						}
+						return new \Symfony\Component\HttpFoundation\JsonResponse(array(
+							'error'	=> 1
+						));
 					}
+
+					if (!$row['liketime'])
+					{
+						// No record for this user loving this post yet — insert one.
+						// topic_id, post_subject and poster (aliased poster_id) are already in $row.
+						$insert_data = array(
+							'post_id'		=> (int) $post,
+							'user_id'		=> (int) $this->user->data['user_id'],
+							'type'			=> 'post',
+							'liketime'		=> time(),
+							'liked_user_id'	=> (int) $row['poster'],
+						);
+						$sql = 'INSERT INTO ' . $this->likes_table . ' ' . $this->db->sql_build_array('INSERT', $insert_data);
+						$this->db->sql_query($sql);
+						$this->cache->destroy('sql', $this->likes_table);
+						$this->notifyhelper->notify('add', (int) $row['topic_id'], (int) $post, $row['post_subject'], (int) $row['poster'], (int) $this->user->data['user_id']);
+						return new \Symfony\Component\HttpFoundation\JsonResponse(array(
+							'toggle_action'	=> 'add',
+							'toggle_post'	=> $post,
+							'toggle_title'	=> $this->language->lang('CLICK_TO_UNLIKE'),
+							'toggle_likers'	=> $this->get_likers_string((int) $post),
+						));
+					}
+
+					//so we have a record ... and the user don't love it anymore!
+					$sql = 'DELETE FROM ' . $this->likes_table . ' WHERE post_id = ' . (int) $post . ' AND user_id = ' . (int) $this->user->data['user_id'];
+					$result = $this->db->sql_query($sql);
+					$this->db->sql_freeresult($result);
+					$this->cache->destroy('sql', $this->likes_table);
+					$this->notifyhelper->notify('remove', $row['topic_id'], (int) $post, $row['post_subject'], $row['poster'], $this->user->data['user_id']);
+					return new \Symfony\Component\HttpFoundation\JsonResponse(array(
+						'toggle_action' => 'remove',
+						'toggle_post'	=> $post,
+						'toggle_likers'	=> $this->get_likers_string((int) $post),
+						'toggle_title'	=> $this->language->lang('CLICK_TO_LIKE'),
+					));
 				}
 			break;
 		}

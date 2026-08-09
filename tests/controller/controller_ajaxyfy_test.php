@@ -115,17 +115,29 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	*
 	* @param int  $user_id              The acting user's ID
 	* @param bool $has_permission        Whether the user has the u_postlove ACL permission
+	* @param bool $can_read              Whether the user has f_read on the post's forum
 	* @param bool $postlove_author_like  Whether post authors are allowed to like their own posts
 	* @return \avathar\postlove\controller\ajaxify The configured controller
 	*/
-	protected function get_controller($user_id, $has_permission, $postlove_author_like)
+	protected function get_controller($user_id, $has_permission, $can_read, $postlove_author_like)
 	{
 		$this->user->data['user_id'] = $user_id;
 		$this->config['postlove_author_like'] = $postlove_author_like;
 
+		// acl_get() is called with 'u_postlove' (global) and with
+		// 'f_read' plus a forum id, so the two have to be answered separately.
 		$this->auth->method('acl_get')
-			->with('u_postlove')
-			->willReturn($has_permission);
+			->willReturnCallback(function ($opt, $forum_id = 0) use ($has_permission, $can_read) {
+				switch ($opt)
+				{
+					case 'u_postlove':
+						return $has_permission;
+					case 'f_read':
+						return $can_read;
+					default:
+						return false;
+				}
+			});
 
 		return new \avathar\postlove\controller\ajaxify(
 			$this->auth,
@@ -145,7 +157,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	* All posts in the fixture are authored by poster_id=2. The fixture has
 	* existing likes: user 3 has liked posts 1 and 2. User 1 is ANONYMOUS.
 	*
-	* Test matrix (user_id, has_permission, author_like_allowed, post_id, expected JSON):
+	* Test matrix (user_id, has_permission, can_read, author_like_allowed, post_id, expected JSON):
 	*
 	* 'no_permission'      - User 2, no u_postlove permission => error
 	*                        (permission gate rejects the request)
@@ -158,6 +170,11 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	*                        post 4 => add (author can like own post when allowed)
 	* 'like'               - User 3, post 3 (no existing like) => add
 	* 'unlike'             - User 3, post 1 (already liked in fixture) => remove
+	* 'no_forum_read'      - User 3, has u_postlove but no f_read on the post's
+	*                        forum, post 4 => error (must not write a like against
+	*                        a post in a forum the caller cannot read)
+	* 'no_forum_read_unlike' - Same, on a post already liked in the fixture => error
+	*                        (must not delete, and must not leak the liker list)
 	*
 	* @return array Test data
 	*/
@@ -167,6 +184,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 			'no_permission'	=> array(
 				2, // user_id
 				false, // has u_postlove permission
+				true, // has f_read on the post's forum
 				true, // Allow author to like
 				1, // post ID
 				'{"error":1}'
@@ -174,6 +192,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 			'anonymous'	=> array(
 				1, // user_id (ANONYMOUS)
 				true, // has u_postlove permission
+				true, // has f_read on the post's forum
 				true, // Allow author to like
 				1, // post ID
 				'{"error":1}'
@@ -181,6 +200,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 			'user_cant_like_own'	=> array(
 				2, // user_id (=poster)
 				true, // has u_postlove permission
+				true, // has f_read on the post's forum
 				false, // Allow author to like
 				4, // post ID
 				'{"error":1}'
@@ -188,6 +208,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 			'no_such_post'	=> array(
 				2, // user_id
 				true, // has u_postlove permission
+				true, // has f_read on the post's forum
 				true, // Allow author to like
 				99, // post ID (does not exist)
 				'{"error":1}'
@@ -195,6 +216,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 			'user_can_like'	=> array(
 				2, // user_id (=poster)
 				true, // has u_postlove permission
+				true, // has f_read on the post's forum
 				true, // Allow author to like
 				4, // post ID
 				'"toggle_action":"add"'
@@ -202,6 +224,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 			'like'	=> array(
 				3, // user_id
 				true, // has u_postlove permission
+				true, // has f_read on the post's forum
 				true, // Allow author to like
 				4, // post ID (no existing like from user 3)
 				'"toggle_action":"add"'
@@ -209,9 +232,26 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 			'unlike'	=> array(
 				3, // user_id
 				true, // has u_postlove permission
+				true, // has f_read on the post's forum
 				true, // Allow author to like
 				1, // post ID (user 3 already liked post 1 in fixture)
 				'"toggle_action":"remove"'
+			),
+			'no_forum_read'	=> array(
+				3, // user_id
+				true, // has u_postlove permission
+				false, // no f_read on the post's forum
+				true, // Allow author to like
+				4, // post ID (no existing like from user 3)
+				'{"error":1}'
+			),
+			'no_forum_read_unlike'	=> array(
+				3, // user_id
+				true, // has u_postlove permission
+				false, // no f_read on the post's forum
+				true, // Allow author to like
+				1, // post ID (user 3 already liked post 1 in fixture)
+				'{"error":1}'
 			),
 		);
 	}
@@ -229,9 +269,9 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	 *
 	 * @dataProvider controller_ajaxify_data
 	 */
-	public function test_ajaxify_controller($user_id, $has_permission, $postlove_author_like, $post_id, $expected)
+	public function test_ajaxify_controller($user_id, $has_permission, $can_read, $postlove_author_like, $post_id, $expected)
 	{
-		$controller = $this->get_controller($user_id, $has_permission, $postlove_author_like);
+		$controller = $this->get_controller($user_id, $has_permission, $can_read, $postlove_author_like);
 		$response = $controller->base('toggle', $post_id);
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
 		$this->assertEquals(200, $response->getStatusCode());
