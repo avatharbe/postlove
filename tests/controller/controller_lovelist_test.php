@@ -64,15 +64,32 @@ class controller_lovelist_test extends \phpbb_database_test_case
 	* - template: mock to assert assign_block_vars call count (one per visible liked post)
 	* - pagination: mock (constructor disabled); pagination logic is not under test
 	* - request: mock request object for controller dependencies
+	* - config/cache (globals): required by censor_text(), which the controller
+	*   calls on post subjects and topic titles. A real request always has these;
+	*   the cache service runs on a dummy driver so the word list resolves to the
+	*   (empty) phpbb_words table.
 	*/
 	public function setUp(): void
 	{
-		global $phpbb_root_path, $phpEx, $phpbb_dispatcher, $user, $auth;
+		global $phpbb_root_path, $phpEx, $phpbb_dispatcher, $user, $auth, $config, $cache;
 
 		parent::setUp();
 		$this->db = $this->new_dbal();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
+
+		$this->config = new \phpbb\config\config(array());
+		$config = $this->config;
+
+		$this->cache = new \phpbb\cache\service(
+			new \phpbb\cache\driver\dummy(),
+			$this->config,
+			$this->db,
+			$phpbb_dispatcher,
+			$phpbb_root_path,
+			$phpEx
+		);
+		$cache = $this->cache;
 
 		$this->user = $this->createMock('\phpbb\user', array(), array(
 			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
