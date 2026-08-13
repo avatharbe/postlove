@@ -32,6 +32,12 @@ class summary_listener implements EventSubscriberInterface
 	private const SECONDS_PER_HOUR = self::SECONDS_PER_MINUTE * 60;
 	private const SECONDS_PER_DAY = self::SECONDS_PER_HOUR * 24;
 
+	/**
+	 * How many aggregate rows to fetch per requested post. The visibility filter
+	 * runs after the aggregate, so over-fetching leaves room for posts it drops.
+	 */
+	private const AGGREGATE_OVERFETCH = 10;
+
 	protected \phpbb\auth\auth $auth;
 	protected \phpbb\config\config $config;
 	protected \phpbb\cache\service $cache;
@@ -251,36 +257,77 @@ class summary_listener implements EventSubscriberInterface
 			return $post_list;
 		}
 
-		// find all the visible, liked posts in the given period
-		$sql = 'SELECT '. USERS_TABLE . '.user_id, '. USERS_TABLE . '.username, '. USERS_TABLE . '.user_colour,
-			' . TOPICS_TABLE . '.topic_title, ' . TOPICS_TABLE . '.forum_id, ' . TOPICS_TABLE . '.topic_id,
-			most_liked_posts.post_id, most_liked_posts.post_time, ' . TOPICS_TABLE . '.topic_type,
-			' . FORUMS_TABLE . '.forum_name, sum_likes
-			FROM (
-				SELECT ' . POSTS_TABLE . '.forum_id, ' . POSTS_TABLE . '.post_id, ' . POSTS_TABLE . '.post_time, ' . POSTS_TABLE . '.topic_id, ' . POSTS_TABLE . '.poster_id, sum_likes
-				FROM(
-					SELECT post_id AS post, COUNT(*) AS sum_likes
-					FROM ' . $this->table_prefix . 'posts_likes
-						WHERE ' . $this->table_prefix . 'posts_likes.liketime > ' . $period_start_time . '
-						AND post_id NOT IN (' . implode(",", $post_list) . ')
-						GROUP BY post_id
-					) AS liked_posts
-			LEFT JOIN ' . POSTS_TABLE .   ' ON post = post_id
-			WHERE  ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ary, POSTS_TABLE .'.') . '
-			)AS most_liked_posts
-		LEFT JOIN ' . TOPICS_TABLE .  ' ON most_liked_posts.topic_id = '  . TOPICS_TABLE . '.topic_id
-		LEFT JOIN ' . USERS_TABLE .   ' ON most_liked_posts.poster_id = ' . USERS_TABLE .  '.user_id
-		LEFT JOIN ' . FORUMS_TABLE .  ' ON ' . TOPICS_TABLE . '.forum_id = '  . FORUMS_TABLE . '.forum_id
-		WHERE topic_status <> ' . ITEM_MOVED . '
-		ORDER BY sum_likes DESC, post_time DESC';
+		// Deliberately two statements rather than one nested query. phpBB's MSSQL
+		// driver applies a row limit by regex-injecting TOP into every SELECT it
+		// finds, with no count argument, so running the nested form through
+		// sql_query_limit() truncated the inner aggregate before the outer
+		// ORDER BY sum_likes DESC could apply — the panel then showed arbitrary
+		// posts rather than the most liked ones, silently, because TOP without
+		// ORDER BY in a subquery is valid T-SQL.
+		//
+		// Both queries below are a single SELECT, so nothing can be rewritten in
+		// the wrong place. Both keep the 12 hour cache: the same query runs for
+		// every user with the same forum permissions, and the cache is cleared
+		// whenever a like is added or removed.
 
-		// cache the query to reduce load on server
-		// the same query is run for all users with the same set of forum permissions
-		// Note: cache is cleared each time a user adds or removes a like in the database
-		$result = $this->db->sql_query_limit($sql, $howmany, 0, (self::SECONDS_PER_HOUR * 12) - 1);
+		// 1. Aggregate the likes for the period. One SELECT, so the row limit
+		// lands where it is meant to.
+		$sql = 'SELECT post_id AS post, COUNT(*) AS sum_likes
+			FROM ' . $this->table_prefix . 'posts_likes
+			WHERE liketime > ' . (int) $period_start_time . '
+				AND post_id NOT IN (' . implode(',', $post_list) . ')
+			GROUP BY post_id
+			ORDER BY sum_likes DESC';
+		$result = $this->db->sql_query_limit($sql, $howmany * self::AGGREGATE_OVERFETCH, 0, (self::SECONDS_PER_HOUR * 12) - 1);
+
+		$sum_likes = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$sum_likes[(int) $row['post']] = (int) $row['sum_likes'];
+		}
+		$this->db->sql_freeresult($result);
+
+		if (empty($sum_likes))
+		{
+			return $post_list;
+		}
+
+		// 2. Fetch display data for those posts, applying content visibility here.
+		// Not cached, unlike the aggregate above: this query does not reference
+		// posts_likes, so cache->destroy('sql', $likes_table) on a like toggle
+		// could never invalidate it, and it is a keyed lookup of a few post ids.
+		$sql = 'SELECT u.user_id, u.username, u.user_colour,
+			t.topic_title, t.forum_id, t.topic_id, t.topic_type,
+			p.post_id, p.post_time,
+			f.forum_name
+			FROM ' . POSTS_TABLE . ' p
+			LEFT JOIN ' . TOPICS_TABLE . ' t ON p.topic_id = t.topic_id
+			LEFT JOIN ' . USERS_TABLE . ' u ON p.poster_id = u.user_id
+			LEFT JOIN ' . FORUMS_TABLE . ' f ON t.forum_id = f.forum_id
+			WHERE ' . $this->db->sql_in_set('p.post_id', array_keys($sum_likes)) . '
+				AND ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ary, 'p.') . '
+				AND t.topic_status <> ' . ITEM_MOVED;
+		$result = $this->db->sql_query($sql);
+
+		$rowset = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$row['sum_likes'] = $sum_likes[(int) $row['post_id']];
+			$rowset[] = $row;
+		}
+		$this->db->sql_freeresult($result);
+
+		// Order and trim in PHP. The ordering has to happen after the visibility
+		// filter has removed rows, and doing it here keeps both statements to a
+		// single SELECT each.
+		usort($rowset, function ($a, $b)
+		{
+			return ($b['sum_likes'] <=> $a['sum_likes']) ?: ((int) $b['post_time'] <=> (int) $a['post_time']);
+		});
+		$rowset = array_slice($rowset, 0, $howmany);
 
 		$forums = $topic_ids = array();
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($rowset as $row)
 		{
 			$post_list[] = $row['post_id'];
 			$topic_ids[] = $row['topic_id'];
@@ -294,8 +341,7 @@ class summary_listener implements EventSubscriberInterface
 			$topic_tracking_info[$forum_id] = get_complete_topic_tracking($forum_id, $topic_id);
 		}
 
-		$this->db->sql_rowseek(0, $result);
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($rowset as $row)
 		{
 			$topic_id = $row['topic_id'];
 			$forum_id = $row['forum_id'];
@@ -331,7 +377,7 @@ class summary_listener implements EventSubscriberInterface
 
 			$this->template->assign_block_vars('most_liked_posts', $tpl_ary);
 		}
-		$this->db->sql_freeresult($result);
+
 		return $post_list;
 	}
 

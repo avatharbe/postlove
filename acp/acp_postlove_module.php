@@ -213,8 +213,8 @@ class acp_postlove_module
 				// Import thanks from the Thanks for Posts extension
 				$sql = 'INSERT INTO ' . $likes_table . ' (post_id, user_id, liked_user_id, liketime)
 					SELECT t.post_id, t.user_id, t.poster_id as liked_user_id, t.thanks_time as liketime
-					FROM ' . $phpbb_container->getParameter('core.table_prefix') . 'thanks AS t
-					LEFT JOIN ' . $likes_table . ' as l
+					FROM ' . $phpbb_container->getParameter('core.table_prefix') . 'thanks t
+					LEFT JOIN ' . $likes_table . ' l
 					ON t.user_id = l.user_id
 					AND t.post_id = l.post_id
 					WHERE l.post_id IS NULL';
@@ -234,8 +234,8 @@ class acp_postlove_module
 		if ($db_tools->sql_table_exists($thanks_table))
 		{
 			$sql = 'SELECT COUNT(t.thanks_time) as item_count
-				FROM ' . $thanks_table . ' AS t
-				LEFT JOIN ' . $likes_table . ' as l
+				FROM ' . $thanks_table . ' t
+				LEFT JOIN ' . $likes_table . ' l
 				ON t.user_id = l.user_id
 				AND t.post_id = l.post_id
 				WHERE l.post_id IS NULL';
