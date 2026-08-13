@@ -29,10 +29,12 @@ class ajaxify
 	protected \phpbb\user $user;
 	protected \phpbb\language\language $language;
 	protected \phpbb\cache\service $cache;
+	protected \phpbb\request\request $request;
 	protected notifyhelper $notifyhelper;
 	protected string $likes_table;
 
-	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language, \phpbb\cache\service $cache, \avathar\postlove\controller\notifyhelper $notifyhelper,
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, \phpbb\language\language $language, \phpbb\cache\service $cache,
+								\phpbb\request\request $request, \avathar\postlove\controller\notifyhelper $notifyhelper,
 								$likes_table)
 	{
 		$this->auth = $auth;
@@ -41,6 +43,7 @@ class ajaxify
 		$this->user = $user;
 		$this->language = $language;
 		$this->cache = $cache;
+		$this->request = $request;
 		$this->notifyhelper = $notifyhelper;
 		$this->likes_table = $likes_table;
 	}
@@ -66,6 +69,18 @@ class ajaxify
 				}
 				else
 				{
+					// The toggle is a state-changing GET with no payload, so without a
+					// link hash an <img src> on any page silently likes or unlikes the
+					// post for every logged-in visitor holding u_postlove. Checked here,
+					// ahead of the lookup, so nothing is read or written before the
+					// request is shown to have originated from the board.
+					if (!check_link_hash($this->request->variable('hash', ''), 'postlove_' . (int) $post))
+					{
+						return new \Symfony\Component\HttpFoundation\JsonResponse(array(
+							'error'	=> 1
+						));
+					}
+
 					//get state for the like
 					$sql_array = array(
 						'SELECT'	=> 'pl.liketime as liketime, pl.user_id as liker_id, p.forum_id as forum_id, p.topic_id as topic_id, p.poster_id as poster, p.post_subject as post_subject',

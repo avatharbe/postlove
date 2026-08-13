@@ -63,10 +63,13 @@ class main_event extends \phpbb_database_test_case
 	* - controller_helper: mock helper for route generation (disables constructor
 	*   to avoid requiring the full phpBB DI container)
 	* - phpbb_dispatcher: mock event dispatcher required by get_username_string()
+	*
+	* The user mock is also assigned to the $user global: modify_post_row() builds
+	* the like URL with generate_link_hash(), which reads the form salt from it.
 	*/
 	public function setUp(): void
 	{
-		global $phpbb_dispatcher;
+		global $phpbb_dispatcher, $user;
 
 		parent::setUp();
 		// Setup Auth
@@ -87,6 +90,8 @@ class main_event extends \phpbb_database_test_case
 
 		// Setup User
 		$this->user = $this->createMock('\phpbb\user');
+		$this->user->data['user_form_salt'] = 'postlove_test_salt';
+		$user = $this->user;
 
 		// Setup Language
 		$this->language = $this->createMock('\phpbb\language\language');

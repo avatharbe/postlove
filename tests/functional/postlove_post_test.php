@@ -57,15 +57,15 @@ class postlove_post_test extends postlove_base
 		//Do we see the static?
 		$class = $crawler->filter('#p' . $post2['post_id'])->filter('.postlove')->filter('span')->attr('class');
 
-		//toggle like
-		$crw1 = self::request('GET', 'app.php/postlove/toggle/' . $post2['post_id'], array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
+		//toggle like — follow the rendered link, which carries the CSRF hash
+		$crw1 = self::request('GET', $this->get_toggle_url($crawler, $post2['post_id']), array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
 
 		//reload page and test ...
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid={$this->sid}");
 		$this->assertStringContainsString('1', $crawler->filter('#p' . $post2['post_id'])->filter('.postlove')->text());
 
 		//toggle like
-		$crw1 = self::request('GET', 'app.php/postlove/toggle/' . $post2['post_id'], array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
+		$crw1 = self::request('GET', $this->get_toggle_url($crawler, $post2['post_id']), array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
 
         $this->set_button_mode(1);
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid={$this->sid}");
@@ -74,7 +74,7 @@ class postlove_post_test extends postlove_base
 		$class = $crawler->filter('#p' . $post2['post_id'])->filter('.postlove-li')->filter('span')->attr('class');
 
 		//toggle like
-		$crw1 = self::request('GET', 'app.php/postlove/toggle/' . $post2['post_id'], array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
+		$crw1 = self::request('GET', $this->get_toggle_url($crawler, $post2['post_id']), array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
 
 		//reload page and test ...
 		$crawler = self::request('GET', "viewtopic.php?t={$post['topic_id']}&sid={$this->sid}");

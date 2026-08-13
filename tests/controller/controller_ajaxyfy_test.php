@@ -71,11 +71,16 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	* - notifyhelper: mock notification helper (constructor disabled); the
 	*   controller calls it on successful like/unlike but we don't verify
 	*   notification behavior here
+	* - request: mock request; supplies the CSRF link hash, which each test sets
+	*   to the value generate_link_hash() produces for the post under test
+	*
+	* The user mock is also assigned to the $user global, because generate_link_hash()
+	* and check_link_hash() read the form salt from it.
 	*/
 	public function setUp(): void
 	{
 		parent::setUp();
-		global $phpbb_root_path, $phpEx;
+		global $phpbb_root_path, $phpEx, $user;
 
 		// Setup Auth
 		$this->auth = $this->createMock('\phpbb\auth\auth');
@@ -88,6 +93,11 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 
 		// Setup User
 		$this->user = $this->createMock('\phpbb\user');
+		$this->user->data['user_form_salt'] = 'postlove_test_salt';
+		$user = $this->user;
+
+		// Setup Request (supplies the link hash checked by the controller)
+		$this->request = $this->createMock('\phpbb\request\request');
 
 		// Setup Language
 		$this->language = $this->createMock('\phpbb\language\language');
@@ -146,6 +156,7 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 			$this->user,
 			$this->language,
 			$this->cache,
+			$this->request,
 			$this->notifyhelper,
 			'phpbb_posts_likes'
 		);
@@ -272,9 +283,46 @@ class controller_ajaxify_test extends \phpbb_database_test_case
 	public function test_ajaxify_controller($user_id, $has_permission, $can_read, $postlove_author_like, $post_id, $expected)
 	{
 		$controller = $this->get_controller($user_id, $has_permission, $can_read, $postlove_author_like);
+		// Supply the hash the board would have rendered into the link, so these
+		// cases keep testing what they are about rather than failing on CSRF.
+		$this->request->method('variable')
+			->willReturn(generate_link_hash('postlove_' . $post_id));
 		$response = $controller->base('toggle', $post_id);
 		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
 		$this->assertEquals(200, $response->getStatusCode());
 		$this->assertStringContainsString($expected, $response->getContent());
+	}
+
+	/**
+	 * Verify that a request without a valid link hash is rejected.
+	 *
+	 * The toggle is a state-changing GET with no payload, so without this check an
+	 * <img src> on any page silently likes or unlikes the post for every logged-in
+	 * visitor holding u_postlove.
+	 *
+	 * Same parameters as the 'like' case above, which expects toggle_action=add —
+	 * only the hash differs, so a failure here can only come from the hash check.
+	 */
+	public function test_ajaxify_controller_rejects_invalid_link_hash()
+	{
+		$controller = $this->get_controller(3, true, true, true);
+		$this->request->method('variable')
+			->willReturn('deadbeef');
+		$response = $controller->base('toggle', 4);
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+		$this->assertStringContainsString('{"error":1}', $response->getContent());
+	}
+
+	/**
+	 * Verify that a request with no hash at all is rejected.
+	 */
+	public function test_ajaxify_controller_rejects_missing_link_hash()
+	{
+		$controller = $this->get_controller(3, true, true, true);
+		$this->request->method('variable')
+			->willReturn('');
+		$response = $controller->base('toggle', 4);
+		$this->assertInstanceOf('\Symfony\Component\HttpFoundation\JsonResponse', $response);
+		$this->assertStringContainsString('{"error":1}', $response->getContent());
 	}
 }

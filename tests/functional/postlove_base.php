@@ -91,6 +91,27 @@ class postlove_base extends \phpbb_functional_test_case
 	}
 	
 	/**
+	* Read the like toggle URL out of a rendered post.
+	*
+	* The URL carries a CSRF link hash that only the board can produce, so tests
+	* have to follow the link the page rendered rather than construct the path
+	* themselves — which is what a browser does. Works in both display modes: the
+	* inline and the button template both put data-ajax on the anchor.
+	*
+	* @param \Symfony\Component\DomCrawler\Crawler $crawler Rendered viewtopic page
+	* @param int $post_id The post whose heart to follow
+	* @return string Board-relative URL suitable for self::request()
+	*/
+	public function get_toggle_url($crawler, $post_id)
+	{
+		$href = $crawler->filter('#p' . $post_id)->filter('a[data-ajax="toggle_love"]')->attr('href');
+
+		// Templates render the route as "./app.php/..."; self::request() wants it
+		// relative to the board root.
+		return ltrim($href, './');
+	}
+
+	/**
 	* Look up a topic ID by its title in the database.
 	*
 	* @param string $topic_title The exact topic title to search for

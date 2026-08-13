@@ -223,7 +223,13 @@ class main_listener implements EventSubscriberInterface
 				$post_row['POST_LIKE_CLASS'] = 'like';
 				$post_row['ACTION_ON_CLICK'] = $this->language->lang('CLICK_TO_LIKE');
 			}
-			$post_row['POST_LIKE_URL'] = $this->helper->route('avathar_postlove_control', array('action' => 'toggle', 'post' => $post_id));
+			// The hash is not a route placeholder, so it is appended as a query
+			// string and read back with request->variable() in the controller.
+			$post_row['POST_LIKE_URL'] = $this->helper->route('avathar_postlove_control', array(
+				'action'	=> 'toggle',
+				'post'		=> $post_id,
+				'hash'		=> generate_link_hash('postlove_' . $post_id),
+			));
 			$event['post_row'] = $post_row;
 
 			$this->template->assign_var('SHOW_BUTTON', $this->config['postlove_show_button']);
