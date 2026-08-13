@@ -34,7 +34,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Bulgarian, Czech, Dutch, English, French, German, Polish, Portuguese (BR), Spanish, Turkish
 
 ### Changelog
-See [contrib/CHANGELOG.md](contrib/CHANGELOG.md) for the full release history.
+See [CHANGELOG.md](https://github.com/avatharbe/postlove/blob/main/contrib/CHANGELOG.md) for the full release history.
 
 ### Installation
 1. [Download the latest release](https://github.com/avatharbe/postlove/releases) and unzip it.
@@ -46,9 +46,6 @@ See [contrib/CHANGELOG.md](contrib/CHANGELOG.md) for the full release history.
 1. Navigate to `ACP -> Extensions -> Post Love -> Post Love`.
 2. Configure display options (mini profile counters, button mode, summary periods).
 3. To manage who can like posts, go to `ACP -> Permissions -> User/Group permissions` and look for `Can like posts` under Misc.
-
-### Testing
-See [tests/tests.md](tests/tests.md) for details on running the test suite.
 
 ### Uninstallation
 1. Navigate in the ACP to `Customise -> Manage extensions`.

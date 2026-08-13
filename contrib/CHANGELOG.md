@@ -143,3 +143,21 @@ Entries are grouped per release by type of change: **Security**, **Added**,
 
 - Migrated CI from Travis to GitHub Actions (PHP 8.1-8.4, MySQL, MariaDB, PostgreSQL, SQLite)
 - Updated tests for PHPUnit 9 compatibility
+
+
+## Provenance
+
+Releases before 2.1.0 were made by the original author under `anavaro/postlove`
+and are listed in the [upstream repository](https://github.com/satanasov/postlove/tags).
+
+This project forked from [satanasov/postlove](https://github.com/satanasov/postlove)
+in March 2026, at the untagged `2.0.0-b3` beta that had been sitting on `master`
+since February 2021. The last upstream tag was `1.1.2`; there was never a released
+2.0.0. **2.1.0 is the first release under Avathar.be maintenance**, which is why
+this changelog starts there.
+
+Some of what is fixed below was inherited with that beta rather than introduced
+here — the missing CSRF protection on the toggle (#39) dates to the first public
+commit in 2014, and the `postlove_version` config entry (#51) and the aliased
+`UPDATE` that broke Oracle, MSSQL and SQLite (#42) both arrived with the 2.0.0
+beta work.
