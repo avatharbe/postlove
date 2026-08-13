@@ -31,6 +31,7 @@ class lovelist
 	protected \phpbb\controller\helper $helper;
 	protected \phpbb\db\driver\driver_interface $db;
 	protected \phpbb\auth\auth $auth;
+	protected \phpbb\content_visibility $content_visibility;
 	protected \phpbb\user_loader $user_loader;
 	protected \phpbb\template\template $template;
 	protected \phpbb\pagination $pagination;
@@ -45,6 +46,7 @@ class lovelist
 	 * @param \phpbb\controller\helper           $helper     Route/render helper
 	 * @param \phpbb\db\driver\driver_interface  $db         Database
 	 * @param \phpbb\auth\auth                   $auth       Permissions (f_read check)
+	 * @param \phpbb\content_visibility          $content_visibility Post visibility (soft delete / approval)
 	 * @param \phpbb\user_loader                 $user_loader Username loader for display
 	 * @param \phpbb\template\template           $template   Template engine
 	 * @param \phpbb\pagination                  $pagination Pagination helper
@@ -53,7 +55,8 @@ class lovelist
 	 * @param string                             $root_path  phpBB root path
 	 * @param string                             $php_ext    PHP file extension
 	 */
-	public function __construct(\phpbb\user $user, \phpbb\language\language $language, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\auth\auth $auth, \phpbb\user_loader $user_loader,
+	public function __construct(\phpbb\user $user, \phpbb\language\language $language, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\auth\auth $auth,
+	\phpbb\content_visibility $content_visibility, \phpbb\user_loader $user_loader,
 	\phpbb\template\template $template, \phpbb\pagination $pagination, \phpbb\request\request $request,
 	$likes_table, $root_path, $php_ext)
 	{
@@ -62,6 +65,7 @@ class lovelist
 		$this->helper = $helper;
 		$this->db = $db;
 		$this->auth = $auth;
+		$this->content_visibility = $content_visibility;
 		$this->user_loader = $user_loader;
 		$this->template = $template;
 		$this->pagination = $pagination;
@@ -122,7 +126,12 @@ class lovelist
 			return $this->helper->render('postlove_base.html', $this->lang->lang('POSTLOVE_PAGE_TITLE'));
 		}
 
-		$sql_where = 'p.topic_id = t.topic_id AND (p.poster_id = ' . (int) $user_id . ' OR pl.user_id = ' . (int) $user_id . ') AND pl.user_id > 0 AND ' . $this->db->sql_in_set('p.forum_id', $forum_ids);
+		// f_read grants access to the forum, not to items the board has hidden
+		// inside it. Without the visibility clause this page listed likes on
+		// soft-deleted and unapproved posts — subject, topic title, both usernames
+		// and a working link — to anyone, including guests. Feeds both the count
+		// and the results query below, so pagination is covered too.
+		$sql_where = 'p.topic_id = t.topic_id AND (p.poster_id = ' . (int) $user_id . ' OR pl.user_id = ' . (int) $user_id . ') AND pl.user_id > 0 AND ' . $this->db->sql_in_set('p.forum_id', $forum_ids) . ' AND ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ids, 'p.');
 
 		// Count total results for pagination
 		$sql_array = array(

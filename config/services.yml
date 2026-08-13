@@ -50,6 +50,7 @@ services:
             - '@controller.helper'
             - '@dbal.conn'
             - '@auth'
+            - '@content.visibility'
             - '@user_loader'
             - '@template'
             - '@pagination'

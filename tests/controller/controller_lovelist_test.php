@@ -115,6 +115,15 @@ class controller_lovelist_test extends \phpbb_database_test_case
 		$this->auth = $this->createMock('\phpbb\auth\auth');
 		$auth = $this->auth;
 
+		// The fixture's phpbb_posts rows carry no post_visibility column, so a real
+		// visibility clause would exclude every one of them. Return a tautology so
+		// these tests keep exercising what they are about — the f_read filtering.
+		$this->content_visibility = $this->getMockBuilder('\phpbb\content_visibility')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->content_visibility->method('get_forums_visibility_sql')
+			->willReturn('1 = 1');
+
 		$this->user_loader = new \phpbb\user_loader($this->db, $phpbb_root_path, $phpEx, 'phpbb_users');
 		// Mock the template
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
@@ -169,6 +178,7 @@ class controller_lovelist_test extends \phpbb_database_test_case
 			$this->controller_helper,
 			$this->db,
 			$this->auth,
+			$this->content_visibility,
 			$this->user_loader,
 			$this->template,
 			$this->pagination,
