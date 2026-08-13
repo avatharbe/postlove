@@ -91,7 +91,10 @@ class lovelist
 			));
 		}
 		$limit = 50;
-		$start = ($page - 1) * $limit;
+		// Cast here as well as constraining page to \d+ in routing.yml: the route
+		// requirement stops a bad value matching, the cast protects this method if
+		// it is ever called directly or from another route.
+		$start = (max(1, (int) $page) - 1) * $limit;
 
 		// Add lang
 		$this->lang->add_lang(array('postlove'), 'avathar/postlove');

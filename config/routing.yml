@@ -15,3 +15,4 @@ avathar_postlove_list_page:
     defaults: { _controller: avathar.postlove.lovelist:base }
     requirements:
         user_id: \d+
+        page: \d+
