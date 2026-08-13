@@ -289,7 +289,7 @@ class main_event extends \phpbb_database_test_case
 		$this->set_listener();
 		$this->config['postlove_show_likes'] = 1;
 		$this->config['postlove_show_liked'] = 1;
-		$this->user->data = ['user_id' => 5];
+		$this->user->data = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt'];
 
 		$this->listener->prefetch_likes(new \phpbb\event\data([
 			'post_list' => [1, 2, 3],
@@ -337,7 +337,7 @@ class main_event extends \phpbb_database_test_case
 		$this->config['postlove_show_liked']  = 0;
 		$this->config['postlove_show_button'] = 0;
 		$this->config['postlove_author_like'] = 1;
-		$this->user->data           = ['user_id' => 5];
+		$this->user->data           = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt'];
 		$this->user->profile_fields = [];
 
 		$this->language->method('lang')->willReturnArgument(0);
@@ -374,7 +374,7 @@ class main_event extends \phpbb_database_test_case
 		$this->config['postlove_show_liked']  = 0;
 		$this->config['postlove_show_button'] = 0;
 		$this->config['postlove_author_like'] = 1;
-		$this->user->data           = ['user_id' => 2]; // user 2 liked post 1 in fixture
+		$this->user->data           = ['user_id' => 2, 'user_form_salt' => 'postlove_test_salt']; // user 2 liked post 1 in fixture
 		$this->user->profile_fields = [];
 
 		$this->language->method('lang')->willReturnArgument(0);
@@ -409,7 +409,7 @@ class main_event extends \phpbb_database_test_case
 		$this->config['postlove_show_liked']  = 0;
 		$this->config['postlove_show_button'] = 0;
 		$this->config['postlove_author_like'] = 1;
-		$this->user->data           = ['user_id' => 5];
+		$this->user->data           = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt'];
 		$this->user->profile_fields = [];
 
 		$this->language->method('lang')->willReturnArgument(0);
@@ -446,7 +446,7 @@ class main_event extends \phpbb_database_test_case
 		$this->config['postlove_show_liked']  = 0;
 		$this->config['postlove_show_button'] = 0;
 		$this->config['postlove_author_like'] = 0; // self-like disabled
-		$this->user->data           = ['user_id' => 3]; // same as poster_id
+		$this->user->data           = ['user_id' => 3, 'user_form_salt' => 'postlove_test_salt']; // same as poster_id
 		$this->user->profile_fields = [];
 
 		$this->language->method('lang')->willReturnArgument(0);
