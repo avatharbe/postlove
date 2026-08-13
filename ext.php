@@ -15,6 +15,13 @@ namespace avathar\postlove;
 
 class ext extends \phpbb\extension\base
 {
+	/**
+	* Canonical extension version. Kept here rather than in phpbb_config, matching
+	* the convention in the sibling extensions (recenttopics, bbguild). Bump this
+	* together with composer.json and the README changelog.
+	*/
+	const POSTLOVE_VERSION = '2.2.5';
+
 	const MIN_PHP_VERSION = '8.1.0';
 	const MIN_PHPBB_VERSION = '3.3.0';
 

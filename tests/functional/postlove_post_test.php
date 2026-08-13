@@ -22,8 +22,6 @@ namespace avathar\postlove\tests\functional;
 */
 class postlove_post_test extends postlove_base
 {
-	protected $post2 = array();
-
 	/**
 	* Test the full like/unlike cycle in both display modes (inline and button).
 	*
@@ -35,6 +33,13 @@ class postlove_post_test extends postlove_base
 	* 5. Switch to button mode (button_mode=1) and verify the .postlove-li span exists
 	* 6. Toggle like again, reload, and verify "1" appears in .postlove-count
 	* 7. Log out
+	*
+	* Leaves exactly one like on the reply post, which the tests below rely on.
+	* The ids of the content created here are returned rather than assumed: they
+	* are assigned by the database, so they are not guaranteed to come out as
+	* topic 2 / post 3 on every driver.
+	*
+	* @return array The topic_id and post_id created by this test
 	*/
 	public function test_post()
 	{
@@ -76,26 +81,35 @@ class postlove_post_test extends postlove_base
 		$this->assertStringContainsString('1', $crawler->filter('#p' . $post2['post_id'])->filter('.postlove-count')->text());
 
 		$this->logout();
+
+		return array(
+			'topic_id'	=> $post['topic_id'],
+			'post_id'	=> $post2['post_id'],
+		);
 	}
 
 	/**
 	* Test that guests (not logged in) can see like counts on posts.
 	*
 	* Verifies in both inline mode and button mode that the like count
-	* from test_post (which left a like on post 3) is visible to an
+	* from test_post (which left a like on the reply post) is visible to an
 	* unauthenticated visitor.
+	*
+	* @depends test_post
+	*
+	* @param array $ids The topic_id and post_id created by test_post
 	*/
-	public function test_guest_see_loves()
+	public function test_guest_see_loves(array $ids)
 	{
         $this->set_button_mode(0);
-		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
-		$this->assertStringContainsString('1', $crawler->filter('#p3')->filter('.postlove')->text());
+		$crawler = self::request('GET', "viewtopic.php?t={$ids['topic_id']}&sid={$this->sid}");
+		$this->assertStringContainsString('1', $crawler->filter('#p' . $ids['post_id'])->filter('.postlove')->text());
 
         $this->set_button_mode(1);
 
 		//reload page and test ...
-		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
-		$this->assertStringContainsString('1', $crawler->filter('#p3')->filter('.postlove-count')->text());
+		$crawler = self::request('GET', "viewtopic.php?t={$ids['topic_id']}&sid={$this->sid}");
+		$this->assertStringContainsString('1', $crawler->filter('#p' . $ids['post_id'])->filter('.postlove-count')->text());
 	}
 	
 	/**
@@ -105,15 +119,19 @@ class postlove_post_test extends postlove_base
 	* then verifies the like count remains unchanged (still "1").
 	* The controller should reject the request because the guest user
 	* does not have the u_postlove permission (guests are blocked since 2.2.0).
+	*
+	* @depends test_post
+	*
+	* @param array $ids The topic_id and post_id created by test_post
 	*/
-	public function test_guests_cannot_like()
+	public function test_guests_cannot_like(array $ids)
 	{
-		$crw1 = self::request('GET', 'app.php/postlove/toggle/3', array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
+		$crw1 = self::request('GET', 'app.php/postlove/toggle/' . $ids['post_id'], array(), array(), array('CONTENT_TYPE'	=> 'application/json'));
 
         $this->set_button_mode(0);
-		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
-		$this->assertStringContainsString('1', $crawler->filter('#p3')->filter('.postlove')->text());
-		
+		$crawler = self::request('GET', "viewtopic.php?t={$ids['topic_id']}&sid={$this->sid}");
+		$this->assertStringContainsString('1', $crawler->filter('#p' . $ids['post_id'])->filter('.postlove')->text());
+
 	}
 	/**
 	* Test the ACP toggles for showing likes given/received counters on profiles.
@@ -128,11 +146,15 @@ class postlove_post_test extends postlove_base
 	*
 	* Each step logs into ACP, submits the settings form, then verifies
 	* the viewtopic page reflects the change in the post profile area.
+	*
+	* @depends test_post
+	*
+	* @param array $ids The topic_id and post_id created by test_post
 	*/
-	public function test_show_likes_given()
+	public function test_show_likes_given(array $ids)
 	{
 		$this->login();
-		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
+		$crawler = self::request('GET', "viewtopic.php?t={$ids['topic_id']}&sid={$this->sid}");
 		$this->assertEquals(0,  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.liked_info')->count());
 		$this->assertEquals(0,  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.like_info')->count());
 		$this->logout();
@@ -153,7 +175,7 @@ class postlove_post_test extends postlove_base
 		$this->logout();
 
 		$this->login();
-		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
+		$crawler = self::request('GET', "viewtopic.php?t={$ids['topic_id']}&sid={$this->sid}");
 		$this->assertStringContainsString('1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.liked_info')->parents()->text());
 		$this->assertEquals(0,  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.like_info')->count());
 		$this->logout();
@@ -174,7 +196,7 @@ class postlove_post_test extends postlove_base
 		$this->logout();
 
 		$this->login();
-		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
+		$crawler = self::request('GET', "viewtopic.php?t={$ids['topic_id']}&sid={$this->sid}");
 		$this->assertStringContainsString('1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.like_info')->parents()->text());
 		$this->assertEquals(0,  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.liked_info')->count());
 		$this->logout();
@@ -195,7 +217,7 @@ class postlove_post_test extends postlove_base
 		$this->logout();
 
 		$this->login();
-		$crawler = self::request('GET', "viewtopic.php?t=2&sid={$this->sid}");
+		$crawler = self::request('GET', "viewtopic.php?t={$ids['topic_id']}&sid={$this->sid}");
 		$this->assertStringContainsString('1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.like_info')->parents()->text());
 		$this->assertStringContainsString('1',  $crawler->filter('.post')->eq(0)->filter('.inner')->filter('.postprofile')->filter('.profile-custom-field')->filter('.liked_info')->parents()->text());
 		$this->logout();
@@ -204,8 +226,11 @@ class postlove_post_test extends postlove_base
 	/**
 	* Test the love list page (app.php/postlove/{user_id}).
 	*
-	* Logs in, loads the love list for user 2, and verifies that exactly
-	* one liked post appears in the list (rendered as a topiclist item).
+	* Logs in, loads the love list for user 2 (the admin account created by the
+	* test installer, so its id is fixed), and verifies that exactly one liked
+	* post appears in the list — the like left behind by test_post.
+	*
+	* @depends test_post
 	*/
 	public function test_show_list()
 	{

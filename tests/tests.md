@@ -209,6 +209,8 @@ The tests switch between these modes to confirm both render correctly.
 | 7.4 | `test_show_likes_given` | Exercises all 4 combinations of the "show likes given" and "show likes received" ACP toggles (off/off, on/off, off/on, on/on). For each, saves the ACP form, loads a topic, and checks whether the `.like_info` and `.liked_info` elements appear in the post profile area. |
 | 7.5 | `test_show_list` | Loads the love list page for user 2 (`/postlove/2`) and confirms exactly one liked post appears in the list. |
 
+Tests 7.2–7.5 all consume the topic and the like created by 7.1, so they declare `@depends test_post`. 7.1 returns the `topic_id` and `post_id` it created and PHPUnit passes them along, rather than each test assuming the database handed out topic 2 and post 3. If 7.1 fails, the rest are reported as skipped instead of erroring on markup that was never rendered.
+
 **Helper:** `tests/functional/CssParser.php` — parses CSS files to support button mode display assertions.
 **Base class:** `tests/functional/postlove_base.php` — provides shared helper methods used by both functional test classes: `set_button_mode()`, `show_likes()`, `show_liked()`, and `get_topic_id()`.
 

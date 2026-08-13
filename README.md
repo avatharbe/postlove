@@ -5,7 +5,7 @@ Add a simple heart/like button to posts with AJAX toggle.
 Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanasov/postlove)). Now maintained by [Avathar.be](https://www.avathar.be).
 
 #### Version
-2.2.4
+2.2.5
 
 [![Tests](https://github.com/avatharbe/postlove/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avatharbe/postlove/actions/workflows/tests.yml)
 
@@ -34,6 +34,13 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Bulgarian, Czech, Dutch, English, French, German, Polish, Portuguese (BR), Spanish, Turkish
 
 ### Changelog
+- 2.2.5
+  - Fixed likes surviving a user deletion with a `liked_user_id` pointing at the removed account (#54) — when posts are retained, phpBB re-attributes them to the Anonymous user and the like rows now follow, so counts on those posts and the "likes given" totals of the users who liked them stay intact
+  - ACP cleanup tool re-syncs orphaned `liked_user_id` values from the post author, repairing boards where users were deleted before the fix
+  - Fixed duplicate `id` attributes in the most-liked summary loop (#52) — the responsive rules now apply to every row instead of only the first, and `<th align="left">` is replaced with CSS
+  - Removed the obsolete `postlove_version` config entry, inherited from the original extension and never read; the canonical version now lives in `ext::POSTLOVE_VERSION` (#51)
+  - Fixed README linking a non-existent testing document and listing ACP settings that no longer exist (#53); documented the empty version-marker migrations
+  - Tests: functional tests no longer assume the database hands out topic 2 / post 3, which made them fail unpredictably on PostgreSQL
 - 2.2.4
   - Security: added CSRF protection (`add_form_key` / `check_form_key`) and `{S_FORM_TOKEN}` to the ACP settings form
   - Security: whitelisted permitted config keys in the ACP submit handler to prevent arbitrary phpBB config writes via crafted POST keys
