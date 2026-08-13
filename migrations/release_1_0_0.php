@@ -22,12 +22,9 @@ class release_1_0_0 extends \phpbb\db\migration\migration
 		);
 	}
 
-	public function revert_data()
-	{
-		return array(
-			array('config.remove', array('postlove_version')),
-		);
-	}
+	// No revert_data(): the migrator already reverses update_data() on purge, so
+	// postlove_version is removed automatically. revert_schema() below is still
+	// required — schema steps are not reversed automatically.
 
 	//lets create the needed table
 	public function update_schema()

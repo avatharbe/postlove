@@ -37,22 +37,6 @@ class postlove_base extends \phpbb_functional_test_case
 	}
 
 	/**
-	* Enable CSS usage for the postlove extension (postlove_use_css = 1).
-	*/
-	public function force_allow_postlove()
-	{
-		$this->get_db();
-
-		$sql = "UPDATE phpbb_config
-			SET config_value = 1
-			WHERE config_name = 'postlove_use_css'";
-
-		$this->db->sql_query($sql);
-
-		$this->purge_cache();
-	}
-
-	/**
 	* Enable the "show likes received" counter on user profiles
 	* (postlove_show_likes = 1).
 	*/

@@ -39,21 +39,10 @@ class release_1_2_0 extends \phpbb\db\migration\migration
 		);
 	}
 
-
-	public function revert_data()
-	{
-		return array(
-			array('config.remove', array('postlove_index_most_liked_today')),
-			array('config.remove', array('postlove_index_most_liked_this_week')),
-			array('config.remove', array('postlove_index_most_liked_this_month')),
-			array('config.remove', array('postlove_index_most_liked_this_year')),
-			array('config.remove', array('postlove_index_most_liked_ever')),
-			array('config.remove', array('postlove_forum_most_liked_today')),
-			array('config.remove', array('postlove_forum_most_liked_this_week')),
-			array('config.remove', array('postlove_forum_most_liked_this_month')),
-			array('config.remove', array('postlove_forum_most_liked_this_year')),
-			array('config.remove', array('postlove_forum_most_liked_ever')),
-			array('config.remove', array('postlove_summary_query_cache_seconds')),
-		);
-	}
+	// No revert_data(): the migrator already reverses update_data() on purge
+	// (\phpbb\db\migrator::revert() merges helper::reverse_update_data() with
+	// whatever revert_data() returns), so every key added above is removed
+	// automatically. The explicit list that used to live here duplicated those
+	// ten removals and added an eleventh for postlove_summary_query_cache_seconds,
+	// a key no migration has ever added.
 }
