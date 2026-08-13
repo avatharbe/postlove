@@ -112,10 +112,14 @@ class lovelist
 		}
 		$forum_ids = array_unique($forum_ary);
 
-		// No forums with f_read
+		// No forums with f_read. This is a legitimate state — a guest on a board
+		// where every forum requires login reaches it — so render the page and let
+		// the template show its NO_ACTIONS_FOUND empty state. Returning an int left
+		// the kernel with nothing to render and produced an HTTP 500 carrying an
+		// untranslated framework string.
 		if (!count($forum_ids))
 		{
-			return -1;
+			return $this->helper->render('postlove_base.html', $this->lang->lang('POSTLOVE_PAGE_TITLE'));
 		}
 
 		$sql_where = 'p.topic_id = t.topic_id AND (p.poster_id = ' . (int) $user_id . ' OR pl.user_id = ' . (int) $user_id . ') AND pl.user_id > 0 AND ' . $this->db->sql_in_set('p.forum_id', $forum_ids);

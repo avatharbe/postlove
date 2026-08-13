@@ -50,7 +50,8 @@ class ajaxify
 	 *
 	 * @param string $action The action to perform ('toggle')
 	 * @param int    $post   The post ID to like/unlike
-	 * @return \Symfony\Component\HttpFoundation\JsonResponse|int
+	 * @return \Symfony\Component\HttpFoundation\JsonResponse
+	 * @throws \phpbb\exception\http_exception 404 if $action is not a known action
 	 */
 	public function base ($action, $post)
 	{
@@ -139,8 +140,11 @@ class ajaxify
 				}
 			break;
 		}
-		// Fallback for unhandled actions
-		return 0;
+		// 'toggle' is the only known action, but {action} carries no route
+		// requirement, so any segment reaches this method. Returning an int here
+		// left the kernel with nothing to render — "The controller must return a
+		// response (0 given)", an untranslated framework string served as HTTP 500.
+		throw new \phpbb\exception\http_exception(404, 'PAGE_NOT_FOUND');
 	}
 
 	/**
