@@ -198,7 +198,10 @@ class main_listener implements EventSubscriberInterface
 	public function modify_post_row($event)
 	{
 		$this->user->get_profile_fields($this->user->data['user_id']);
-		if (!(isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']))
+		$postlove_hidden = isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide'];
+		$this->template->assign_var('S_POSTLOVE_HIDDEN', $postlove_hidden);
+
+		if (!$postlove_hidden)
 		{
 			$post_id = (int) $event['row']['post_id'];
 			$likers = $this->post_likers[$post_id] ?? [];
