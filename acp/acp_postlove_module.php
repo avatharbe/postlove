@@ -160,6 +160,45 @@ class acp_postlove_module
 					$sql = 'DELETE FROM ' . $likes_table . ' WHERE ' . $db->sql_in_set('user_id', $delete_user_likes);
 					$db->sql_query($sql);
 				}
+
+				// Re-point post loves whose liked_user_id references a deleted user.
+				// liked_user_id is a denormalized copy of posts.poster_id, so it is
+				// repaired from the post rather than deleted: the post itself still
+				// exists (rows referencing deleted posts were dropped above) and phpBB
+				// re-attributes retained posts to the Anonymous user. This also fixes
+				// any legacy rows left at 0 by the 2.0.0 migration.
+				$sql_ary = array(
+					'SELECT'	=> 'DISTINCT pl.liked_user_id as liked_user_id, p.poster_id as poster_id',
+					'FROM'		=> array($likes_table => 'pl'),
+					'LEFT_JOIN'	=> array(
+						array(
+							'FROM'	=> array(USERS_TABLE => 'u'),
+							'ON'	=> 'pl.liked_user_id = u.user_id'
+						),
+						array(
+							'FROM'	=> array(POSTS_TABLE => 'p'),
+							'ON'	=> 'pl.post_id = p.post_id'
+						)
+					),
+					'WHERE'	=> 'u.user_id IS NULL AND p.post_id IS NOT NULL'
+				);
+				$sql = $db->sql_build_query('SELECT', $sql_ary);
+				$result = $db->sql_query($sql);
+				$repoint_liked_users = array();
+				while ($row = $db->sql_fetchrow($result))
+				{
+					// Group the orphaned ids by the author they should point at, so
+					// each distinct author costs one UPDATE instead of one per row.
+					$repoint_liked_users[(int) $row['poster_id']][] = (int) $row['liked_user_id'];
+				}
+				$db->sql_freeresult($result);
+				foreach ($repoint_liked_users as $poster_id => $liked_user_ids)
+				{
+					$sql = 'UPDATE ' . $likes_table . '
+						SET liked_user_id = ' . (int) $poster_id . '
+						WHERE ' . $db->sql_in_set('liked_user_id', $liked_user_ids);
+					$db->sql_query($sql);
+				}
 			}
 			else
 			{

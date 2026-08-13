@@ -221,6 +221,54 @@ class main_event extends \phpbb_database_test_case
 	}
 
 	/**
+	* Count rows in phpbb_posts_likes whose liked_user_id matches the given user.
+	*/
+	protected function count_likes_received(int $liked_user_id): int
+	{
+		$result = $this->db->sql_query('SELECT COUNT(*) AS cnt FROM phpbb_posts_likes WHERE liked_user_id = ' . $liked_user_id);
+		$cnt = (int) $this->db->sql_fetchfield('cnt');
+		$this->db->sql_freeresult($result);
+		return $cnt;
+	}
+
+	/**
+	* Verify that clean_users_after leaves no like pointing at a deleted user via
+	* liked_user_id, without discarding the likes themselves.
+	*
+	* Every fixture row has liked_user_id=3 (user 3 authored posts 1-3). Deleting
+	* user 3 removes the 3 likes user 3 gave, but the 3 likes given by users 2 and
+	* 4 are on posts that survive under mode 'retain' — phpBB re-attributes those
+	* posts to Anonymous, so their liked_user_id must follow rather than be dropped.
+	*/
+	public function test_clean_users_after_repoints_liked_user_id(): void
+	{
+		$this->set_listener();
+		$this->assertSame(6, $this->count_likes_received(3));
+
+		$event = new \phpbb\event\data(array('user_ids' => array(3)));
+		$this->listener->clean_users_after($event);
+
+		$this->assertSame(3, $this->count_likes(), 'likes on the retained posts must survive');
+		$this->assertSame(0, $this->count_likes_received(3), 'no like may reference the deleted user');
+		$this->assertSame(3, $this->count_likes_received(ANONYMOUS), 'received likes move to the Anonymous user');
+	}
+
+	/**
+	* Verify that clean_users_after leaves liked_user_id alone for users that were
+	* not deleted.
+	*/
+	public function test_clean_users_after_keeps_other_authors(): void
+	{
+		$this->set_listener();
+		$event = new \phpbb\event\data(array('user_ids' => array(4)));
+		$this->listener->clean_users_after($event);
+
+		$this->assertSame(5, $this->count_likes());
+		$this->assertSame(5, $this->count_likes_received(3), 'author 3 keeps the likes on their posts');
+		$this->assertSame(0, $this->count_likes_received(ANONYMOUS));
+	}
+
+	/**
 	* Verify that prefetch_likes populates the three internal caches via batch queries.
 	*
 	* Fixture phpbb_posts_likes:

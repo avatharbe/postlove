@@ -292,13 +292,29 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	/**
-	 * Remove likes given by permanently deleted users.
+	 * Clean up likes when users are permanently deleted.
+	 *
+	 * Likes *given* by the deleted users are removed outright.
+	 *
+	 * Likes *received* cannot simply be dropped. liked_user_id is a denormalized
+	 * copy of posts.poster_id, and phpBB keeps that column valid in both deletion
+	 * modes: with 'remove' the posts are deleted (core.delete_posts_after already
+	 * removed the matching like rows, so the UPDATE below matches nothing), and
+	 * with 'retain' the posts survive and are re-attributed to the Anonymous user.
+	 * Mirroring that UPDATE leaves no row pointing at a user_id that no longer
+	 * exists, while keeping the like counts on those surviving posts — and the
+	 * "likes given" totals of the users who gave them — intact.
 	 *
 	 * @param \phpbb\event\data $event The core.delete_user_after event
 	 */
 	public function clean_users_after($event)
 	{
 		$sql = 'DELETE FROM ' . $this->loves_table . ' WHERE ' . $this->db->sql_in_set('user_id', $event['user_ids']);
+		$this->db->sql_query($sql);
+
+		$sql = 'UPDATE ' . $this->loves_table . '
+			SET liked_user_id = ' . ANONYMOUS . '
+			WHERE ' . $this->db->sql_in_set('liked_user_id', $event['user_ids']);
 		$this->db->sql_query($sql);
 	}
 }
