@@ -38,6 +38,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
   - Fixed likes surviving a user deletion with a `liked_user_id` pointing at the removed account (#54) — when posts are retained, phpBB re-attributes them to the Anonymous user and the like rows now follow, so counts on those posts and the "likes given" totals of the users who liked them stay intact
   - ACP cleanup tool re-syncs orphaned `liked_user_id` values from the post author, repairing boards where users were deleted before the fix
   - Fixed duplicate `id` attributes in the most-liked summary loop (#52) — the responsive rules now apply to every row instead of only the first, and `<th align="left">` is replaced with CSS
+  - Unliking a post no longer deletes the like notification another user created — the delete was scoped to the post id only, so it removed every notification for that post regardless of who caused it (#48)
   - Fixed a PHP warning on forum pages whose sub-forum has no ACL rows for the viewer — `acl_getf()` omits those forums entirely, and the summary listener indexed into the missing key (#49)
   - Love list now runs post subjects and topic titles through the board word censor (#50)
   - Removed two obsolete config entries inherited from the original extension that nothing ever read — `postlove_version` and `postlove_installed_theme` (#51); the canonical version now lives in `ext::POSTLOVE_VERSION`

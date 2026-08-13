@@ -65,7 +65,14 @@ class notifyhelper
 				break;
 				case 'remove':
 					$notifications = $phpbb_notifications->get_item_type_class('avathar.postlove.notification.type.postlove');
-					$phpbb_notifications->delete_notifications('avathar.postlove.notification.type.postlove', $notifications->get_item_id($notification_data));
+					// Scope the delete to this liker. get_item_id() is the post id, so
+					// without the parent id (the liker) phpBB deletes every notification
+					// for the post — including one another user's like created.
+					$phpbb_notifications->delete_notifications(
+						'avathar.postlove.notification.type.postlove',
+						$notifications->get_item_id($notification_data),
+						$notifications->get_item_parent_id($notification_data)
+					);
 				break;
 			}
 		}
