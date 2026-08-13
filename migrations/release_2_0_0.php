@@ -112,9 +112,12 @@ class release_2_0_0 extends \phpbb\db\migration\profilefield_base_migration
 		{
 			$rows_done++;
 
-			$sql = 'UPDATE ' . $this->table_prefix . 'posts_likes AS pl
+			// No alias: Oracle rejects AS before a table alias, MSSQL wants
+			// UPDATE alias FROM table AS alias, and SQLite accepts no alias in
+			// UPDATE at all. Unaliased column names work everywhere.
+			$sql = 'UPDATE ' . $this->table_prefix . 'posts_likes
 				SET timestamp = ' . $row['liketime'] . '
-				WHERE pl.post_id = ' . (int) $row['post_id'] . ' AND pl.user_id = ' . (int) $row['user_id'];
+				WHERE post_id = ' . (int) $row['post_id'] . ' AND user_id = ' . (int) $row['user_id'];
 			$this->db->sql_query($sql);
 		}
 		$this->db->sql_freeresult($result);
