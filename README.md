@@ -10,7 +10,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 [![Tests](https://github.com/avatharbe/postlove/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/avatharbe/postlove/actions/workflows/tests.yml)
 
 #### Support
-- [Support forum](https://www.avathar.be/forum)
+- [Support forum](https://www.avathar.be/forum/viewforum.php?f=110)
 
 #### Requirements
 - phpBB 3.3.0 or higher
