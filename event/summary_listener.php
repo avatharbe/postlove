@@ -266,9 +266,9 @@ class summary_listener implements EventSubscriberInterface
 		// ORDER BY in a subquery is valid T-SQL.
 		//
 		// Both queries below are a single SELECT, so nothing can be rewritten in
-		// the wrong place. Both keep the 12 hour cache: the same query runs for
-		// every user with the same forum permissions, and the cache is cleared
-		// whenever a like is added or removed.
+		// the wrong place. The aggregate keeps the 12 hour cache — the same query
+		// runs for every user with the same forum permissions, and the cache is
+		// cleared whenever a like is added or removed.
 
 		// 1. Aggregate the likes for the period. One SELECT, so the row limit
 		// lands where it is meant to.
