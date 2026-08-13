@@ -1,3 +1,12 @@
+/* The column hooks below are classes, not ids: the table body is a template
+   loop, so an id would be emitted once per row. Each rule is qualified with
+   .tr_likedposts td / th so it keeps winning over the generic
+   ".tr_likedposts td" cell rule, which an unqualified class would lose to. */
+
+.tr_likedposts th{
+	text-align: left;
+}
+
 .tr_likedposts td{
 	max-width: 50px;
 	text-overflow: ellipsis;
@@ -10,7 +19,7 @@
 	white-space: normal;
 }
 
-#td_likedpost{
+.tr_likedposts td.td_likedpost{
 	max-width: 200px;
 }
 
@@ -22,20 +31,19 @@
 		font-size: 10px !important;
 	}
 
-	#td_forum,
-	#th_forum{
+	.tr_likedposts td.td_forum,
+	.tr_likedposts th.th_forum{
 		display: none;
 	}
 }
 
 @media only screen and (max-width: 550px) {
-	#td_posted,
-	#th_posted{
+	.tr_likedposts td.td_posted,
+	.tr_likedposts th.th_posted{
 		display: none;
 	}
 
-	#td_likedpost{
+	.tr_likedposts td.td_likedpost{
 		max-width: 120px;
 	}
 }
-
