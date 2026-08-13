@@ -27,7 +27,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Permission system (`u_postlove`) to control who can like posts per user/group
 - Permission system (`u_postlove_summary`) to control who can see the most liked posts summary
 - Configurable summary position (above or below the forum list on the index page)
-- ACP settings for CSS, mini profile counters, summary display and cache time
+- ACP settings for mini profile counters, button display mode, self-liking and summary periods
 - Import tool for migrating data from the Thanks for Posts extension
 
 #### Languages supported
@@ -91,7 +91,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 3. To manage who can like posts, go to `ACP -> Permissions -> User/Group permissions` and look for `Can like posts` under Misc.
 
 ### Testing
-See [contrib/TESTING.md](tests/TESTING.md) for details on running the test suite.
+See [tests/tests.md](tests/tests.md) for details on running the test suite.
 
 ### Uninstallation
 1. Navigate in the ACP to `Customise -> Manage extensions`.

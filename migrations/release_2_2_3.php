@@ -7,6 +7,15 @@
  */
 namespace avathar\postlove\migrations;
 
+/**
+ * Version marker for release 2.2.3.
+ *
+ * Intentionally empty: 2.2.3 only fixed heart button styling in third-party
+ * styles (#34) and changed no schema or data. The migration exists so the
+ * release is recorded in phpbb_migrations and so later migrations have a stable
+ * link in the dependency chain. Do not delete it — boards that already ran it
+ * would be left with an unresolvable dependency on their next update.
+ */
 class release_2_2_3 extends \phpbb\db\migration\migration
 {
 	public static function depends_on()

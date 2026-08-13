@@ -7,6 +7,15 @@
  */
 namespace avathar\postlove\migrations;
 
+/**
+ * Version marker for release 2.2.2.
+ *
+ * Intentionally empty: 2.2.2 only added the avathar.postlove.topic_likes
+ * service (#33) and changed no schema or data. The migration exists so the
+ * release is recorded in phpbb_migrations and so later migrations have a stable
+ * link in the dependency chain. Do not delete it — boards that already ran it
+ * would be left with an unresolvable dependency on their next update.
+ */
 class release_2_2_2 extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
