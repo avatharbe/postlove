@@ -1091,6 +1091,63 @@ class summary_event extends \phpbb_database_test_case
 	}
 
 	/**
+	* A sub-forum with no ACL rows for the viewer must not raise a PHP warning.
+	*
+	* acl_getf('f_read') only returns forums the user actually has ACL rows for, so
+	* a sub-forum created without copying permissions is missing from the array
+	* entirely. The fixture gives forum 2 parent_id 1, and left_id/right_id are set
+	* wide enough here that the sub-forum branch runs — which the data-provider
+	* cases never do, since they all pass left_id 1 / right_id 2.
+	*
+	* Without the null-coalescing guard this emits "Undefined array key 2" and
+	* "Trying to access array offset on value of type null", which PHPUnit converts
+	* into a failure. The unreadable child is simply skipped.
+	*/
+	public function test_viewforum_summary_subforum_without_acl_rows(): void
+	{
+		$this->config['postlove_forum_most_liked_ever'] = 0;
+		$this->config['postlove_forum_most_liked_this_year'] = 0;
+		$this->config['postlove_forum_most_liked_this_month'] = 0;
+		$this->config['postlove_forum_most_liked_this_week'] = 0;
+		$this->config['postlove_forum_most_liked_today'] = 0;
+		$this->user->data['user_id'] = 2;
+
+		// Forum 1 only — forum 2 is a child of forum 1 but has no ACL rows at all
+		$this->auth->expects($this->any())
+			->method('acl_getf')
+			->willReturn(array(
+				1 => array('f_read' => 1),
+			));
+		$this->auth->expects($this->any())
+			->method('acl_get')
+			->willReturnCallback(function ($permission) {
+				return ($permission === 'u_postlove_summary') ? true : false;
+			});
+
+		$forum_id = 1;
+		$forum_data = array(
+			'forum_id'	=> $forum_id,
+			'left_id'	=> 1,
+			'right_id'	=> 4, // != right_id - 1, so the sub-forum lookup runs
+		);
+		$event_data = array('forum_id', 'forum_data');
+		$event = new \phpbb\event\data(compact($event_data));
+
+		$this->set_listener();
+		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher->addListener('core.viewforum_modify_page_title', array($this->listener, 'forum_page_summary'));
+
+		$this->template->expects($this->once())
+			->method('assign_vars')
+			->with(array(
+				'S_MOSTLIKEDSUMMARYCOUNT'	=> 0,
+				'S_POSTLOVE_SUMMARY_BELOW'	=> 0,
+			));
+
+		$dispatcher->dispatch('core.viewforum_modify_page_title', $event);
+	}
+
+	/**
 	* Verify that prefetch_topic_likes populates $topic_like_counts by aggregating
 	* likes across all posts belonging to each topic.
 	*

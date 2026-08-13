@@ -172,8 +172,11 @@ class summary_listener implements EventSubscriberInterface
 			$result = $this->db->sql_query($sql);
 			while ($forum_data = $this->db->sql_fetchrow($result))
 			{
-				// only add child forums that are visible to this user
-				if ($forum_read_ary[$forum_data['forum_id']]['f_read'] == 1)
+				// Only add child forums that are visible to this user. acl_getf() only
+				// returns forums the user has ACL rows for, so a sub-forum created
+				// without copying permissions is absent from the array entirely —
+				// default it to "not readable" rather than indexing into null.
+				if (($forum_read_ary[$forum_data['forum_id']]['f_read'] ?? 0) == 1)
 				{
 					$forum_ary[] = $forum_data['forum_id'];
 				}
