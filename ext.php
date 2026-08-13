@@ -10,7 +10,11 @@
 namespace avathar\postlove;
 
 /**
-* Extension class for board announcements
+* Extension class for custom enable/disable/purge actions.
+*
+* Enables and disables the postlove notification type alongside the extension
+* itself, and enforces the PHP and phpBB version requirements before the
+* extension can be enabled.
 */
 
 class ext extends \phpbb\extension\base
@@ -30,21 +34,22 @@ class ext extends \phpbb\extension\base
 	*
 	* @return bool|array True if enableable, or an array of error language keys otherwise
 	*/
-	public function is_enableable()
+	public function is_enableable(): bool|array
 	{
 		$errors = [];
 
-		$user = $this->container->get('user');
-		$user->add_lang_ext('avathar/postlove', 'postlove');
+		/** @var \phpbb\language\language $language */
+		$language = $this->container->get('language');
+		$language->add_lang('postlove', 'avathar/postlove');
 
 		if (version_compare(PHP_VERSION, self::MIN_PHP_VERSION, '<'))
 		{
-			$errors[] = $user->lang('POSTLOVE_PHP_VERSION_FAIL', self::MIN_PHP_VERSION, PHP_VERSION);
+			$errors[] = $language->lang('POSTLOVE_PHP_VERSION_FAIL', self::MIN_PHP_VERSION, PHP_VERSION);
 		}
 
 		if (phpbb_version_compare(PHPBB_VERSION, self::MIN_PHPBB_VERSION, '<'))
 		{
-			$errors[] = $user->lang('POSTLOVE_PHPBB_VERSION_FAIL', self::MIN_PHPBB_VERSION, PHPBB_VERSION);
+			$errors[] = $language->lang('POSTLOVE_PHPBB_VERSION_FAIL', self::MIN_PHPBB_VERSION, PHPBB_VERSION);
 		}
 
 		return empty($errors) ? true : $errors;
@@ -54,27 +59,23 @@ class ext extends \phpbb\extension\base
 	* Single enable step that installs any included migrations
 	*
 	* @param mixed $old_state State returned by previous call of this method
-	* @return mixed Returns false after last step, otherwise temporary state
+	* @return string|bool The next step's state, or false once the parent reports finished
 	*/
-	public function enable_step($old_state)
+	public function enable_step($old_state): string|bool
 	{
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
 
-				// Enable board rules notifications
+				// Enable postlove notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->enable_notifications('avathar.postlove.notification.type.postlove');
 				return 'notifications';
-
-			break;
 
 			default:
 
 				// Run parent enable step method
 				return parent::enable_step($old_state);
-
-			break;
 		}
 	}
 
@@ -82,27 +83,23 @@ class ext extends \phpbb\extension\base
 	* Single disable step that does nothing
 	*
 	* @param mixed $old_state State returned by previous call of this method
-	* @return mixed Returns false after last step, otherwise temporary state
+	* @return string|bool The next step's state, or false once the parent reports finished
 	*/
-	public function disable_step($old_state)
+	public function disable_step($old_state): string|bool
 	{
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
 
-				// Disable board rules notifications
+				// Disable postlove notifications
 				$phpbb_notifications = $this->container->get('notification_manager');
 				$phpbb_notifications->disable_notifications('avathar.postlove.notification.type.postlove');
 				return 'notifications';
-
-			break;
 
 			default:
 
 				// Run parent disable step method
 				return parent::disable_step($old_state);
-
-			break;
 		}
 	}
 
@@ -110,40 +107,27 @@ class ext extends \phpbb\extension\base
 	* Single purge step that reverts any included and installed migrations
 	*
 	* @param mixed $old_state State returned by previous call of this method
-	* @return mixed Returns false after last step, otherwise temporary state
+	* @return string|bool The next step's state, or false once the parent reports finished
 	*/
-	public function purge_step($old_state)
+	public function purge_step($old_state): string|bool
 	{
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
 
-				/**
-				* @todo Remove this try/catch condition once purge_notifications is fixed
-				* in the core to work with disabled extensions without fatal errors.
-				* https://tracker.phpbb.com/browse/PHPBB3-12435
-				*/
-				try
-				{
-					// Purge board rules notifications
-					$phpbb_notifications = $this->container->get('notification_manager');
-					$phpbb_notifications->purge_notifications('avathar.postlove.notification.type.postlove');
-				}
-				catch (\phpbb\notification\exception $e)
-				{
-					// continue
-				}
+				// Purge postlove notifications. No try/catch: purge_notifications()
+				// swallows the exception thrown when the type was never registered,
+				// fixed in phpBB 3.1.0-b4 (PHPBB3-12435), and this extension requires
+				// 3.3.0 or higher.
+				$phpbb_notifications = $this->container->get('notification_manager');
+				$phpbb_notifications->purge_notifications('avathar.postlove.notification.type.postlove');
 
 				return 'notifications';
-
-			break;
 
 			default:
 
 				// Run parent purge step method
 				return parent::purge_step($old_state);
-
-			break;
 		}
 	}
 }
