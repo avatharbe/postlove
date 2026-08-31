@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'CLICK_TO_LIKE' 	=> 'click to like this post',
 	'CLICK_TO_UNLIKE'   => 'click to unlike this post',
 	'LOGIN_TO_LIKE_POST' => 'login to like this post',
+	'NO_PERMISSION_TO_LIKE_POST' => 'you do not have permission to like this post',
 	'CANT_LIKE_OWN_POST' => 'sorry, you cannot like your own post',
 	'POST_OF_THE_DAY'	=> 'Most liked posts',
 	'POST_LIKES'		=> 'Liked',

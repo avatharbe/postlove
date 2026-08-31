@@ -30,6 +30,7 @@ $lang = array_merge($lang, array(
 	'CLICK_TO_LIKE' 	=> 'klikněte pro označení příspěvku jako oblíbený',
 	'CLICK_TO_UNLIKE'   => 'klikněte pro odebrání označení oblíbený',
 	'LOGIN_TO_LIKE_POST' => 'přihlaste se pro označení příspěvku jako oblíbený',
+	'NO_PERMISSION_TO_LIKE_POST' => 'nemáte oprávnění označit tento příspěvek jako oblíbený',
 	'CANT_LIKE_OWN_POST' => 'nemůžete označit svůj vlastní příspěvek jako oblíbený',
 	'POST_OF_THE_DAY'	=> 'Nejoblíbenější příspěvky',
 	'POST_LIKES'		=> 'Oblíbeno',

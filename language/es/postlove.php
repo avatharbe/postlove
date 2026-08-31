@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'CLICK_TO_LIKE' 	=> 'haz clic para indicar que te gusta esta publicación',
 	'CLICK_TO_UNLIKE'   => 'haz clic para quitar tu Me gusta',
 	'LOGIN_TO_LIKE_POST' => 'inicia sesión para indicar que te gusta esta publicación',
+	'NO_PERMISSION_TO_LIKE_POST' => 'no tienes permiso para indicar que te gusta esta publicación',
 	'CANT_LIKE_OWN_POST' => 'no puedes indicar que te gusta tu propia publicación',
 	'POST_OF_THE_DAY'	=> 'Publicaciones más gustadas',
 	'POST_LIKES'		=> 'Gustado',

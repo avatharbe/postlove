@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'CLICK_TO_LIKE' 	=> 'clique para curtir esta publicação',
 	'CLICK_TO_UNLIKE'   => 'clique para remover sua curtida',
 	'LOGIN_TO_LIKE_POST' => 'faça login para curtir esta publicação',
+	'NO_PERMISSION_TO_LIKE_POST' => 'você não tem permissão para curtir esta publicação',
 	'CANT_LIKE_OWN_POST' => 'você não pode curtir sua própria publicação',
 	'POST_OF_THE_DAY'	=> 'Publicações mais curtidas',
 	'POST_LIKES'		=> 'Curtido',

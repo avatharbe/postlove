@@ -16,6 +16,7 @@ All relevant changes to the Post Love extension.
 - Gated `inject_topic_like_count()` on `u_postlove_summary`, `pf_postlove_hide`, and bot status; the viewforum heart + count had none of the checks the rest of the feature respects
 - Made `topposts_of_period()`'s aggregate page through its results instead of fetching a single page; being board-wide with no forum filter, a single page could fill entirely with posts a viewer can't read, so the panel silently showed fewer posts than configured, or none
 - Deleted the like notification only once no likes remain, dropping the 2.2.4 parent-id scoping on the delete; phpBB deduped notifications to one per post, so scoping the delete could clear it early or miss it, depending on who unliked last
+- Split the disabled-heart message into `LOGIN_TO_LIKE_POST` and a new `NO_PERMISSION_TO_LIKE_POST`; a registered user whose group simply lacks `u_postlove` was told to log in, which they'd already done
 
 ### Changed
 

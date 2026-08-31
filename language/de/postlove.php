@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'CLICK_TO_LIKE'		=> 'Klicke um diesen Beitrag zu liken',
 	'CLICK_TO_UNLIKE'	=> 'Klicke um das Gefällt mir zu entfernen',
 	'LOGIN_TO_LIKE_POST'	=> 'Anmelden um diesen Beitrag zu liken',
+	'NO_PERMISSION_TO_LIKE_POST'	=> 'Du hast keine Berechtigung, diesen Beitrag zu liken',
 	'CANT_LIKE_OWN_POST'	=> 'Du kannst deinen eigenen Beitrag nicht liken',
 	'POST_OF_THE_DAY'	=> 'Beliebteste Beiträge',
 	'POST_LIKES'		=> 'Gefällt',

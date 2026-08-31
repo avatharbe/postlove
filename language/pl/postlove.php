@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'CLICK_TO_LIKE' 	=> 'kliknij, by polubić ten post',
 	'CLICK_TO_UNLIKE'   => 'kliknij, by odlubić ten post',
 	'LOGIN_TO_LIKE_POST' => 'zaloguj się, by polubić ten post',
+	'NO_PERMISSION_TO_LIKE_POST' => 'nie masz uprawnień, by polubić ten post',
 	'CANT_LIKE_OWN_POST' => 'niestety, nie możesz polubić tego posta',
 	'POST_OF_THE_DAY'	=> 'Najbardziej lubiane posty',
 	'POST_LIKES'		=> 'Polubiony',

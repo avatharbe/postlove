@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 	'CLICK_TO_LIKE'		=> 'cliquez pour aimer ce message',
 	'CLICK_TO_UNLIKE'	=> 'cliquez pour retirer votre J\'aime',
 	'LOGIN_TO_LIKE_POST'	=> 'connectez-vous pour aimer ce message',
+	'NO_PERMISSION_TO_LIKE_POST'	=> 'vous n\'avez pas la permission d\'aimer ce message',
 	'CANT_LIKE_OWN_POST'	=> 'vous ne pouvez pas aimer votre propre message',
 	'POST_OF_THE_DAY'	=> 'Messages les plus aimés',
 	'POST_LIKES'		=> 'Aimé',

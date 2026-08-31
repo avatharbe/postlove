@@ -30,6 +30,7 @@ $lang = array_merge($lang, array(
 	'CLICK_TO_LIKE' 	=> 'bu gönderiyi beğenmek için tıklayın',
 	'CLICK_TO_UNLIKE'   => 'beğeniyi kaldırmak için tıklayın',
 	'LOGIN_TO_LIKE_POST' => 'bu gönderiyi beğenmek için giriş yapın',
+	'NO_PERMISSION_TO_LIKE_POST' => 'bu gönderiyi beğenme izniniz yok',
 	'CANT_LIKE_OWN_POST' => 'kendi gönderinizi beğenemezsiniz',
 	'POST_OF_THE_DAY'	=> 'En çok beğenilen gönderiler',
 	'POST_LIKES'		=> 'Beğenildi',

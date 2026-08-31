@@ -32,6 +32,7 @@ $lang = array_merge($lang, array(
 	'CLICK_TO_LIKE'		=> 'klik om dit bericht leuk te vinden',
 	'CLICK_TO_UNLIKE'	=> 'klik om je vind-ik-leuk te verwijderen',
 	'LOGIN_TO_LIKE_POST'	=> 'log in om dit bericht leuk te vinden',
+	'NO_PERMISSION_TO_LIKE_POST'	=> 'je hebt geen toestemming om dit bericht leuk te vinden',
 	'CANT_LIKE_OWN_POST'	=> 'je kunt je eigen bericht niet leuk vinden',
 	'POST_OF_THE_DAY'	=> 'Populairste berichten',
 	'POST_LIKES'		=> 'Leuk gevonden',

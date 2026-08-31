@@ -244,11 +244,18 @@ class main_listener implements EventSubscriberInterface
 				$post_row['ACTION_ON_CLICK'] = $this->language->lang('CANT_LIKE_OWN_POST');
 				$event['post_row'] = $post_row;
 			}
-			if ($this->user->data['user_id'] == ANONYMOUS || !$this->auth->acl_get('u_postlove'))
+			if ($this->user->data['user_id'] == ANONYMOUS)
 			{
 				$post_row = $event['post_row'];
 				$post_row['DISABLE'] = 1;
 				$post_row['ACTION_ON_CLICK'] = $this->language->lang('LOGIN_TO_LIKE_POST');
+				$event['post_row'] = $post_row;
+			}
+			else if (!$this->auth->acl_get('u_postlove'))
+			{
+				$post_row = $event['post_row'];
+				$post_row['DISABLE'] = 1;
+				$post_row['ACTION_ON_CLICK'] = $this->language->lang('NO_PERMISSION_TO_LIKE_POST');
 				$event['post_row'] = $post_row;
 			}
 		}
