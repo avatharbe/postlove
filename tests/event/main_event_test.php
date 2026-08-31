@@ -399,8 +399,8 @@ class main_event extends \phpbb_database_test_case
 	}
 
 	/**
-	* Viewer lacks u_postlove permission.
-	* Expected: DISABLE=1, ACTION_ON_CLICK='LOGIN_TO_LIKE_POST'.
+	* Viewer is registered but lacks u_postlove permission.
+	* Expected: DISABLE=1, ACTION_ON_CLICK='NO_PERMISSION_TO_LIKE_POST'.
 	*/
 	public function test_modify_post_row_no_permission(): void
 	{
@@ -429,8 +429,8 @@ class main_event extends \phpbb_database_test_case
 		$this->listener->modify_post_row($event);
 		$post_row = $event['post_row'];
 
-		$this->assertSame(1,                    $post_row['DISABLE']);
-		$this->assertSame('LOGIN_TO_LIKE_POST', $post_row['ACTION_ON_CLICK']);
+		$this->assertSame(1,                           $post_row['DISABLE']);
+		$this->assertSame('NO_PERMISSION_TO_LIKE_POST', $post_row['ACTION_ON_CLICK']);
 	}
 
 	/**
