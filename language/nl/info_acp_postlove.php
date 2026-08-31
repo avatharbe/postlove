@@ -17,7 +17,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'				=> 'Bericht leuk vinden',
+	'POSTLOVE_CONTROL'				=> 'Post Love',
 	'POSTLOVE_SHOW_LIKES'			=> 'Toon hoeveel berichten een gebruiker leuk heeft gevonden',
 	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Toont het totale aantal berichten dat een gebruiker leuk heeft gevonden in het profielgebied bij elk bericht.',
 	'POSTLOVE_SHOW_LIKED'			=> 'Toon hoeveel vind-ik-leuks een gebruiker heeft ontvangen',
@@ -55,7 +55,10 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_SHOW_BUTTON'				=> 'Vind-ik-leuk-aantal tonen in de actiebalk?',
 	'POSTLOVE_SHOW_BUTTON_EXPLAIN'		=> 'Indien ingeschakeld verschijnen het vind-ik-leuk-aantal en de actielink als knop in de actiebalk van het bericht (naast Reageren, Citeren, enz.). Indien uitgeschakeld verschijnen ze onder de berichtinhoud.',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'Bedankjes beschikbaar om te importeren',
+	'POSTLOVE_IMPORT_THANKS'			=> array(
+		1 => '%d bedankje beschikbaar om te importeren',
+		2 => '%d bedankjes beschikbaar om te importeren',
+	),
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Bedankjes kunnen worden geimporteerd uit de Thanks for Posts extensie. De gegevens van de andere extensie worden niet gewijzigd',
 	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Bedankjes kunnen worden geimporteerd uit de Thanks for Posts extensie, maar er zijn geen geschikte records gevonden',
 	'IMPORT'							=> 'Importeren',

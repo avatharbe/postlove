@@ -17,7 +17,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'	=> 'Mensaje que gusta',
+	'POSTLOVE_CONTROL'	=> 'Post Love',
 	'POSTLOVE_SHOW_LIKES'	=> 'Mostrar cuántos mensajes ha dado Me gusta un usuario',
 	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Muestra el número total de mensajes que un usuario ha dado Me gusta en su área de perfil en cada mensaje.',
 	'POSTLOVE_SHOW_LIKED'	=> 'Mostrar cuántos Me gusta ha recibido un usuario',
@@ -25,7 +25,7 @@ $lang = array_merge($lang, array(
 
 	//Version 1.1 langs
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
-	'ACP_POSTLOVE'	=> 'Post love',
+	'ACP_POSTLOVE'	=> 'Post Love',
 	'POSTLOVE_EXPLAIN'	=> 'Desde aquí puede cambiar algunas opciones de Post Love',
 	'CONFIRM_MESSAGE'	=> '¡Cambios guardados!<br><br><a href="%1$s">Volver</a>',
 
@@ -55,7 +55,10 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_SHOW_BUTTON'	=> '¿Mostrar el contador de Me gusta en la barra de acciones?',
 	'POSTLOVE_SHOW_BUTTON_EXPLAIN'	=> 'Si está activado, el contador de Me gusta y el enlace de acción aparecen como botón en la barra de acciones del mensaje (junto a Responder, Citar, etc.). Si está desactivado, aparecen debajo del contenido del mensaje.',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'Registros de agradecimientos disponibles para importar',
+	'POSTLOVE_IMPORT_THANKS'			=> array(
+		1 => '%d registro de agradecimiento disponible para importar',
+		2 => '%d registros de agradecimientos disponibles para importar',
+	),
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Los agradecimientos se pueden importar desde la extensión Thanks for Posts. Los datos de la otra extensión no se modificarán',
 	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Los agradecimientos se pueden importar desde la extensión Thanks for Posts pero no se encontraron registros',
 	'IMPORT'							=> 'Importar',

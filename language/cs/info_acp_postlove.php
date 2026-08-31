@@ -16,7 +16,7 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'	=> 'Oblíbené příspěvky',
+	'POSTLOVE_CONTROL'	=> 'Post Love',
 	'POSTLOVE_SHOW_LIKES'	=> 'Zobrazit, kolik příspěvků uživatel označil jako oblíbené',
 	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Zobrazí celkový počet příspěvků, které uživatel označil jako oblíbené, v jeho profilové oblasti u každého příspěvku.',
 	'POSTLOVE_SHOW_LIKED'	=> 'Zobrazit, kolik oblíbení uživatel obdržel',
@@ -54,7 +54,11 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_SHOW_BUTTON'	=> 'Zobrazit počet oblíbení v liště akcí?',
 	'POSTLOVE_SHOW_BUTTON_EXPLAIN'	=> 'Pokud je povoleno, počet oblíbení a odkaz na akci se zobrazí jako tlačítko v liště akcí příspěvku (vedle Odpovědět, Citovat atd.). Pokud je zakázáno, zobrazí se pod obsahem příspěvku.',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'Záznamy poděkování k importu',
+	'POSTLOVE_IMPORT_THANKS'			=> array(
+		1 => '%d záznam poděkování k importu',
+		2 => '%d záznamy poděkování k importu',
+		3 => '%d záznamů poděkování k importu',
+	),
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Záznamy poděkování mohou být importovány z rozšíření Thanks for Posts. Data jiného rozšíření nebudou změněna',
 	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Záznamy poděkování mohou být importovány z rozšíření Thanks for Posts, ale nebyly nalezeny žádné vhodné záznamy',
 	'IMPORT'							=> 'Importovat',

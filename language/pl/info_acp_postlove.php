@@ -17,7 +17,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'	=> 'Polubienia postów',
+	'POSTLOVE_CONTROL'	=> 'Post Love',
 	'POSTLOVE_SHOW_LIKES'	=> 'Pokaż, ile postów użytkownik polubił',
 	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Wyświetla łączną liczbę postów, które użytkownik polubił, w jego obszarze profilu przy każdym poście.',
 	'POSTLOVE_SHOW_LIKED'	=> 'Pokaż, ile polubień otrzymał użytkownik',
@@ -25,7 +25,7 @@ $lang = array_merge($lang, array(
 
 	//Version 1.1 langs
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
-	'ACP_POSTLOVE'	=> 'Polubienia postów',
+	'ACP_POSTLOVE'	=> 'Post Love',
 	'POSTLOVE_EXPLAIN'	=> 'Z tego miejsca możesz zmienić ustawienia rozszerzenia Post Love',
 	'CONFIRM_MESSAGE'	=> 'Zmiany zostały zapisane pomyślnie!<br><br><a href="%1$s">Powrót</a>',
 
@@ -55,7 +55,11 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_SHOW_BUTTON'	=> 'Wyświetlać liczbę polubień na pasku akcji?',
 	'POSTLOVE_SHOW_BUTTON_EXPLAIN'	=> 'Jeśli włączone, liczba polubień i link akcji pojawią się jako przycisk na pasku akcji posta (obok Odpowiedz, Cytuj itp.). Jeśli wyłączone, pojawią się pod treścią posta.',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'Thanks records able to be imported',
+	'POSTLOVE_IMPORT_THANKS'			=> array(
+		1 => '%d Thanks record able to be imported',
+		2 => '%d Thanks records able to be imported',
+		3 => '%d Thanks records able to be imported',
+	),
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Thanks records can be imported from the Thanks for Posts extension, this operation does not change the data of the other extension',
 	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Thanks records can be imported from the Thanks for Posts extension but no suitable records found',
 	'IMPORT'							=> 'Import',

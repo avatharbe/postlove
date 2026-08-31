@@ -17,7 +17,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'	=> 'Curtir Post',
+	'POSTLOVE_CONTROL'	=> 'Post Love',
 	'POSTLOVE_SHOW_LIKES'	=> 'Mostrar quantas publicações um usuário curtiu',
 	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Exibe o número total de publicações que um usuário curtiu na sua área de perfil em cada publicação.',
 	'POSTLOVE_SHOW_LIKED'	=> 'Mostrar quantas curtidas um usuário recebeu',
@@ -25,7 +25,7 @@ $lang = array_merge($lang, array(
 
 	//Version 1.1 langs
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
-	'ACP_POSTLOVE'	=> 'Post love',
+	'ACP_POSTLOVE'	=> 'Post Love',
 	'POSTLOVE_EXPLAIN'	=> 'A partir daqui, você pode alterar algumas configurações do Post Love',
 	'CONFIRM_MESSAGE'	=> 'Alterações salvas!<br><br><a href="%1$s">Voltar</a>',
 
@@ -55,7 +55,10 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_SHOW_BUTTON'	=> 'Mostrar o contador de curtidas na barra de ações?',
 	'POSTLOVE_SHOW_BUTTON_EXPLAIN'	=> 'Se ativado, o contador de curtidas e o link de ação aparecem como botão na barra de ações da publicação (ao lado de Responder, Citar, etc.). Se desativado, aparecem abaixo do conteúdo da publicação.',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'Registros de agradecimentos disponíveis para importação',
+	'POSTLOVE_IMPORT_THANKS'			=> array(
+		1 => '%d registro de agradecimento disponível para importação',
+		2 => '%d registros de agradecimentos disponíveis para importação',
+	),
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Os agradecimentos podem ser importados da extensão Thanks for Posts. Os dados da outra extensão não serão alterados',
 	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Os agradecimentos podem ser importados da extensão Thanks for Posts, mas nenhum registro foi encontrado',
 	'IMPORT'							=> 'Importar',

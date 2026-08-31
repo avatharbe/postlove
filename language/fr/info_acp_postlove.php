@@ -18,7 +18,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'				=> 'J\'aime un message',
+	'POSTLOVE_CONTROL'				=> 'Post Love',
 	'POSTLOVE_SHOW_LIKES'			=> 'Afficher combien de messages un utilisateur a aimés',
 	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Affiche le nombre total de messages qu\'un utilisateur a aimés dans sa zone de profil sur chaque message.',
 	'POSTLOVE_SHOW_LIKED'			=> 'Afficher combien de J\'aime un utilisateur a reçus',
@@ -56,7 +56,10 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_SHOW_BUTTON'				=> 'Afficher le compteur de J\'aime dans la barre d\'actions ?',
 	'POSTLOVE_SHOW_BUTTON_EXPLAIN'		=> 'Si activé, le compteur de J\'aime et le lien d\'action apparaissent comme un bouton dans la barre d\'actions du message (à côté de Répondre, Citer, etc.). Si désactivé, ils apparaissent sous le contenu du message.',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'Enregistrements de remerciements disponibles pour l\'importation',
+	'POSTLOVE_IMPORT_THANKS'			=> array(
+		1 => '%d enregistrement de remerciement disponible pour l\'importation',
+		2 => '%d enregistrements de remerciements disponibles pour l\'importation',
+	),
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Les remerciements peuvent être importés depuis l\'extension Thanks for Posts. Les données de l\'autre extension ne seront pas modifiées',
 	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Les remerciements peuvent être importés depuis l\'extension Thanks for Posts mais aucun enregistrement approprié n\'a été trouvé',
 	'IMPORT'							=> 'Importer',

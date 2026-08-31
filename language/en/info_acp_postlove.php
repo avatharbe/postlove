@@ -17,7 +17,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'				=> 'Post like',
+	'POSTLOVE_CONTROL'				=> 'Post Love',
 	'POSTLOVE_SHOW_LIKES'			=> 'Show how many posts a user has liked',
 	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Display the total number of posts a user has liked in their profile area on each post.',
 	'POSTLOVE_SHOW_LIKED'			=> 'Show how many likes a user has received',
@@ -25,7 +25,7 @@ $lang = array_merge($lang, array(
 
 	//Version 1.1 langs
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
-	'ACP_POSTLOVE'		=> 'Post love',
+	'ACP_POSTLOVE'		=> 'Post Love',
 	'POSTLOVE_EXPLAIN'	=> 'From here you can change some Post Love settings',
 	'CONFIRM_MESSAGE'	=> 'Changes saved!<br><br><a href="%1$s">Back</a>',
 
@@ -55,7 +55,10 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_SHOW_BUTTON'				=> 'Show like count in the post action bar?',
 	'POSTLOVE_SHOW_BUTTON_EXPLAIN'		=> 'If enabled, the like count and action link appear as a button in the post action bar (next to Reply, Quote, etc.). If disabled, they appear below the post content instead.',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'Thanks records able to be imported',
+	'POSTLOVE_IMPORT_THANKS'			=> array(
+		1 => '%d Thanks record able to be imported',
+		2 => '%d Thanks records able to be imported',
+	),
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Thanks records can be imported from the Thanks for Posts extension, this operation does not change the data of the other extension',
 	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Thanks records can be imported from the Thanks for Posts extension but no suitable records found',
 	'IMPORT'							=> 'Import',

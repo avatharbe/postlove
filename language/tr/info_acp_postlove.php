@@ -16,14 +16,14 @@ if (empty($lang) || !is_array($lang))
 	$lang = array();
 }
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'	=> 'Paylaşım beğen',
+	'POSTLOVE_CONTROL'	=> 'Post Love',
 	'POSTLOVE_SHOW_LIKES'	=> 'Kullanıcının kaç gönderiyi beğendiğini göster',
 	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Kullanıcının beğendiği toplam gönderi sayısını her gönderideki profil alanında gösterir.',
 	'POSTLOVE_SHOW_LIKED'	=> 'Kullanıcının kaç beğeni aldığını göster',
 	'POSTLOVE_SHOW_LIKED_EXPLAIN'	=> 'Kullanıcının gönderilerinin aldığı toplam beğeni sayısını her gönderideki profil alanında gösterir.',
 	//Version 1.1 langs
 	'ACP_POSTLOVE_GRP'	=> 'Post Love',
-	'ACP_POSTLOVE'	=> 'Post love',
+	'ACP_POSTLOVE'	=> 'Post Love',
 	'POSTLOVE_EXPLAIN'	=> 'Buradan Post Love\'ın bazı ayarlarını değiştirebilirsiniz',
 	'CONFIRM_MESSAGE'	=> 'Değişiklikler uygulandı!<br><br><a href="%1$s">Geri</a>',
 
@@ -53,7 +53,7 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_SHOW_BUTTON'	=> 'Beğeni sayısını eylem çubuğunda göster?',
 	'POSTLOVE_SHOW_BUTTON_EXPLAIN'	=> 'Etkinleştirildiğinde, beğeni sayısı ve eylem bağlantısı gönderinin eylem çubuğunda bir buton olarak görünür (Yanıtla, Alıntıla vb. yanında). Devre dışı bırakıldığında, gönderi içeriğinin altında görünür.',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'İçe aktarılabilir teşekkür kayıtları',
+	'POSTLOVE_IMPORT_THANKS'			=> '%d içe aktarılabilir teşekkür kaydı',
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Teşekkür kayıtları Thanks for Posts eklentisinden içe aktarılabilir. Diğer eklentinin verileri değiştirilmez',
 	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Teşekkür kayıtları Thanks for Posts eklentisinden içe aktarılabilir ancak uygun kayıt bulunamadı',
 	'IMPORT'							=> 'İçe Aktar',

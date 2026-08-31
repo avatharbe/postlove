@@ -17,7 +17,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_CONTROL'				=> 'Beitrag gefällt mir',
+	'POSTLOVE_CONTROL'				=> 'Post Love',
 	'POSTLOVE_SHOW_LIKES'			=> 'Zeige, wie viele Beiträge ein Benutzer geliked hat',
 	'POSTLOVE_SHOW_LIKES_EXPLAIN'	=> 'Zeigt die Gesamtzahl der Beiträge, die ein Benutzer geliked hat, im Profilbereich jedes Beitrags an.',
 	'POSTLOVE_SHOW_LIKED'			=> 'Zeige, wie viele Likes ein Benutzer erhalten hat',
@@ -55,7 +55,10 @@ $lang = array_merge($lang, array(
 	'POSTLOVE_SHOW_BUTTON'				=> 'Gefällt-mir-Anzahl in der Aktionsleiste anzeigen?',
 	'POSTLOVE_SHOW_BUTTON_EXPLAIN'		=> 'Wenn aktiviert, werden die Gefällt-mir-Anzahl und der Aktionslink als Button in der Aktionsleiste des Beitrags angezeigt (neben Antworten, Zitieren usw.). Wenn deaktiviert, erscheinen sie unter dem Beitragsinhalt.',
 
-	'POSTLOVE_IMPORT_THANKS'			=> 'Danke-Einträge zum Importieren verfügbar',
+	'POSTLOVE_IMPORT_THANKS'			=> array(
+		1 => '%d Danke-Eintrag zum Importieren verfügbar',
+		2 => '%d Danke-Einträge zum Importieren verfügbar',
+	),
 	'POSTLOVE_IMPORT_THANKS_EXPLAIN'	=> 'Danke-Einträge können aus der Thanks for Posts Erweiterung importiert werden. Die Daten der anderen Erweiterung werden nicht verändert',
 	'POSTLOVE_IMPORT_NO_THANKS_EXPLAIN'	=> 'Danke-Einträge können aus der Thanks for Posts Erweiterung importiert werden, aber es wurden keine passenden Einträge gefunden',
 	'IMPORT'							=> 'Importieren',
