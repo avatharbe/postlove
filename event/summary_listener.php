@@ -40,12 +40,9 @@ class summary_listener implements EventSubscriberInterface
 	private const AGGREGATE_OVERFETCH = 10;
 
 	/**
-	 * Upper bound on how many pages of the aggregate topposts_of_period() will
-	 * page through looking for enough visible posts. The aggregate is board
-	 * wide with no forum filter (see topposts_of_period()), so a board where
-	 * far more highly-liked posts sit in forums a viewer can't read than in
-	 * forums they can needs more than one page to surface anything for that
-	 * viewer. This bounds the worst case rather than paging the whole period.
+	 * Upper bound on pages topposts_of_period() will fetch from its board-wide
+	 * aggregate; bounds the worst case for a viewer who can read few of the
+	 * period's highest-liked posts, rather than paging the whole period.
 	 */
 	private const MAX_AGGREGATE_ROUNDS = 5;
 
@@ -291,28 +288,22 @@ class summary_listener implements EventSubscriberInterface
 		// ORDER BY in a subquery is valid T-SQL.
 		//
 		// Both queries below are a single SELECT, so nothing can be rewritten in
-		// the wrong place. The aggregate is deliberately board wide, with no
-		// forum filter, so its 12 hour cache is shared by every viewer instead
-		// of needing a key per forum-permission set; the cache is cleared
-		// whenever a like is added or removed. Content visibility and the
-		// viewer's forum set are applied afterwards, on the display query below.
+		// the wrong place. The aggregate is deliberately board wide with no
+		// forum filter, so its 12 hour cache is shared by every viewer;
+		// visibility and the viewer's forum set are applied afterwards, on the
+		// display query.
 		//
-		// Being board wide, a single aggregate page can be entirely posts the
-		// viewer can't read — e.g. a handful of forums with many highly-liked
-		// posts, and this viewer restricted to a quiet forum below all of them
-		// in the ranking. Page through the aggregate, applying the display
-		// query to each page, until enough visible posts are collected or the
-		// period runs out; MAX_AGGREGATE_ROUNDS bounds the worst case instead
-		// of paging the whole period for a viewer who can read almost nothing
-		// in it.
+		// Being board wide, a single page can be entirely posts a given viewer
+		// can't read; page through the aggregate, applying the display query to
+		// each page, until enough visible posts are found or the period is
+		// exhausted, bounded by MAX_AGGREGATE_ROUNDS.
 		$page_size = $howmany * self::AGGREGATE_OVERFETCH;
 		$rowset = array();
 
 		for ($round = 0; $round < self::MAX_AGGREGATE_ROUNDS; $round++)
 		{
-			// 1. Aggregate the likes for the period. One SELECT, so the row
-			// limit lands where it is meant to. post_id is a tiebreaker on
-			// otherwise-equal sum_likes, so paging stays stable across rounds.
+			// 1. Aggregate the likes for the period; post_id is a tiebreaker on
+			// otherwise-equal sum_likes, keeping the paging stable across rounds.
 			$sql = 'SELECT post_id AS post, COUNT(*) AS sum_likes
 				FROM ' . $this->table_prefix . 'posts_likes
 				WHERE liketime > ' . (int) $period_start_time . '
@@ -361,9 +352,8 @@ class summary_listener implements EventSubscriberInterface
 
 			if (count($rowset) >= $howmany || count($sum_likes) < $page_size)
 			{
-				// Either enough visible posts to fill this period, or the
-				// aggregate came up short of a full page — a further page
-				// would be empty too.
+				// Enough visible posts, or the aggregate came up short of a full
+				// page; a further page would be empty too.
 				break;
 			}
 		}
@@ -470,10 +460,9 @@ class summary_listener implements EventSubscriberInterface
 	 * TOPIC_LIKE_COUNT in the topic row template data. The template
 	 * (topiclist_row_append.html) shows a heart icon + count when > 0.
 	 *
-	 * Gated the same way as the two most-liked summary panels: skipped for
-	 * bots, for viewers without u_postlove_summary, and for viewers who
-	 * opted out via pf_postlove_hide. Leaving TOPIC_LIKE_COUNT unset is
-	 * enough — the template's IF already treats an unset var as falsy.
+	 * Gated like the two most-liked summary panels: bots, missing
+	 * u_postlove_summary, and pf_postlove_hide all leave TOPIC_LIKE_COUNT
+	 * unset, which the template's IF already treats as falsy.
 	 *
 	 * @param \phpbb\event\data $event The core.viewforum_modify_topicrow event
 	 *        Contains 'row' (raw topic data) and 'topic_row' (template data)

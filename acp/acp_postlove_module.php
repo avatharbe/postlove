@@ -238,7 +238,7 @@ class acp_postlove_module
 			$db->sql_query($sql);
 		}
 
-		// Repoint an deleted liked_user_id to the current poster_id when the post still exists.
+		// Repoint a deleted liked_user_id to the current poster_id when the post still exists.
 		$sql_ary = array(
 			'SELECT'    => 'DISTINCT pl.liked_user_id as liked_user_id, p.poster_id as poster_id',
 			'FROM'      => array($likes_table => 'pl'),
@@ -259,7 +259,7 @@ class acp_postlove_module
 		$repoint_liked_users = array();
 		while ($row = $db->sql_fetchrow($result))
 		{
-			// Group the orphaned ids by the author they should point at
+			// Group the orphaned ids by the author they should point at, so
 			// each distinct author costs one UPDATE instead of one per row.
 			$repoint_liked_users[(int) $row['poster_id']][] = (int) $row['liked_user_id'];
 		}
