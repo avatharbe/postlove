@@ -18,6 +18,11 @@ All relevant changes to the Post Love extension.
 - Deleted the like notification only once no likes remain, dropping the 2.2.4 parent-id scoping on the delete; phpBB deduped notifications to one per post, so scoping the delete could clear it early or miss it, depending on who unliked last
 - Split the disabled-heart message into `LOGIN_TO_LIKE_POST` and a new `NO_PERMISSION_TO_LIKE_POST`; a registered user whose group simply lacks `u_postlove` was told to log in, which they'd already done
 - Capped the love-list modal's width at `500px` (`max-width: 90%` on narrow screens) and switched its fixed `height: 80%` to `max-height: 80%`, so a short like list sizes to its content instead of always filling most of the viewport
+- Removed `.modal`'s `background-color: rgba(0, 0, 0, 0.5)`; it overrode the `background: #fff` earlier in the same rule, so the popup opened as a dark translucent panel instead of a white card. The dark overlay behind the modal comes from `.blocker`, styled separately by `jquery.modal.js` itself
+- Un-nested `postlove_base.html`'s duplicate `<!-- IF .pagination -->`; the inner copy of the same condition made its `<!-- ELSE -->` branch, which referenced an unassigned `{PAGE_NUMBER}`, unreachable
+- Renamed `POSTLOVE_CONTROL` and `ACP_POSTLOVE` to "Post Love" in every language; the settings page heading and, in most languages, the ACP menu entry read differently from the category and the extension's own name
+- Pluralized `POSTLOVE_IMPORT_THANKS` (`$language->lang('POSTLOVE_IMPORT_THANKS', $thanks_to_convert)`, proper plural forms per language); it was a single fixed string concatenated with the raw count, so one row read "1 Thanks records able to be imported"
+- Replaced `title="{L_LIKED_BY}"` with a new `{L_TOTAL_LIKES_IN_TOPIC}` on the topic-list heart badge; `LIKED_BY` is "post liked by: ", meant to be followed by names the topic list never fetches, so the tooltip rendered as a label with a colon and nothing after it
 
 ### Changed
 
@@ -27,6 +32,17 @@ All relevant changes to the Post Love extension.
 - Switched the three `release_2_0_0*` migrations to extend `\phpbb\db\migration\migration`; they never set `$profilefield_name`, so `profilefield_base_migration` gave them a bogus `pf_`-column check and, for `drop_timestamp`, a purge revert that deleted from core profile field tables
 - Cast the sub-forum id to `(int)` in `forum_page_summary()`'s query and array push, matching the rest of the file, and swapped a manual `post_id NOT IN (implode(...))` for `sql_in_set('post_id', $post_list, true)` in `topposts_of_period()`
 - Dropped the dead `?short=1` from `POSTLOVE_STATS`; nothing reads it, `lovelist::base()` already decides the embedded form from `is_ajax()`
+- Renamed the ACP form field prefix from `poslove` to `postlove` in `acp_postlove.html`, `acp_postlove_module.php`, and the functional tests; it worked since it was consistent, but read as a typo
+- Changed the ten "how many to show" ACP fields from `type="text"` to `type="number"`
+- Cleanup: fixed an indentation slip in `main_listener.php`, a double space in two `summary_listener.php` method names, and an unreachable `break` after the returns in `ajaxify.php`'s switch
+
+### Removed
+
+- Four `heart-*.png` images under `images/`; nothing references them, the heart icon comes from a FontAwesome glyph in `default.css`
+
+### Documentation
+
+- README's license link now points to `https://` instead of `http://`
 - Moved the love list row's `<a>` markup out of `lovelist.php` into `postlove_base.html`; the controller now passes `U_POST`/`POST_SUBJECT`/`U_TOPIC`/`TOPIC_TITLE` as plain block vars instead of pre-built HTML, and `LIKE_LINE` is replaced by three connector lang keys (`LOVELIST_LIKED`/`LOVELIST_POST_OF`/`LOVELIST_IN_TOPIC`) so a style can restyle the row without touching PHP
 
 ## 2.2.5
