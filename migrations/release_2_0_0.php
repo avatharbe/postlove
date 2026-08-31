@@ -12,7 +12,7 @@ namespace avathar\postlove\migrations;
 /**
 * Adds the liketime column and converts old timestamp data.
 */
-class release_2_0_0 extends \phpbb\db\migration\profilefield_base_migration
+class release_2_0_0 extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
 	{

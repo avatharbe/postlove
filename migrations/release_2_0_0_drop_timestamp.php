@@ -12,7 +12,7 @@ namespace avathar\postlove\migrations;
 /**
 * Drops the legacy timestamp column after data migration to liketime.
 */
-class release_2_0_0_drop_timestamp extends \phpbb\db\migration\profilefield_base_migration
+class release_2_0_0_drop_timestamp extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
 	{

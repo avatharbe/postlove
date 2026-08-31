@@ -12,7 +12,7 @@ namespace avathar\postlove\migrations;
 /**
 * Adds the liked_user_id column (denormalized poster_id for query performance).
 */
-class release_2_0_0_add_liked_user_id extends \phpbb\db\migration\profilefield_base_migration
+class release_2_0_0_add_liked_user_id extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
 	{
