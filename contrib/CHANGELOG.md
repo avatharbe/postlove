@@ -10,18 +10,21 @@ Entries are grouped per release by type of change: **Security**, **Added**,
 
 ### Security
 
-- `lovelist::base()` and both `summary_listener` handlers built their forum set from `acl_getf('f_read')` alone. `f_read` is independent of `forum_password` — phpBB gates password protected forums separately via `login_forum_box()` / `FORUMS_ACCESS_TABLE` — so a forum with `f_read` granted but its password not entered by this session was still included. Added `service\forum_access::drop_locked()` (`LEFT JOIN FORUMS_ACCESS_TABLE ON session_id`, mirroring `search.php`'s `$not_in_fid` construction) and call it after every `acl_getf('f_read')` pass in `lovelist.php` and `summary_listener.php`, including the sub-forum branch of `forum_page_summary()`. `avathar_postlove_list` has no permission of its own and is reachable unauthenticated, so this was exploitable via a bare GET to `/postlove/{user_id}` with no session at all
+- Added `forum_access::drop_locked()` and applied it everywhere a forum set is built from `acl_getf('f_read')`, in `lovelist.php` and `summary_listener.php`; `f_read` ignores forum passwords, so password protected content was leaking, including to unauthenticated requests via the love list route
 
 ### Fixed
 
-- `acp_postlove_module::main()` never assigned `{U_ACTION}`, so the form posted back to the current URL instead of the module's own action. On the settings-save branch this was a no-op, but `confirm_box()` leaves `confirm_key` on the URL after a confirmed Clean or Import, and `confirm_box()` returns `false` for a second confirmation while a key is present — after already calling `adm_page_header()`. Net effect: a second Clean/Import submit re-rendered the settings page under the confirm title, with no prompt and no error, and skipped the operation
-- `importThanks()`'s `INSERT ... FROM {thanks_table}` ran unconditionally once confirmed; `sql_table_exists()` was only checked for the Import-button visibility flag, not before the query itself, so confirming Import after the Thanks for Posts table had been dropped hit a raw SQL error instead of a no-op
-- `memberlist_view_user_statistics_after.html` rendered the "Show list with all like actions" row unconditionally, but `main_listener::user_profile_likes()` only assigns `{POSTLOVE_STATS}` when the viewer hasn't set `pf_postlove_hide`. Opted-out users saw the row anyway, as `<a href="">`, with `jquery.modal.js` also unloaded for them (gated on the same variable in `overall_footer_after.html`), so the link just reloaded the profile. Row now gated on `<!-- IF POSTLOVE_STATS -->`, matching the post-notices guard from 2.2.5
+- Assigned `{U_ACTION}` in the ACP template; it was never set, so a second confirmed Clean or Import silently failed via `confirm_box()`'s `confirm_key` handling instead of running
+- Added an `sql_table_exists()` guard before `importThanks()`'s `INSERT`, confirming Import after the Thanks for Posts table was dropped hit a raw SQL error instead of doing nothing
+- Gated the love-list link in `memberlist_view_user_statistics_after.html` on `<!-- IF POSTLOVE_STATS -->`, matching the post-notices guard from 2.2.5; it was rendering even for users who opted out via `pf_postlove_hide`, as a dead `<a href="">`
+- Gated `inject_topic_like_count()` on `u_postlove_summary`, `pf_postlove_hide`, and bot status; the viewforum heart + count had none of the checks the rest of the feature respects
+- Made `topposts_of_period()`'s aggregate page through its results instead of fetching a single page; being board-wide with no forum filter, a single page could fill entirely with posts a viewer can't read, so the panel silently showed fewer posts than configured, or none
+- Deleted the like notification only once no likes remain, dropping the 2.2.4 parent-id scoping on the delete; phpBB deduped notifications to one per post, so scoping the delete could clear it early or miss it, depending on who unliked last
 
 ### Changed
 
-- `cleanPostLoves()` gained a sibling, `importThanks()`, so `main()` is left doing request handling and confirmation only, with both ACP operations available as named, independently callable methods
-- `$db_tools` and the `thanks` table name are now resolved once per request instead of being fetched again for the "items available to import" count
+- Extracted `importThanks()` as a sibling to `cleanPostLoves()`; keeps `main()` to request handling and confirmation only, both ACP operations independently callable
+- Resolved `$db_tools`/`thanks_table` once per request — was fetched again just for the "items available to import" count
 
 ## 2.2.5
 

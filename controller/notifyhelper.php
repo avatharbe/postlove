@@ -23,14 +23,18 @@ class notifyhelper
 	protected \phpbb\config\config $config;
 	protected \phpbb\user $user;
 	protected Container $phpbb_container;
+	protected \phpbb\db\driver\driver_interface $db;
+	protected string $likes_table;
 	protected string $root_path;
 	protected string $php_ext;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\user $user, Container $phpbb_container, $root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\user $user, Container $phpbb_container, \phpbb\db\driver\driver_interface $db, $likes_table, $root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->user = $user;
 		$this->phpbb_container = $phpbb_container;
+		$this->db = $db;
+		$this->likes_table = $likes_table;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -64,15 +68,21 @@ class notifyhelper
 					$phpbb_notifications->add_notifications('avathar.postlove.notification.type.postlove', $notification_data);
 				break;
 				case 'remove':
+					// phpBB dedupes notifications to one per post, owned by whoever liked
+					// first; delete it only once no likes remain, without parent-id scoping.
 					$notifications = $phpbb_notifications->get_item_type_class('avathar.postlove.notification.type.postlove');
-					// Scope the delete to this liker. get_item_id() is the post id, so
-					// without the parent id (the liker) phpBB deletes every notification
-					// for the post — including one another user's like created.
-					$phpbb_notifications->delete_notifications(
-						'avathar.postlove.notification.type.postlove',
-						$notifications->get_item_id($notification_data),
-						$notifications->get_item_parent_id($notification_data)
-					);
+					$sql = 'SELECT COUNT(*) as remaining FROM ' . $this->likes_table . ' WHERE post_id = ' . $notification_data['post_id'];
+					$result = $this->db->sql_query($sql);
+					$remaining = (int) $this->db->sql_fetchfield('remaining');
+					$this->db->sql_freeresult($result);
+
+					if ($remaining == 0)
+					{
+						$phpbb_notifications->delete_notifications(
+							'avathar.postlove.notification.type.postlove',
+							$notifications->get_item_id($notification_data)
+						);
+					}
 				break;
 			}
 		}

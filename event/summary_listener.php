@@ -19,7 +19,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * month, this year, all time). Also handles per-topic like count display
  * on the viewforum topic list.
  *
- * The summary query uses raw SQL with subqueries for performance (aggregating
+ * The summary query uses SQL with subqueries for performance (aggregating
  * likes, joining posts/topics/users/forums, filtering by content visibility).
  * Results are cached for 12 hours to reduce database load.
  *
@@ -33,10 +33,21 @@ class summary_listener implements EventSubscriberInterface
 	private const SECONDS_PER_DAY = self::SECONDS_PER_HOUR * 24;
 
 	/**
-	 * How many aggregate rows to fetch per requested post. The visibility filter
-	 * runs after the aggregate, so over-fetching leaves room for posts it drops.
+	 * How many aggregate rows to fetch per requested post, per page. The
+	 * visibility filter runs after the aggregate, so over-fetching leaves room
+	 * for posts it drops.
 	 */
 	private const AGGREGATE_OVERFETCH = 10;
+
+	/**
+	 * Upper bound on how many pages of the aggregate topposts_of_period() will
+	 * page through looking for enough visible posts. The aggregate is board
+	 * wide with no forum filter (see topposts_of_period()), so a board where
+	 * far more highly-liked posts sit in forums a viewer can't read than in
+	 * forums they can needs more than one page to surface anything for that
+	 * viewer. This bounds the worst case rather than paging the whole period.
+	 */
+	private const MAX_AGGREGATE_ROUNDS = 5;
 
 	protected \phpbb\auth\auth $auth;
 	protected \phpbb\config\config $config;
@@ -280,56 +291,82 @@ class summary_listener implements EventSubscriberInterface
 		// ORDER BY in a subquery is valid T-SQL.
 		//
 		// Both queries below are a single SELECT, so nothing can be rewritten in
-		// the wrong place. The aggregate keeps the 12 hour cache — the same query
-		// runs for every user with the same forum permissions, and the cache is
-		// cleared whenever a like is added or removed.
-
-		// 1. Aggregate the likes for the period. One SELECT, so the row limit
-		// lands where it is meant to.
-		$sql = 'SELECT post_id AS post, COUNT(*) AS sum_likes
-			FROM ' . $this->table_prefix . 'posts_likes
-			WHERE liketime > ' . (int) $period_start_time . '
-				AND post_id NOT IN (' . implode(',', $post_list) . ')
-			GROUP BY post_id
-			ORDER BY sum_likes DESC';
-		$result = $this->db->sql_query_limit($sql, $howmany * self::AGGREGATE_OVERFETCH, 0, (self::SECONDS_PER_HOUR * 12) - 1);
-
-		$sum_likes = array();
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$sum_likes[(int) $row['post']] = (int) $row['sum_likes'];
-		}
-		$this->db->sql_freeresult($result);
-
-		if (empty($sum_likes))
-		{
-			return $post_list;
-		}
-
-		// 2. Fetch display data for those posts, applying content visibility here.
-		// Not cached, unlike the aggregate above: this query does not reference
-		// posts_likes, so cache->destroy('sql', $likes_table) on a like toggle
-		// could never invalidate it, and it is a keyed lookup of a few post ids.
-		$sql = 'SELECT u.user_id, u.username, u.user_colour,
-			t.topic_title, t.forum_id, t.topic_id, t.topic_type,
-			p.post_id, p.post_time,
-			f.forum_name
-			FROM ' . POSTS_TABLE . ' p
-			LEFT JOIN ' . TOPICS_TABLE . ' t ON p.topic_id = t.topic_id
-			LEFT JOIN ' . USERS_TABLE . ' u ON p.poster_id = u.user_id
-			LEFT JOIN ' . FORUMS_TABLE . ' f ON t.forum_id = f.forum_id
-			WHERE ' . $this->db->sql_in_set('p.post_id', array_keys($sum_likes)) . '
-				AND ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ary, 'p.') . '
-				AND t.topic_status <> ' . ITEM_MOVED;
-		$result = $this->db->sql_query($sql);
-
+		// the wrong place. The aggregate is deliberately board wide, with no
+		// forum filter, so its 12 hour cache is shared by every viewer instead
+		// of needing a key per forum-permission set; the cache is cleared
+		// whenever a like is added or removed. Content visibility and the
+		// viewer's forum set are applied afterwards, on the display query below.
+		//
+		// Being board wide, a single aggregate page can be entirely posts the
+		// viewer can't read — e.g. a handful of forums with many highly-liked
+		// posts, and this viewer restricted to a quiet forum below all of them
+		// in the ranking. Page through the aggregate, applying the display
+		// query to each page, until enough visible posts are collected or the
+		// period runs out; MAX_AGGREGATE_ROUNDS bounds the worst case instead
+		// of paging the whole period for a viewer who can read almost nothing
+		// in it.
+		$page_size = $howmany * self::AGGREGATE_OVERFETCH;
 		$rowset = array();
-		while ($row = $this->db->sql_fetchrow($result))
+
+		for ($round = 0; $round < self::MAX_AGGREGATE_ROUNDS; $round++)
 		{
-			$row['sum_likes'] = $sum_likes[(int) $row['post_id']];
-			$rowset[] = $row;
+			// 1. Aggregate the likes for the period. One SELECT, so the row
+			// limit lands where it is meant to. post_id is a tiebreaker on
+			// otherwise-equal sum_likes, so paging stays stable across rounds.
+			$sql = 'SELECT post_id AS post, COUNT(*) AS sum_likes
+				FROM ' . $this->table_prefix . 'posts_likes
+				WHERE liketime > ' . (int) $period_start_time . '
+					AND post_id NOT IN (' . implode(',', $post_list) . ')
+				GROUP BY post_id
+				ORDER BY sum_likes DESC, post_id ASC';
+			$result = $this->db->sql_query_limit($sql, $page_size, $round * $page_size, (self::SECONDS_PER_HOUR * 12) - 1);
+
+			$sum_likes = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$sum_likes[(int) $row['post']] = (int) $row['sum_likes'];
+			}
+			$this->db->sql_freeresult($result);
+
+			if (empty($sum_likes))
+			{
+				// Exhausted the period; a further page can only be empty too.
+				break;
+			}
+
+			// 2. Fetch display data for this page, applying content visibility
+			// and the viewer's forum set here. Not cached, unlike the
+			// aggregate above: this query does not reference posts_likes, so
+			// cache->destroy('sql', $likes_table) on a like toggle could never
+			// invalidate it, and it is a keyed lookup of a few post ids.
+			$sql = 'SELECT u.user_id, u.username, u.user_colour,
+				t.topic_title, t.forum_id, t.topic_id, t.topic_type,
+				p.post_id, p.post_time,
+				f.forum_name
+				FROM ' . POSTS_TABLE . ' p
+				LEFT JOIN ' . TOPICS_TABLE . ' t ON p.topic_id = t.topic_id
+				LEFT JOIN ' . USERS_TABLE . ' u ON p.poster_id = u.user_id
+				LEFT JOIN ' . FORUMS_TABLE . ' f ON t.forum_id = f.forum_id
+				WHERE ' . $this->db->sql_in_set('p.post_id', array_keys($sum_likes)) . '
+					AND ' . $this->content_visibility->get_forums_visibility_sql('post', $forum_ary, 'p.') . '
+					AND t.topic_status <> ' . ITEM_MOVED;
+			$result = $this->db->sql_query($sql);
+
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$row['sum_likes'] = $sum_likes[(int) $row['post_id']];
+				$rowset[] = $row;
+			}
+			$this->db->sql_freeresult($result);
+
+			if (count($rowset) >= $howmany || count($sum_likes) < $page_size)
+			{
+				// Either enough visible posts to fill this period, or the
+				// aggregate came up short of a full page — a further page
+				// would be empty too.
+				break;
+			}
 		}
-		$this->db->sql_freeresult($result);
 
 		// Order and trim in PHP. The ordering has to happen after the visibility
 		// filter has removed rows, and doing it here keeps both statements to a
@@ -433,11 +470,24 @@ class summary_listener implements EventSubscriberInterface
 	 * TOPIC_LIKE_COUNT in the topic row template data. The template
 	 * (topiclist_row_append.html) shows a heart icon + count when > 0.
 	 *
+	 * Gated the same way as the two most-liked summary panels: skipped for
+	 * bots, for viewers without u_postlove_summary, and for viewers who
+	 * opted out via pf_postlove_hide. Leaving TOPIC_LIKE_COUNT unset is
+	 * enough — the template's IF already treats an unset var as falsy.
+	 *
 	 * @param \phpbb\event\data $event The core.viewforum_modify_topicrow event
 	 *        Contains 'row' (raw topic data) and 'topic_row' (template data)
 	 */
 	public function inject_topic_like_count($event)
 	{
+		$this->user->get_profile_fields($this->user->data['user_id']);
+		if ($this->user->data['is_bot'] ||
+			!$this->auth->acl_get('u_postlove_summary') ||
+			(isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']))
+		{
+			return;
+		}
+
 		$topic_id = (int) $event['row']['topic_id'];
 		$count = $this->topic_like_counts[$topic_id] ?? 0;
 

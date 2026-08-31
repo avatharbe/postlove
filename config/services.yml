@@ -67,6 +67,8 @@ services:
             - '@config'
             - '@user'
             - '@service_container'
+            - '@dbal.conn'
+            - '%tables.avathar.postlove%'
             - '%core.root_path%'
             - '%core.php_ext%'
     avathar.postlove.topic_likes:

@@ -1178,6 +1178,12 @@ class summary_event extends \phpbb_database_test_case
 	*/
 	public function test_inject_topic_like_count(): void
 	{
+		$this->auth->expects($this->any())
+			->method('acl_get')
+			->willReturnCallback(function ($permission) {
+				return ($permission === 'u_postlove_summary') ? true : false;
+			});
+
 		$this->set_listener();
 
 		$this->listener->prefetch_topic_likes(new \phpbb\event\data([
@@ -1207,6 +1213,64 @@ class summary_event extends \phpbb_database_test_case
 		]);
 		$this->listener->inject_topic_like_count($event);
 		$this->assertSame(0, $event['topic_row']['TOPIC_LIKE_COUNT']);
+	}
+
+	/**
+	* inject_topic_like_count() must respect the same gates as the two
+	* most-liked summary panels: bots, viewers without u_postlove_summary,
+	* and viewers who opted out via pf_postlove_hide all get no
+	* TOPIC_LIKE_COUNT at all, so the template's IF stays falsy.
+	*/
+	public function test_inject_topic_like_count_skips_bots(): void
+	{
+		$this->user->data['is_bot'] = true;
+
+		$this->set_listener();
+		$this->listener->prefetch_topic_likes(new \phpbb\event\data(['topic_list' => [1]]));
+
+		$event = new \phpbb\event\data([
+			'row'       => ['topic_id' => 1],
+			'topic_row' => [],
+		]);
+		$this->listener->inject_topic_like_count($event);
+		$this->assertArrayNotHasKey('TOPIC_LIKE_COUNT', $event['topic_row']);
+	}
+
+	public function test_inject_topic_like_count_skips_without_permission(): void
+	{
+		$this->auth->expects($this->any())
+			->method('acl_get')
+			->willReturn(false);
+
+		$this->set_listener();
+		$this->listener->prefetch_topic_likes(new \phpbb\event\data(['topic_list' => [1]]));
+
+		$event = new \phpbb\event\data([
+			'row'       => ['topic_id' => 1],
+			'topic_row' => [],
+		]);
+		$this->listener->inject_topic_like_count($event);
+		$this->assertArrayNotHasKey('TOPIC_LIKE_COUNT', $event['topic_row']);
+	}
+
+	public function test_inject_topic_like_count_skips_opted_out_users(): void
+	{
+		$this->auth->expects($this->any())
+			->method('acl_get')
+			->willReturnCallback(function ($permission) {
+				return ($permission === 'u_postlove_summary') ? true : false;
+			});
+		$this->user->profile_fields = array('pf_postlove_hide' => true);
+
+		$this->set_listener();
+		$this->listener->prefetch_topic_likes(new \phpbb\event\data(['topic_list' => [1]]));
+
+		$event = new \phpbb\event\data([
+			'row'       => ['topic_id' => 1],
+			'topic_row' => [],
+		]);
+		$this->listener->inject_topic_like_count($event);
+		$this->assertArrayNotHasKey('TOPIC_LIKE_COUNT', $event['topic_row']);
 	}
 }
 
