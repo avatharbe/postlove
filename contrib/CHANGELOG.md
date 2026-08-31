@@ -23,6 +23,7 @@ All relevant changes to the Post Love extension.
 - Resolved `$db_tools`/`thanks_table` once per request — was fetched again just for the "items available to import" count
 - Removed six unused injected dependencies: `$config`/`$user`/`$root_path`/`$php_ext` from `notifyhelper`, `$cache` from `summary_listener`, and `$config` from the notification type; none were ever read
 - Switched the three `release_2_0_0*` migrations to extend `\phpbb\db\migration\migration`; they never set `$profilefield_name`, so `profilefield_base_migration` gave them a bogus `pf_`-column check and, for `drop_timestamp`, a purge revert that deleted from core profile field tables
+- Cast the sub-forum id to `(int)` in `forum_page_summary()`'s query and array push, matching the rest of the file, and swapped a manual `post_id NOT IN (implode(...))` for `sql_in_set('post_id', $post_list, true)` in `topposts_of_period()`
 - Dropped the dead `?short=1` from `POSTLOVE_STATS`; nothing reads it, `lovelist::base()` already decides the embedded form from `is_ajax()`
 
 ## 2.2.5

@@ -185,8 +185,8 @@ class summary_listener implements EventSubscriberInterface
 			$forum_read_ary = $this->auth->acl_getf('f_read');
 
 			$sql = 'SELECT f.forum_id
-				FROM ' . FORUMS_TABLE . " f
-				WHERE f.parent_id = $forum_id"; // direct children only, not recursive
+				FROM ' . FORUMS_TABLE . ' f
+				WHERE f.parent_id = ' . (int) $forum_id; // direct children only, not recursive
 
 			$result = $this->db->sql_query($sql);
 			while ($forum_data = $this->db->sql_fetchrow($result))
@@ -197,7 +197,7 @@ class summary_listener implements EventSubscriberInterface
 				// default it to "not readable" rather than indexing into null.
 				if (($forum_read_ary[$forum_data['forum_id']]['f_read'] ?? 0) == 1)
 				{
-					$forum_ary[] = $forum_data['forum_id'];
+					$forum_ary[] = (int) $forum_data['forum_id'];
 				}
 			}
 			$this->db->sql_freeresult($result);
@@ -304,7 +304,7 @@ class summary_listener implements EventSubscriberInterface
 			$sql = 'SELECT post_id AS post, COUNT(*) AS sum_likes
 				FROM ' . $this->table_prefix . 'posts_likes
 				WHERE liketime > ' . (int) $period_start_time . '
-					AND post_id NOT IN (' . implode(',', $post_list) . ')
+					AND ' . $this->db->sql_in_set('post_id', $post_list, true) . '
 				GROUP BY post_id
 				ORDER BY sum_likes DESC, post_id ASC';
 			$result = $this->db->sql_query_limit($sql, $page_size, $round * $page_size, (self::SECONDS_PER_HOUR * 12) - 1);
