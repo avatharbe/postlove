@@ -151,7 +151,6 @@ class summary_event extends \phpbb_database_test_case
 		$this->listener = new \avathar\postlove\event\summary_listener(
 			$this->auth,
 			$this->config,
-			$this->cache,
 			$this->content_visibility,
 			$this->db,
 			$this->dispatcher,

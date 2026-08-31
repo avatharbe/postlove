@@ -19,7 +19,6 @@ services:
         arguments:
             - '@auth'
             - '@config'
-            - '@cache'
             - '@content.visibility'
             - '@dbal.conn'
             - '@dispatcher'
@@ -64,13 +63,9 @@ services:
     avathar.postlove.notifyhelper:
         class: avathar\postlove\controller\notifyhelper
         arguments:
-            - '@config'
-            - '@user'
             - '@service_container'
             - '@dbal.conn'
             - '%tables.avathar.postlove%'
-            - '%core.root_path%'
-            - '%core.php_ext%'
     avathar.postlove.topic_likes:
         class: avathar\postlove\service\topic_likes
         arguments:
@@ -87,7 +82,6 @@ services:
         parent: notification.type.base
         calls:
             - [set_user_loader, ['@user_loader']]
-            - [set_config, ['@config']]
         tags:
             - {name: notification.type}
 

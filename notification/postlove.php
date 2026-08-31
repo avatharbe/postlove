@@ -15,16 +15,15 @@ namespace avathar\postlove\notification;
  * Generates an in-board notification when a user likes another user's post.
  * The notification shows the liker's username and links to the liked post.
  *
- * Deduplication: item_id = post_id, so each liked post generates a unique
- * notification. item_parent_id = requester_id (the liker), used for deletion
- * when a like is removed.
+ * Deduplication: item_id = post_id, so a liked post generates at most one
+ * notification, owned by whichever like created it first.
  *
  * Email notifications are not supported (get_email_template returns false).
  * Users can disable this notification type in UCP -> Board preferences.
  *
- * Dependencies are injected via setter methods (set_config, set_user_loader)
- * called from services.yml, since notification types extend the base class
- * which has its own constructor.
+ * user_loader is injected via set_user_loader(), called from services.yml,
+ * since notification types extend the base class which has its own
+ * constructor.
  */
 class postlove extends \phpbb\notification\type\base
 {
@@ -50,19 +49,6 @@ class postlove extends \phpbb\notification\type\base
 
 	/** @var \phpbb\user_loader */
 	protected $user_loader;
-
-	/** @var \phpbb\config\config */
-	protected $config;
-
-	/**
-	 * Inject the config service (called from services.yml).
-	 *
-	 * @param \phpbb\config\config $config
-	 */
-	public function set_config(\phpbb\config\config $config)
-	{
-		$this->config = $config;
-	}
 
 	/**
 	 * Inject the user_loader service (called from services.yml).

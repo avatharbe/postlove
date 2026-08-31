@@ -21,6 +21,7 @@ All relevant changes to the Post Love extension.
 
 - Extracted `importThanks()` as a sibling to `cleanPostLoves()`; keeps `main()` to request handling and confirmation only, both ACP operations independently callable
 - Resolved `$db_tools`/`thanks_table` once per request — was fetched again just for the "items available to import" count
+- Removed six unused injected dependencies: `$config`/`$user`/`$root_path`/`$php_ext` from `notifyhelper`, `$cache` from `summary_listener`, and `$config` from the notification type; none were ever read
 
 ## 2.2.5
 

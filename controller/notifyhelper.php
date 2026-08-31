@@ -20,23 +20,15 @@ use Symfony\Component\DependencyInjection\Container;
  */
 class notifyhelper
 {
-	protected \phpbb\config\config $config;
-	protected \phpbb\user $user;
 	protected Container $phpbb_container;
 	protected \phpbb\db\driver\driver_interface $db;
 	protected string $likes_table;
-	protected string $root_path;
-	protected string $php_ext;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\user $user, Container $phpbb_container, \phpbb\db\driver\driver_interface $db, $likes_table, $root_path, $php_ext)
+	public function __construct(Container $phpbb_container, \phpbb\db\driver\driver_interface $db, $likes_table)
 	{
-		$this->config = $config;
-		$this->user = $user;
 		$this->phpbb_container = $phpbb_container;
 		$this->db = $db;
 		$this->likes_table = $likes_table;
-		$this->root_path = $root_path;
-		$this->php_ext = $php_ext;
 	}
 
 	/**

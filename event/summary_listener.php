@@ -48,7 +48,6 @@ class summary_listener implements EventSubscriberInterface
 
 	protected \phpbb\auth\auth $auth;
 	protected \phpbb\config\config $config;
-	protected \phpbb\cache\service $cache;
 	protected \phpbb\content_visibility $content_visibility;
 	protected \phpbb\db\driver\driver_interface $db;
 	protected \phpbb\event\dispatcher_interface $dispatcher;
@@ -66,7 +65,6 @@ class summary_listener implements EventSubscriberInterface
 
 	public function __construct(\phpbb\auth\auth $auth,
 								\phpbb\config\config $config,
-								\phpbb\cache\service $cache,
 								\phpbb\content_visibility $content_visibility,
 								\phpbb\db\driver\driver_interface $db,
 								\phpbb\event\dispatcher_interface $dispatcher,
@@ -81,7 +79,6 @@ class summary_listener implements EventSubscriberInterface
 	{
 		$this->auth = $auth;
 		$this->config = $config;
-		$this->cache = $cache;
 		$this->content_visibility = $content_visibility;
 		$this->db = $db;
 		$this->dispatcher = $dispatcher;
