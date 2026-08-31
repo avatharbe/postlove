@@ -22,7 +22,8 @@ All relevant changes to the Post Love extension.
 - Extracted `importThanks()` as a sibling to `cleanPostLoves()`; keeps `main()` to request handling and confirmation only, both ACP operations independently callable
 - Resolved `$db_tools`/`thanks_table` once per request — was fetched again just for the "items available to import" count
 - Removed six unused injected dependencies: `$config`/`$user`/`$root_path`/`$php_ext` from `notifyhelper`, `$cache` from `summary_listener`, and `$config` from the notification type; none were ever read
-- Changed `release_2_0_0`, `release_2_0_0_drop_timestamp`, and `release_2_0_0_add_liked_user_id` to extend `\phpbb\db\migration\migration` instead of `profilefield_base_migration`; none set `$profilefield_name` or touch a custom profile field, so they inherited an `effectively_installed()` that checked for a column literally named `pf_`, and `drop_timestamp` inherited a purge revert that deleted from core profile field tables with `field_id = 0`
+- Switched the three `release_2_0_0*` migrations to extend `\phpbb\db\migration\migration`; they never set `$profilefield_name`, so `profilefield_base_migration` gave them a bogus `pf_`-column check and, for `drop_timestamp`, a purge revert that deleted from core profile field tables
+- Dropped the dead `?short=1` from `POSTLOVE_STATS`; nothing reads it, `lovelist::base()` already decides the embedded form from `is_ajax()`
 
 ## 2.2.5
 

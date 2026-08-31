@@ -285,7 +285,7 @@ class main_listener implements EventSubscriberInterface
 		$this->user->get_profile_fields($this->user->data['user_id']);
 		if (!(isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']))
 		{
-			$this->template->assign_var('POSTLOVE_STATS', $this->helper->route('avathar_postlove_list', array('user_id' => $event['member']['user_id'])) . '?short=1');
+			$this->template->assign_var('POSTLOVE_STATS', $this->helper->route('avathar_postlove_list', array('user_id' => $event['member']['user_id'])));
 		}
 	}
 
