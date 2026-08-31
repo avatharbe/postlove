@@ -27,7 +27,7 @@ class acp_postlove_info
 		return array(
 			'filename'	=> 'avathar\postlove\acp\acp_postlove_module',
 			'title'		=> 'ACP_POSTLOVE',
-			'version'	=> '2.1.0',
+			'version'	=> '2.2.6',
 			'modes'		=> array(
 				'main'		=> array(
 					'title'		=> 'ACP_POSTLOVE',

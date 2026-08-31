@@ -109,96 +109,8 @@ class acp_postlove_module
 		{
 			if (confirm_box(true))
 			{
-				// Clean post loves that reference deleted posts
-				$sql_ary = array(
-					'SELECT'	=> 'pl.post_id as post_id',
-					'FROM'		=> array($likes_table => 'pl'),
-					'LEFT_JOIN'	=> array(
-						array(
-							'FROM'	=> array(POSTS_TABLE => 'p'),
-							'ON'	=> 'pl.post_id = p.post_id'
-						)
-					),
-					'WHERE'	=> 'p.post_id IS NULL'
-				);
-				$sql = $db->sql_build_query('SELECT', $sql_ary);
-				$result = $db->sql_query($sql);
-				$delete_post_likes = array();
-				while ($row = $db->sql_fetchrow($result))
-				{
-					$delete_post_likes[] = $row['post_id'];
-				}
-				$db->sql_freeresult($result);
-				if (!empty($delete_post_likes))
-				{
-					$sql = 'DELETE FROM ' . $likes_table . ' WHERE ' . $db->sql_in_set('post_id', $delete_post_likes);
-					$db->sql_query($sql);
-				}
-
-				// Clean post loves that reference deleted users
-				$sql_ary = array(
-					'SELECT'	=> 'pl.user_id as user_id',
-					'FROM'		=> array($likes_table => 'pl'),
-					'LEFT_JOIN'	=> array(
-						array(
-							'FROM'	=> array(USERS_TABLE => 'u'),
-							'ON'	=> 'pl.user_id = u.user_id'
-						)
-					),
-					'WHERE'	=> 'u.user_id IS NULL'
-				);
-				$sql = $db->sql_build_query('SELECT', $sql_ary);
-				$result = $db->sql_query($sql);
-				$delete_user_likes = array();
-				while ($row = $db->sql_fetchrow($result))
-				{
-					$delete_user_likes[] = $row['user_id'];
-				}
-				$db->sql_freeresult($result);
-				if (!empty($delete_user_likes))
-				{
-					$sql = 'DELETE FROM ' . $likes_table . ' WHERE ' . $db->sql_in_set('user_id', $delete_user_likes);
-					$db->sql_query($sql);
-				}
-
-				// Re-point post loves whose liked_user_id references a deleted user.
-				// liked_user_id is a denormalized copy of posts.poster_id, so it is
-				// repaired from the post rather than deleted: the post itself still
-				// exists (rows referencing deleted posts were dropped above) and phpBB
-				// re-attributes retained posts to the Anonymous user. This also fixes
-				// any legacy rows left at 0 by the 2.0.0 migration.
-				$sql_ary = array(
-					'SELECT'	=> 'DISTINCT pl.liked_user_id as liked_user_id, p.poster_id as poster_id',
-					'FROM'		=> array($likes_table => 'pl'),
-					'LEFT_JOIN'	=> array(
-						array(
-							'FROM'	=> array(USERS_TABLE => 'u'),
-							'ON'	=> 'pl.liked_user_id = u.user_id'
-						),
-						array(
-							'FROM'	=> array(POSTS_TABLE => 'p'),
-							'ON'	=> 'pl.post_id = p.post_id'
-						)
-					),
-					'WHERE'	=> 'u.user_id IS NULL AND p.post_id IS NOT NULL'
-				);
-				$sql = $db->sql_build_query('SELECT', $sql_ary);
-				$result = $db->sql_query($sql);
-				$repoint_liked_users = array();
-				while ($row = $db->sql_fetchrow($result))
-				{
-					// Group the orphaned ids by the author they should point at, so
-					// each distinct author costs one UPDATE instead of one per row.
-					$repoint_liked_users[(int) $row['poster_id']][] = (int) $row['liked_user_id'];
-				}
-				$db->sql_freeresult($result);
-				foreach ($repoint_liked_users as $poster_id => $liked_user_ids)
-				{
-					$sql = 'UPDATE ' . $likes_table . '
-						SET liked_user_id = ' . (int) $poster_id . '
-						WHERE ' . $db->sql_in_set('liked_user_id', $liked_user_ids);
-					$db->sql_query($sql);
-				}
+				$this->cleanPostLoves($likes_table, $db);
+				trigger_error($language->lang('CONFIRM_MESSAGE', $this->u_action));
 			}
 			else
 			{
@@ -219,6 +131,8 @@ class acp_postlove_module
 					AND t.post_id = l.post_id
 					WHERE l.post_id IS NULL';
 				$db->sql_query($sql);
+
+				trigger_error($language->lang('CONFIRM_MESSAGE', $this->u_action));
 			}
 			else
 			{
@@ -265,5 +179,102 @@ class acp_postlove_module
 			'FORUM_HOWMANY_EVER'		=> $config['postlove_forum_most_liked_ever'],
 			'THANKS_TO_CONVERT'			=> $thanks_to_convert,
 		));
+	}
+
+	/**
+	 * Clean post loves that reference deleted posts or deleted users and posts whose poster was deleted.
+	 *
+	 * @param mixed                             $likes_table
+	 * @param \phpbb\db\driver\driver_interface $db
+	 * @return array
+	 */
+	public function cleanPostLoves(mixed $likes_table, \phpbb\db\driver\driver_interface $db): array
+	{
+		// Drop likes whose post_id was not found in the posts table.
+		$sql_ary = array(
+			'SELECT'    => 'pl.post_id as post_id',
+			'FROM'      => array($likes_table => 'pl'),
+			'LEFT_JOIN' => array(
+				array(
+					'FROM' => array(POSTS_TABLE => 'p'),
+					'ON'   => 'pl.post_id = p.post_id'
+				)
+			),
+			'WHERE'     => 'p.post_id IS NULL'
+		);
+		$sql = $db->sql_build_query('SELECT', $sql_ary);
+		$result = $db->sql_query($sql);
+		$delete_post_likes = array();
+		while ($row = $db->sql_fetchrow($result))
+		{
+			$delete_post_likes[] = $row['post_id'];
+		}
+		$db->sql_freeresult($result);
+		if (!empty($delete_post_likes))
+		{
+			$sql = 'DELETE FROM ' . $likes_table . ' WHERE ' . $db->sql_in_set('post_id', $delete_post_likes);
+			$db->sql_query($sql);
+		}
+
+		// Drop likes whose liker (user_id) was not found in the users table.
+		$sql_ary = array(
+			'SELECT'    => 'pl.user_id as user_id',
+			'FROM'      => array($likes_table => 'pl'),
+			'LEFT_JOIN' => array(
+				array(
+					'FROM' => array(USERS_TABLE => 'u'),
+					'ON'   => 'pl.user_id = u.user_id'
+				)
+			),
+			'WHERE'     => 'u.user_id IS NULL'
+		);
+		$sql = $db->sql_build_query('SELECT', $sql_ary);
+		$result = $db->sql_query($sql);
+		$delete_user_likes = array();
+		while ($row = $db->sql_fetchrow($result))
+		{
+			$delete_user_likes[] = $row['user_id'];
+		}
+		$db->sql_freeresult($result);
+		if (!empty($delete_user_likes))
+		{
+			$sql = 'DELETE FROM ' . $likes_table . ' WHERE ' . $db->sql_in_set('user_id', $delete_user_likes);
+			$db->sql_query($sql);
+		}
+
+		// Repoint an deleted liked_user_id to the current poster_id when the post still exists.
+		$sql_ary = array(
+			'SELECT'    => 'DISTINCT pl.liked_user_id as liked_user_id, p.poster_id as poster_id',
+			'FROM'      => array($likes_table => 'pl'),
+			'LEFT_JOIN' => array(
+				array(
+					'FROM' => array(USERS_TABLE => 'u'),
+					'ON'   => 'pl.liked_user_id = u.user_id'
+				),
+				array(
+					'FROM' => array(POSTS_TABLE => 'p'),
+					'ON'   => 'pl.post_id = p.post_id'
+				)
+			),
+			'WHERE'     => 'u.user_id IS NULL AND p.post_id IS NOT NULL'
+		);
+		$sql = $db->sql_build_query('SELECT', $sql_ary);
+		$result = $db->sql_query($sql);
+		$repoint_liked_users = array();
+		while ($row = $db->sql_fetchrow($result))
+		{
+			// Group the orphaned ids by the author they should point at
+			// each distinct author costs one UPDATE instead of one per row.
+			$repoint_liked_users[(int) $row['poster_id']][] = (int) $row['liked_user_id'];
+		}
+		$db->sql_freeresult($result);
+		foreach ($repoint_liked_users as $poster_id => $liked_user_ids)
+		{
+			$sql = 'UPDATE ' . $likes_table . '
+						SET liked_user_id = ' . (int) $poster_id . '
+						WHERE ' . $db->sql_in_set('liked_user_id', $liked_user_ids);
+			$db->sql_query($sql);
+		}
+		return array($sql, $result);
 	}
 }
