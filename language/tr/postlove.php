@@ -38,6 +38,7 @@ $lang = array_merge($lang, array(
 	'POST_LIKES'		=> 'Beğenildi',
 	'POSTED_AT'			=> 'Gönderildi',
 	'LIKED_BY'			=> 'gönderiyi beğenenler: ',
+	'TOTAL_LIKES_IN_TOPIC'	=> 'Bu başlıktaki toplam beğeni sayısı',
 	'POSTED_BY'			=> 'Yazar',
 	'LIKES_TODAY'   	=> array(
 		1	=> 'Bugün bir kez',

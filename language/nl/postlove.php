@@ -40,6 +40,7 @@ $lang = array_merge($lang, array(
 	'POST_LIKES'		=> 'Leuk gevonden',
 	'POSTED_AT'			=> 'Geplaatst',
 	'LIKED_BY'			=> 'bericht leuk gevonden door: ',
+	'TOTAL_LIKES_IN_TOPIC'	=> 'Totaal aantal likes in dit onderwerp',
 	'POSTED_BY'			=> 'Auteur',
 	'LIKES_TODAY'		=> array(
 		1	=> 'Eenmaal vandaag',

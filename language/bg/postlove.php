@@ -40,6 +40,7 @@ $lang = array_merge($lang, array(
 	'POST_LIKES'		=> 'Харесано',
 	'POSTED_AT'			=> 'Публикувано',
 	'LIKED_BY'			=> 'публикацията е харесана от: ',
+	'TOTAL_LIKES_IN_TOPIC'	=> 'Общо харесвания в тази тема',
 	'POSTED_BY'			=> 'Автор',
 	'LIKES_TODAY'   	=> array(
 		1	=> 'Веднъж днес',

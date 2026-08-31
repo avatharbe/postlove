@@ -41,6 +41,7 @@ $lang = array_merge($lang, array(
 	'POST_LIKES'		=> 'Aimé',
 	'POSTED_AT'			=> 'Publié',
 	'LIKED_BY'			=> 'message aimé par : ',
+	'TOTAL_LIKES_IN_TOPIC'	=> 'Total des mentions J\'aime dans ce sujet',
 	'POSTED_BY'			=> 'Auteur',
 	'LIKES_TODAY'		=> array(
 		1	=> 'Une fois aujourd\'hui',

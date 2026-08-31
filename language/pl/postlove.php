@@ -40,6 +40,7 @@ $lang = array_merge($lang, array(
 	'POST_LIKES'		=> 'Polubiony',
 	'POSTED_AT'			=> 'Umieszczony',
 	'LIKED_BY'			=> 'post polubiony przez: ',
+	'TOTAL_LIKES_IN_TOPIC'	=> 'Łączna liczba polubień w tym temacie',
 	'POSTED_BY'			=> 'Autor',
 	'LIKES_TODAY'   	=> array(
 		1	=> 'Jeden raz dzisiaj',

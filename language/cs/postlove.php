@@ -38,6 +38,7 @@ $lang = array_merge($lang, array(
 	'POST_LIKES'		=> 'Oblíbeno',
 	'POSTED_AT'			=> 'Publikováno',
 	'LIKED_BY'			=> 'příspěvek se líbí: ',
+	'TOTAL_LIKES_IN_TOPIC'	=> 'Celkový počet oblíbených v tomto tématu',
 	'POSTED_BY'			=> 'Autor',
 	'LIKES_TODAY'   	=> array(
 		1	=> 'Jednou dnes',
