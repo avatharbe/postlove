@@ -63,7 +63,7 @@ class notifyhelper
 					// phpBB dedupes notifications to one per post, owned by whoever liked
 					// first; delete it only once no likes remain, without parent-id scoping.
 					$notifications = $phpbb_notifications->get_item_type_class('avathar.postlove.notification.type.postlove');
-					$sql = 'SELECT COUNT(*) as remaining FROM ' . $this->likes_table . ' WHERE post_id = ' . $notification_data['post_id'];
+					$sql = 'SELECT COUNT(*) as remaining FROM ' . $this->likes_table . ' WHERE post_id = ' . (int) $notification_data['post_id'];
 					$result = $this->db->sql_query($sql);
 					$remaining = (int) $this->db->sql_fetchfield('remaining');
 					$this->db->sql_freeresult($result);
