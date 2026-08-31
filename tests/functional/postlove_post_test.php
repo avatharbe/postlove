@@ -167,8 +167,8 @@ class postlove_post_test extends postlove_base
 		$crawler = self::request('GET', 'adm/index.php?i=-avathar-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'poslove[postlove_show_likes]'	=> 1,
-			'poslove[postlove_show_liked]'	=> 0,
+			'postlove[postlove_show_likes]'	=> 1,
+			'postlove[postlove_show_liked]'	=> 0,
 		));
 		$crawler = self::submit($form);
 		$this->assertStringContainsString('Changes saved!', $crawler->text());
@@ -188,8 +188,8 @@ class postlove_post_test extends postlove_base
 		$crawler = self::request('GET', 'adm/index.php?i=-avathar-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'poslove[postlove_show_likes]'	=> 0,
-			'poslove[postlove_show_liked]'	=> 1,
+			'postlove[postlove_show_likes]'	=> 0,
+			'postlove[postlove_show_liked]'	=> 1,
 		));
 		$crawler = self::submit($form);
 		$this->assertStringContainsString('Changes saved!', $crawler->text());
@@ -209,8 +209,8 @@ class postlove_post_test extends postlove_base
 		$crawler = self::request('GET', 'adm/index.php?i=-avathar-postlove-acp-acp_postlove_module&mode=main&sid=' . $this->sid);
 		$form = $crawler->selectButton('submit')->form();
 		$form->setValues(array(
-			'poslove[postlove_show_likes]'	=> 1,
-			'poslove[postlove_show_liked]'	=> 1,
+			'postlove[postlove_show_likes]'	=> 1,
+			'postlove[postlove_show_liked]'	=> 1,
 		));
 		$crawler = self::submit($form);
 		$this->assertStringContainsString('Changes saved!', $crawler->text());

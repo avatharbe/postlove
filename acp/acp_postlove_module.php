@@ -72,7 +72,7 @@ class acp_postlove_module
 				trigger_error('FORM_INVALID', E_USER_WARNING);
 			}
 
-			$posted = $request->variable('poslove', array('' => ''));
+			$posted = $request->variable('postlove', array('' => ''));
 
 			$bool_keys = array(
 				'postlove_show_likes',
@@ -174,6 +174,7 @@ class acp_postlove_module
 			'FORUM_HOWMANY_THIS_YEAR'	=> $config['postlove_forum_most_liked_this_year'],
 			'FORUM_HOWMANY_EVER'		=> $config['postlove_forum_most_liked_ever'],
 			'THANKS_TO_CONVERT'			=> $thanks_to_convert,
+			'L_POSTLOVE_IMPORT_THANKS'	=> $language->lang('POSTLOVE_IMPORT_THANKS', $thanks_to_convert),
 		));
 	}
 
