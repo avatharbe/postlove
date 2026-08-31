@@ -162,6 +162,7 @@ class acp_postlove_module
 		add_form_key('acp_postlove');
 
 		$template->assign_vars(array(
+			'U_ACTION'		=> $this->u_action,
 			'POST_LIKES'	=> ($config['postlove_show_likes'] == 1),
 			'POST_LIKED'	=> ($config['postlove_show_liked'] == 1),
 			'AUTHOR_LIKE'	=> ($config['postlove_author_like'] == 1),
