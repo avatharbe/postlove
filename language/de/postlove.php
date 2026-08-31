@@ -24,7 +24,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Beitrag gefällt.',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s - %2$s <b>gefällt</b> %3$s\'s Beitrag "%4$s" im Thema "%5$s"',
+	'LOVELIST_LIKED'	=> 'gefällt',
+	'LOVELIST_POST_OF'	=> '\'s Beitrag',
+	'LOVELIST_IN_TOPIC'	=> 'im Thema',
 	'POSTLOVE_LIST'	=> 'Gefällt',
 	'POSTLOVE_LIST_VIEW'	=> 'Zeige Liste mit allen Gefällt-Angaben',
 

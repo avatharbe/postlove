@@ -6,7 +6,7 @@
 	<div class="inner">
 		<ul class="topiclist">
 		<!-- BEGIN lovelist -->
-			<li class="row <!-- IF lovelist.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">{lovelist.LINE}</li>
+			<li class="row <!-- IF lovelist.S_ROW_COUNT is odd -->bg1<!-- ELSE -->bg2<!-- ENDIF -->">{lovelist.LIKE_DATE} - {lovelist.LIKER} <b>{L_LOVELIST_LIKED}</b> {lovelist.POSTER}{L_LOVELIST_POST_OF} "<a href="{lovelist.U_POST}" target="_blank">{lovelist.POST_SUBJECT}</a>" {L_LOVELIST_IN_TOPIC} "<a href="{lovelist.U_TOPIC}" target="_blank" class="topictitle">{lovelist.TOPIC_TITLE}</a>"</li>
 		<!-- END lovelist -->
 		</ul>
 	</div>

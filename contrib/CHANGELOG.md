@@ -17,6 +17,7 @@ All relevant changes to the Post Love extension.
 - Made `topposts_of_period()`'s aggregate page through its results instead of fetching a single page; being board-wide with no forum filter, a single page could fill entirely with posts a viewer can't read, so the panel silently showed fewer posts than configured, or none
 - Deleted the like notification only once no likes remain, dropping the 2.2.4 parent-id scoping on the delete; phpBB deduped notifications to one per post, so scoping the delete could clear it early or miss it, depending on who unliked last
 - Split the disabled-heart message into `LOGIN_TO_LIKE_POST` and a new `NO_PERMISSION_TO_LIKE_POST`; a registered user whose group simply lacks `u_postlove` was told to log in, which they'd already done
+- Capped the love-list modal's width at `500px` (`max-width: 90%` on narrow screens) and switched its fixed `height: 80%` to `max-height: 80%`, so a short like list sizes to its content instead of always filling most of the viewport
 
 ### Changed
 
@@ -26,6 +27,7 @@ All relevant changes to the Post Love extension.
 - Switched the three `release_2_0_0*` migrations to extend `\phpbb\db\migration\migration`; they never set `$profilefield_name`, so `profilefield_base_migration` gave them a bogus `pf_`-column check and, for `drop_timestamp`, a purge revert that deleted from core profile field tables
 - Cast the sub-forum id to `(int)` in `forum_page_summary()`'s query and array push, matching the rest of the file, and swapped a manual `post_id NOT IN (implode(...))` for `sql_in_set('post_id', $post_list, true)` in `topposts_of_period()`
 - Dropped the dead `?short=1` from `POSTLOVE_STATS`; nothing reads it, `lovelist::base()` already decides the embedded form from `is_ajax()`
+- Moved the love list row's `<a>` markup out of `lovelist.php` into `postlove_base.html`; the controller now passes `U_POST`/`POST_SUBJECT`/`U_TOPIC`/`TOPIC_TITLE` as plain block vars instead of pre-built HTML, and `LIKE_LINE` is replaced by three connector lang keys (`LOVELIST_LIKED`/`LOVELIST_POST_OF`/`LOVELIST_IN_TOPIC`) so a style can restyle the row without touching PHP
 
 ## 2.2.5
 

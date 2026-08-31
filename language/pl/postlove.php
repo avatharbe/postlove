@@ -24,7 +24,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Polubiono post',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s - %2$s <b>polubił(a)</b> post użytkownika %3$s: "%4$s" w temacie "%5$s"',
+	'LOVELIST_LIKED'	=> 'polubił(a) post użytkownika',
+	'LOVELIST_POST_OF'	=> '',
+	'LOVELIST_IN_TOPIC'	=> 'w temacie',
 	'POSTLOVE_LIST'	=> 'Polubienia',
 	'POSTLOVE_LIST_VIEW'	=> 'Pokaż listę wszystkich polubień',
 

@@ -24,7 +24,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Publicaciones gustadas.',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s - %2$s <b>gustó</b> el mensaje de %3$s en "%4$s" en el tema "%5$s"',
+	'LOVELIST_LIKED'	=> 'gustó el mensaje de',
+	'LOVELIST_POST_OF'	=> '',
+	'LOVELIST_IN_TOPIC'	=> 'en el tema',
 	'POSTLOVE_LIST'	=> 'Gustó',
 	'POSTLOVE_LIST_VIEW'	=> 'Mostrar lista con todas las acciones similares',
 

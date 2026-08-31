@@ -25,7 +25,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Un utilisateur aime un de vos messages.',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s - %2$s <b>a aimé</b> le message « %4$s » de %3$s dans le sujet « %5$s »',
+	'LOVELIST_LIKED'	=> 'a aimé le message de',
+	'LOVELIST_POST_OF'	=> '',
+	'LOVELIST_IN_TOPIC'	=> 'dans le sujet',
 	'POSTLOVE_LIST'	=> 'J\'aime',
 	'POSTLOVE_LIST_VIEW'	=> 'Afficher la liste de tous les J\'aime partagés et reçus.',
 

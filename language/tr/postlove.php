@@ -22,7 +22,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Beğenilen paylaşımlar.',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s - %2$s , %3$s tarafından "%5$s" başlığında yapılan "%4$s" paylaşımını <b>beğendi</b>',
+	'LOVELIST_LIKED'	=> 'beğendi',
+	'LOVELIST_POST_OF'	=> ' kullanıcısının gönderisini',
+	'LOVELIST_IN_TOPIC'	=> 'başlığında',
 	'POSTLOVE_LIST'	=> 'Beğeniler',
 	'POSTLOVE_LIST_VIEW'	=> 'Bütün beğeni eylemlerini listele',
 

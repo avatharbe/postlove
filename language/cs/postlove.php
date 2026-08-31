@@ -22,7 +22,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Oblíbené příspěvky',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s – %2$s <b>se líbí</b> příspěvek „%4$s" uživatele %3$s v tématu „%5$s"',
+	'LOVELIST_LIKED'	=> 'se líbí příspěvek uživatele',
+	'LOVELIST_POST_OF'	=> '',
+	'LOVELIST_IN_TOPIC'	=> 'v tématu',
 	'POSTLOVE_LIST'	=> 'Hodnocení',
 	'POSTLOVE_LIST_VIEW'	=> 'Zobrazit seznam se všemi událostmi',
 

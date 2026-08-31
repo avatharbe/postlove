@@ -24,7 +24,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Liked posts.',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s - %2$s <b>liked</b> %3$s\'s post "%4$s" in topic "%5$s"',
+	'LOVELIST_LIKED'	=> 'liked',
+	'LOVELIST_POST_OF'	=> '\'s post',
+	'LOVELIST_IN_TOPIC'	=> 'in topic',
 	'POSTLOVE_LIST'	=> 'Likes',
 	'POSTLOVE_LIST_VIEW'	=> 'Show list with all like actions',
 

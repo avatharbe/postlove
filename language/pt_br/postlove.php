@@ -24,7 +24,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Posts Curtidos.',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s - %2$s <b>Curtiu</b> o post do %3$s "%4$s" no tópico "%5$s"',
+	'LOVELIST_LIKED'	=> 'curtiu o post de',
+	'LOVELIST_POST_OF'	=> '',
+	'LOVELIST_IN_TOPIC'	=> 'no tópico',
 	'POSTLOVE_LIST'	=> 'Curtidas',
 	'POSTLOVE_LIST_VIEW'	=> 'Mostrar lista com todas as ações de curtir',
 

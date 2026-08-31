@@ -24,7 +24,9 @@ $lang = array_merge($lang, array(
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Iemand vindt een bericht van je leuk.',
 
 	// Ver 1.1
-	'LIKE_LINE'	=> '%1$s - %2$s vindt %3$s\'s bericht "%4$s" <b>leuk</b> in onderwerp "%5$s"',
+	'LOVELIST_LIKED'	=> 'vindt',
+	'LOVELIST_POST_OF'	=> '\'s bericht leuk',
+	'LOVELIST_IN_TOPIC'	=> 'in onderwerp',
 	'POSTLOVE_LIST'	=> 'Vind ik leuk',
 	'POSTLOVE_LIST_VIEW'	=> 'Toon lijst met alle vind-ik-leuks',
 

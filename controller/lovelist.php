@@ -199,12 +199,14 @@ class lovelist
 			$this->user_loader->load_users($users);
 			foreach ($raw_output as $row)
 			{
-				$post_url = append_sid($this->root_path . 'viewtopic.' . $this->php_ext, 'p=' . $row['post_id'] . '#p' . $row['post_id']);
-				$topic_url = append_sid($this->root_path . 'viewtopic.' . $this->php_ext, 't=' . $row['topic_id']);
-				$post_link = '<a href="' . $post_url . '" target="_blank">' . censor_text($row['post_subject']) . '</a>';
-				$topic_link = '<a href="' . $topic_url . '" target="_blank" class="topictitle">' . censor_text($row['topic_title']) . '</a>';
 				$this->template->assign_block_vars('lovelist', array(
-					'LINE' => $this->lang->lang('LIKE_LINE', $this->user->format_date($row['liketime']), $this->user_loader->get_username($row['liker_id'], 'full'), $this->user_loader->get_username($row['poster'], 'full'), $post_link, $topic_link),
+					'LIKE_DATE'		=> $this->user->format_date($row['liketime']),
+					'LIKER'			=> $this->user_loader->get_username($row['liker_id'], 'full'),
+					'POSTER'		=> $this->user_loader->get_username($row['poster'], 'full'),
+					'U_POST'		=> append_sid($this->root_path . 'viewtopic.' . $this->php_ext, 'p=' . $row['post_id'] . '#p' . $row['post_id']),
+					'POST_SUBJECT'	=> censor_text($row['post_subject']),
+					'U_TOPIC'		=> append_sid($this->root_path . 'viewtopic.' . $this->php_ext, 't=' . $row['topic_id']),
+					'TOPIC_TITLE'	=> censor_text($row['topic_title']),
 				));
 			}
 
