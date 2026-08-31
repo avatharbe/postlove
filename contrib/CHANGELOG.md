@@ -35,6 +35,7 @@ All relevant changes to the Post Love extension.
 - Renamed the ACP form field prefix from `poslove` to `postlove` in `acp_postlove.html`, `acp_postlove_module.php`, and the functional tests; it worked since it was consistent, but read as a typo
 - Changed the ten "how many to show" ACP fields from `type="text"` to `type="number"`
 - Cleanup: fixed an indentation slip in `main_listener.php`, a double space in two `summary_listener.php` method names, and an unreachable `break` after the returns in `ajaxify.php`'s switch
+- Moved the love list row's `<a>` markup out of `lovelist.php` into `postlove_base.html`; the controller now passes `U_POST`/`POST_SUBJECT`/`U_TOPIC`/`TOPIC_TITLE` as plain block vars instead of pre-built HTML, and `LIKE_LINE` is replaced by three connector lang keys (`LOVELIST_LIKED`/`LOVELIST_POST_OF`/`LOVELIST_IN_TOPIC`) so a style can restyle the row without touching PHP
 
 ### Removed
 
@@ -43,7 +44,6 @@ All relevant changes to the Post Love extension.
 ### Documentation
 
 - README's license link now points to `https://` instead of `http://`
-- Moved the love list row's `<a>` markup out of `lovelist.php` into `postlove_base.html`; the controller now passes `U_POST`/`POST_SUBJECT`/`U_TOPIC`/`TOPIC_TITLE` as plain block vars instead of pre-built HTML, and `LIKE_LINE` is replaced by three connector lang keys (`LOVELIST_LIKED`/`LOVELIST_POST_OF`/`LOVELIST_IN_TOPIC`) so a style can restyle the row without touching PHP
 
 ## 2.2.5
 
