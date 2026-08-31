@@ -153,7 +153,6 @@ class ajaxify
 						'toggle_title'	=> $this->language->lang('CLICK_TO_LIKE'),
 					));
 				}
-			break;
 		}
 		// 'toggle' is the only known action, but {action} carries no route
 		// requirement, so any segment reaches this method. Returning an int here

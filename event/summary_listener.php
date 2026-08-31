@@ -110,7 +110,7 @@ class summary_listener implements EventSubscriberInterface
 	 *
 	 * @param \phpbb\event\data $event The core.index_modify_page_title event
 	 */
-	public function  index_page_summary($event)
+	public function index_page_summary($event)
 	{
 		// first check that this user wants to see Post Like
 		$this->user->get_profile_fields($this->user->data['user_id']);
@@ -163,7 +163,7 @@ class summary_listener implements EventSubscriberInterface
 	 * @param \phpbb\event\data $event The core.viewforum_modify_page_title event
 	 *        Contains 'forum_id' and 'forum_data' (with left_id/right_id)
 	 */
-	public function  forum_page_summary($event)
+	public function forum_page_summary($event)
 	{
 		// first check that this user wants to see Post Like
 		$this->user->get_profile_fields($this->user->data['user_id']);
