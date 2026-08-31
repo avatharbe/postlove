@@ -55,6 +55,10 @@ class acp_postlove_module
 
 		$likes_table = $phpbb_container->getParameter('tables.avathar.postlove');
 
+		/** @var \phpbb\db\tools\tools_interface $db_tools */
+		$db_tools = $phpbb_container->get('dbal.tools');
+		$thanks_table = $phpbb_container->getParameter('core.table_prefix') . 'thanks';
+
 		$this->tpl_name = 'acp_postlove';
 		$this->page_title = 'ACP_POSTLOVE';
 
@@ -122,15 +126,18 @@ class acp_postlove_module
 		{
 			if (confirm_box(true))
 			{
-				// Import thanks from the Thanks for Posts extension
-				$sql = 'INSERT INTO ' . $likes_table . ' (post_id, user_id, liked_user_id, liketime)
-					SELECT t.post_id, t.user_id, t.poster_id as liked_user_id, t.thanks_time as liketime
-					FROM ' . $phpbb_container->getParameter('core.table_prefix') . 'thanks t
-					LEFT JOIN ' . $likes_table . ' l
-					ON t.user_id = l.user_id
-					AND t.post_id = l.post_id
-					WHERE l.post_id IS NULL';
-				$db->sql_query($sql);
+				if ($db_tools->sql_table_exists($thanks_table))
+				{
+					// Import thanks from the Thanks for Posts extension
+					$sql = 'INSERT INTO ' . $likes_table . ' (post_id, user_id, liked_user_id, liketime)
+						SELECT t.post_id, t.user_id, t.poster_id as liked_user_id, t.thanks_time as liketime
+						FROM ' . $thanks_table . ' t
+						LEFT JOIN ' . $likes_table . ' l
+						ON t.user_id = l.user_id
+						AND t.post_id = l.post_id
+						WHERE l.post_id IS NULL';
+					$db->sql_query($sql);
+				}
 
 				trigger_error($language->lang('CONFIRM_MESSAGE', $this->u_action));
 			}
@@ -142,9 +149,6 @@ class acp_postlove_module
 
 		// Check for Thanks for Posts data available to import
 		$thanks_to_convert = 0;
-		/** @var \phpbb\db\tools\tools_interface $db_tools */
-		$db_tools = $phpbb_container->get('dbal.tools');
-		$thanks_table = $phpbb_container->getParameter('core.table_prefix') . 'thanks';
 		if ($db_tools->sql_table_exists($thanks_table))
 		{
 			$sql = 'SELECT COUNT(t.thanks_time) as item_count
