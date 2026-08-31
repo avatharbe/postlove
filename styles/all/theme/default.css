@@ -157,7 +157,6 @@
   -o-box-shadow: 0 0 10px #000;
   -ms-box-shadow: 0 0 10px #000;
   box-shadow: 0 0 10px #000;
-  background-color: rgba(0, 0, 0, 0.5);
 }
 .modal .inner {
 	width: 100%;
