@@ -9,22 +9,9 @@
 namespace avathar\postlove\migrations;
 
 /**
- * Drops two obsolete config entries that no code has ever read.
- *
- * Both were added back when this was anavaro/postlove:
- *
- * - postlove_version (release_1_0_0) — the extension version in phpbb_config,
- *   never read and never kept current, so every board still carries it pinned
- *   at '1.0.0'. The canonical version now lives in ext::POSTLOVE_VERSION,
- *   matching the convention in the sibling extensions (recenttopics, bbguild).
- * - postlove_installed_theme (release_1_1_0) — never read by anything, and
- *   never given a default anyone could change.
- *
- * Boards inherited from the original author reach the current chain via
- * release_2_1_0_rename_namespace, which rewrites their old migration rows and
- * so marks those two migrations as already run. Their rows would survive every
- * upgrade; removing them here in update_data() is what actually cleans them up,
- * because the migrator's own reversal of those migrations only runs on purge.
+ * Drops two obsolete config entries that no code has ever read:
+ * postlove_version and postlove_installed_theme. The canonical version now
+ * lives in ext::POSTLOVE_VERSION.
  */
 class release_2_2_5_remove_dead_config extends \phpbb\db\migration\migration
 {
@@ -49,9 +36,6 @@ class release_2_2_5_remove_dead_config extends \phpbb\db\migration\migration
 		];
 	}
 
-	// No revert_data(). On purge the migrator auto-reverses update_data(), so
-	// these two config.remove steps briefly re-add both keys with an empty value.
-	// That is harmless: migrations revert newest first, so the chain then reaches
-	// release_1_1_0 and release_1_0_0, whose own reversals remove them again and
-	// leave the config table clean.
+	// No revert_data(): purge briefly re-adds both keys, but release_1_1_0 and
+	// release_1_0_0's own reversals remove them again right after.
 }

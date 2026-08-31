@@ -1,10 +1,6 @@
 # Changelog
 
-All notable changes to the Post Love extension. The current version is also
-recorded in `composer.json` and `ext::POSTLOVE_VERSION`.
-
-Entries are grouped per release by type of change: **Security**, **Added**,
-**Changed**, **Fixed**, **Removed**, **Documentation**, **Tests & CI**.
+All relevant changes to the Post Love extension.
 
 ## 2.2.6
 
