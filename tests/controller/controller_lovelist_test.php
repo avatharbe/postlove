@@ -183,6 +183,7 @@ class controller_lovelist_test extends \phpbb_database_test_case
 			$this->template,
 			$this->pagination,
 			$this->request,
+			new \avathar\postlove\service\forum_access($this->db, $this->user),
 			'phpbb_posts_likes',
 			'./',
 			'php'

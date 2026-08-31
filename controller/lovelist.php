@@ -36,6 +36,7 @@ class lovelist
 	protected \phpbb\template\template $template;
 	protected \phpbb\pagination $pagination;
 	protected \phpbb\request\request $request;
+	protected \avathar\postlove\service\forum_access $forum_access;
 	protected string $likes_table;
 	protected string $root_path;
 	protected string $php_ext;
@@ -51,6 +52,7 @@ class lovelist
 	 * @param \phpbb\template\template           $template   Template engine
 	 * @param \phpbb\pagination                  $pagination Pagination helper
 	 * @param \phpbb\request\request             $request    HTTP request (AJAX detection)
+	 * @param \avathar\postlove\service\forum_access $forum_access Drops password protected forums the viewer has not unlocked
 	 * @param string                             $likes_table Posts likes table name
 	 * @param string                             $root_path  phpBB root path
 	 * @param string                             $php_ext    PHP file extension
@@ -58,6 +60,7 @@ class lovelist
 	public function __construct(\phpbb\user $user, \phpbb\language\language $language, \phpbb\controller\helper $helper, \phpbb\db\driver\driver_interface $db, \phpbb\auth\auth $auth,
 	\phpbb\content_visibility $content_visibility, \phpbb\user_loader $user_loader,
 	\phpbb\template\template $template, \phpbb\pagination $pagination, \phpbb\request\request $request,
+	\avathar\postlove\service\forum_access $forum_access,
 	$likes_table, $root_path, $php_ext)
 	{
 		$this->user = $user;
@@ -70,6 +73,7 @@ class lovelist
 		$this->template = $template;
 		$this->pagination = $pagination;
 		$this->request = $request;
+		$this->forum_access = $forum_access;
 		$this->likes_table = $likes_table;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
@@ -102,8 +106,7 @@ class lovelist
 
 		// Add lang
 		$this->lang->add_lang(array('postlove'), 'avathar/postlove');
-		// Let's get allowed forums
-		// Get the allowed forums
+		// Get the forums the viewer may read
 		$forum_ary = array();
 		$forum_read_ary = $this->auth->acl_getf('f_read');
 
@@ -115,6 +118,11 @@ class lovelist
 			}
 		}
 		$forum_ids = array_unique($forum_ary);
+
+		// f_read is granted independently of a forum password; drop forums the
+		// viewer's session has not unlocked, or this leaks topic titles, subjects,
+		// authors and links from password protected forums.
+		$forum_ids = $this->forum_access->drop_locked($forum_ids);
 
 		// No forums with f_read. This is a legitimate state — a guest on a board
 		// where every forum requires login reaches it — so render the page and let

@@ -6,6 +6,22 @@ recorded in `composer.json` and `ext::POSTLOVE_VERSION`.
 Entries are grouped per release by type of change: **Security**, **Added**,
 **Changed**, **Fixed**, **Removed**, **Documentation**, **Tests & CI**.
 
+## 2.2.6
+
+### Security
+
+- `lovelist::base()` and both `summary_listener` handlers built their forum set from `acl_getf('f_read')` alone. `f_read` is independent of `forum_password` — phpBB gates password protected forums separately via `login_forum_box()` / `FORUMS_ACCESS_TABLE` — so a forum with `f_read` granted but its password not entered by this session was still included. Added `service\forum_access::drop_locked()` (`LEFT JOIN FORUMS_ACCESS_TABLE ON session_id`, mirroring `search.php`'s `$not_in_fid` construction) and call it after every `acl_getf('f_read')` pass in `lovelist.php` and `summary_listener.php`, including the sub-forum branch of `forum_page_summary()`. `avathar_postlove_list` has no permission of its own and is reachable unauthenticated, so this was exploitable via a bare GET to `/postlove/{user_id}` with no session at all
+
+### Fixed
+
+- `acp_postlove_module::main()` never assigned `{U_ACTION}`, so the form posted back to the current URL instead of the module's own action. On the settings-save branch this was a no-op, but `confirm_box()` leaves `confirm_key` on the URL after a confirmed Clean or Import, and `confirm_box()` returns `false` for a second confirmation while a key is present — after already calling `adm_page_header()`. Net effect: a second Clean/Import submit re-rendered the settings page under the confirm title, with no prompt and no error, and skipped the operation
+- `importThanks()`'s `INSERT ... FROM {thanks_table}` ran unconditionally once confirmed; `sql_table_exists()` was only checked for the Import-button visibility flag, not before the query itself, so confirming Import after the Thanks for Posts table had been dropped hit a raw SQL error instead of a no-op
+
+### Changed
+
+- `cleanPostLoves()` gained a sibling, `importThanks()`, so `main()` is left doing request handling and confirmation only, with both ACP operations available as named, independently callable methods
+- `$db_tools` and the `thanks` table name are now resolved once per request instead of being fetched again for the "items available to import" count
+
 ## 2.2.5
 
 ### Security

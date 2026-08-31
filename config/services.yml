@@ -26,6 +26,7 @@ services:
             - '@template'
             - '@user'
             - '@language'
+            - '@avathar.postlove.forum_access'
             - '%core.root_path%'
             - '%core.php_ext%'
             - '%core.table_prefix%'
@@ -56,6 +57,7 @@ services:
             - '@template'
             - '@pagination'
             - '@request'
+            - '@avathar.postlove.forum_access'
             - '%tables.avathar.postlove%'
             - '%core.root_path%'
             - '%core.php_ext%'
@@ -72,6 +74,11 @@ services:
         arguments:
             - '@dbal.conn'
             - '%tables.avathar.postlove%'
+    avathar.postlove.forum_access:
+        class: avathar\postlove\service\forum_access
+        arguments:
+            - '@dbal.conn'
+            - '@user'
     avathar.postlove.notification.type.postlove:
         class: avathar\postlove\notification\postlove
         shared: false

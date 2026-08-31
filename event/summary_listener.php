@@ -47,6 +47,7 @@ class summary_listener implements EventSubscriberInterface
 	protected \phpbb\template\template $template;
 	protected \phpbb\user $user;
 	protected \phpbb\language\language $language;
+	protected \avathar\postlove\service\forum_access $forum_access;
 	protected string $root_path;
 	protected string $php_ext;
 	protected string $table_prefix;
@@ -64,6 +65,7 @@ class summary_listener implements EventSubscriberInterface
 								\phpbb\template\template $template,
 								\phpbb\user $user,
 								\phpbb\language\language $language,
+								\avathar\postlove\service\forum_access $forum_access,
 								$phpbb_root_path,
 								$php_ext,
 								$table_prefix,
@@ -78,6 +80,7 @@ class summary_listener implements EventSubscriberInterface
 		$this->template = $template;
 		$this->user = $user;
 		$this->language = $language;
+		$this->forum_access = $forum_access;
 		$this->root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 		$this->table_prefix = $table_prefix;
@@ -130,6 +133,11 @@ class summary_listener implements EventSubscriberInterface
 
 		// prune any duplicates
 		$forum_ary = array_unique($forum_ary);
+
+		// f_read is granted independently of a forum password; drop forums the
+		// viewer's session has not unlocked, or this panel leaks topic titles,
+		// subjects, authors and links from password protected forums.
+		$forum_ary = $this->forum_access->drop_locked($forum_ary);
 
 		if (!count($forum_ary))
 		{
@@ -192,6 +200,12 @@ class summary_listener implements EventSubscriberInterface
 			// prune any duplicates
 			$forum_ary = array_unique($forum_ary);
 		}
+
+		// The current forum already passed core's password gate to be viewable
+		// here, but a sub-forum can carry its own separate password the viewer
+		// has not unlocked; drop any locked forum before it reaches the query.
+		$forum_ary = $this->forum_access->drop_locked($forum_ary);
+
 		$this->build_summary_array($forum_ary, 'forum');
 	}
 

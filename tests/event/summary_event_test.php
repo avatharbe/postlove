@@ -158,6 +158,7 @@ class summary_event extends \phpbb_database_test_case
 			$this->template,
 			$this->user,
 			$this->language,
+			new \avathar\postlove\service\forum_access($this->db, $this->user),
 			'/',
 			'.php',
 			'phpbb_',
