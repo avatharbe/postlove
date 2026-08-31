@@ -9,6 +9,9 @@
 
 namespace avathar\postlove\acp;
 
+use phpbb\db\driver\driver_interface;
+use phpbb\db\tools\tools_interface;
+
 /**
  * ACP module for Post Love settings.
  *
@@ -44,7 +47,7 @@ class acp_postlove_module
 
 		/** @var \phpbb\config\config $config */
 		$config = $phpbb_container->get('config');
-		/** @var \phpbb\db\driver\driver_interface $db */
+		/** @var driver_interface $db */
 		$db = $phpbb_container->get('dbal.conn');
 		/** @var \phpbb\template\template $template */
 		$template = $phpbb_container->get('template');
@@ -55,7 +58,7 @@ class acp_postlove_module
 
 		$likes_table = $phpbb_container->getParameter('tables.avathar.postlove');
 
-		/** @var \phpbb\db\tools\tools_interface $db_tools */
+		/** @var tools_interface $db_tools */
 		$db_tools = $phpbb_container->get('dbal.tools');
 		$thanks_table = $phpbb_container->getParameter('core.table_prefix') . 'thanks';
 
@@ -126,19 +129,7 @@ class acp_postlove_module
 		{
 			if (confirm_box(true))
 			{
-				if ($db_tools->sql_table_exists($thanks_table))
-				{
-					// Import thanks from the Thanks for Posts extension
-					$sql = 'INSERT INTO ' . $likes_table . ' (post_id, user_id, liked_user_id, liketime)
-						SELECT t.post_id, t.user_id, t.poster_id as liked_user_id, t.thanks_time as liketime
-						FROM ' . $thanks_table . ' t
-						LEFT JOIN ' . $likes_table . ' l
-						ON t.user_id = l.user_id
-						AND t.post_id = l.post_id
-						WHERE l.post_id IS NULL';
-					$db->sql_query($sql);
-				}
-
+				$this->importThanks($likes_table, $thanks_table, $db, $db_tools);
 				trigger_error($language->lang('CONFIRM_MESSAGE', $this->u_action));
 			}
 			else
@@ -189,11 +180,11 @@ class acp_postlove_module
 	/**
 	 * Clean post loves that reference deleted posts or deleted users and posts whose poster was deleted.
 	 *
-	 * @param mixed                             $likes_table
-	 * @param \phpbb\db\driver\driver_interface $db
+	 * @param mixed             $likes_table
+	 * @param driver_interface  $db
 	 * @return array
 	 */
-	public function cleanPostLoves(mixed $likes_table, \phpbb\db\driver\driver_interface $db): array
+	public function cleanPostLoves(mixed $likes_table, driver_interface $db): array
 	{
 		// Drop likes whose post_id was not found in the posts table.
 		$sql_ary = array(
@@ -281,5 +272,31 @@ class acp_postlove_module
 			$db->sql_query($sql);
 		}
 		return array($sql, $result);
+	}
+
+	/**
+	 * Import likes from the Thanks for Posts extension, skipping rows already present.
+	 *
+	 * @param mixed             $likes_table
+	 * @param string            $thanks_table
+	 * @param driver_interface  $db
+	 * @param tools_interface   $db_tools
+	 * @return void
+	 */
+	public function importThanks(mixed $likes_table, string $thanks_table, driver_interface $db, tools_interface $db_tools): void
+	{
+		if (!$db_tools->sql_table_exists($thanks_table))
+		{
+			return;
+		}
+
+		$sql = 'INSERT INTO ' . $likes_table . ' (post_id, user_id, liked_user_id, liketime)
+			SELECT t.post_id, t.user_id, t.poster_id as liked_user_id, t.thanks_time as liketime
+			FROM ' . $thanks_table . ' t
+			LEFT JOIN ' . $likes_table . ' l
+			ON t.user_id = l.user_id
+			AND t.post_id = l.post_id
+			WHERE l.post_id IS NULL';
+		$db->sql_query($sql);
 	}
 }
