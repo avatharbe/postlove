@@ -14,16 +14,12 @@ use phpbb\db\driver\driver_interface;
 use phpbb\user;
 
 /**
- * Drops password protected forums the current viewer has not unlocked from a
- * forum_id set.
+ * Drops password protected forums the current viewer has not unlocked from
+ * a forum_id set.
  *
- * f_read does not depend on the forum password: phpBB grants read access
- * separately from the password gate, holds the visitor at login_forum_box(),
- * and records the unlock in phpbb_forums_access. Callers that build a forum
- * set from acl_getf('f_read') alone — as this extension's love list and
- * most-liked summaries used to — leak topic titles, subjects, authors and
- * links from forums the viewer has never entered the password for. Mirrors
- * the forum_password / FORUMS_ACCESS_TABLE check in search.php.
+ * f_read is independent of the forum password; phpBB gates it separately,
+ * via login_forum_box() and phpbb_forums_access. Mirrors the forum_password
+ * / FORUMS_ACCESS_TABLE check in search.php.
  */
 class forum_access
 {
