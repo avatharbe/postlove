@@ -37,7 +37,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 See [CHANGELOG.md](https://github.com/avatharbe/postlove/blob/main/contrib/CHANGELOG.md) for the full release history.
 
 ### Installation
-1. [Download the latest release](https://github.com/avatharbe/postlove/releases) and unzip it.
+1. [Download the latest release](https://www.avathar.be/forum/app.php/dlext/details?df_id=90) and unzip it.
 2. Copy the entire contents from the unzipped folder to `/ext/avathar/postlove/`.
 3. Navigate in the ACP to `Customise -> Manage extensions`.
 4. Find `Post Love` under "Disabled Extensions" and click `Enable`.
