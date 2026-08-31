@@ -16,6 +16,7 @@ Entries are grouped per release by type of change: **Security**, **Added**,
 
 - `acp_postlove_module::main()` never assigned `{U_ACTION}`, so the form posted back to the current URL instead of the module's own action. On the settings-save branch this was a no-op, but `confirm_box()` leaves `confirm_key` on the URL after a confirmed Clean or Import, and `confirm_box()` returns `false` for a second confirmation while a key is present — after already calling `adm_page_header()`. Net effect: a second Clean/Import submit re-rendered the settings page under the confirm title, with no prompt and no error, and skipped the operation
 - `importThanks()`'s `INSERT ... FROM {thanks_table}` ran unconditionally once confirmed; `sql_table_exists()` was only checked for the Import-button visibility flag, not before the query itself, so confirming Import after the Thanks for Posts table had been dropped hit a raw SQL error instead of a no-op
+- `memberlist_view_user_statistics_after.html` rendered the "Show list with all like actions" row unconditionally, but `main_listener::user_profile_likes()` only assigns `{POSTLOVE_STATS}` when the viewer hasn't set `pf_postlove_hide`. Opted-out users saw the row anyway, as `<a href="">`, with `jquery.modal.js` also unloaded for them (gated on the same variable in `overall_footer_after.html`), so the link just reloaded the profile. Row now gated on `<!-- IF POSTLOVE_STATS -->`, matching the post-notices guard from 2.2.5
 
 ### Changed
 
