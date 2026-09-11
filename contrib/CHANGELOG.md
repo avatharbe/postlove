@@ -2,6 +2,12 @@
 
 All relevant changes to the Post Love extension.
 
+## 2.2.8
+
+### Fixed
+
+- Added an explain text to the `postlove_hide` custom profile field ("Hide Like icons and summaries" in UCP). It shipped with a label only — no description of what checking it does — which is how it ended up silently enabled on an account, hiding the like button and summary panels board-wide with no obvious cause (raised during #55). The explain text is now set for every board language the extension ships translations for.
+
 ## 2.2.7
 
 ### Fixed
