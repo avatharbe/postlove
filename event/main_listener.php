@@ -260,7 +260,9 @@ class main_listener implements EventSubscriberInterface
 			}
 		}
 
-		// Show likes given/received in mini profile (using prefetched data)
+		// Show likes given/received in mini profile (using prefetched data).
+		// Admin-only via config, deliberately: unlike the four
+		// user_postlove_hide* preferences, this has no per-user opt-out.
 		if ($event['row']['user_id'] != ANONYMOUS)
 		{
 			$poster_id = (int) $event['row']['user_id'];
