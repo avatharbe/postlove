@@ -363,6 +363,79 @@ class main_event extends \phpbb_database_test_case
 	}
 
 	/**
+	* Poster (user 3) has not opted out. With postlove_show_likes/liked
+	* enabled, USER_LIKES/USER_LIKED are set from the prefetched totals
+	* (matches test_prefetch_likes(): given=3, received=6 for user 3).
+	*/
+	public function test_modify_post_row_counts_shown_by_default(): void
+	{
+		$this->set_listener();
+		$this->config['postlove_show_likes']  = 1;
+		$this->config['postlove_show_liked']  = 1;
+		$this->config['postlove_show_button'] = 0;
+		$this->config['postlove_author_like'] = 1;
+		$this->user->data = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt', 'user_postlove_hide' => 0];
+
+		$this->language->method('lang')->willReturnArgument(0);
+		$this->controller_helper->method('route')->willReturn('/postlove/toggle/1');
+		$this->auth->method('acl_get')->willReturn(true);
+
+		$this->listener->prefetch_likes(new \phpbb\event\data([
+			'post_list' => [1],
+			'rowset'    => [1 => ['user_id' => 3]],
+		]));
+
+		$event = new \phpbb\event\data([
+			'row'       => ['post_id' => 1, 'user_id' => 3],
+			'poster_id' => 3,
+			'post_row'  => [],
+		]);
+		$this->listener->modify_post_row($event);
+		$post_row = $event['post_row'];
+
+		$this->assertSame(3, $post_row['USER_LIKES']);
+		$this->assertSame(6, $post_row['USER_LIKED']);
+	}
+
+	/**
+	* Poster (user 3) has user_postlove_hide_profile=1 — the same preference
+	* that hides their profile's "Likes" link. Expected: USER_LIKES and
+	* USER_LIKED are not set on the post row at all, even though
+	* postlove_show_likes/postlove_show_liked are both enabled board-wide.
+	*/
+	public function test_modify_post_row_counts_hidden_by_author(): void
+	{
+		$this->set_listener();
+		$this->config['postlove_show_likes']  = 1;
+		$this->config['postlove_show_liked']  = 1;
+		$this->config['postlove_show_button'] = 0;
+		$this->config['postlove_author_like'] = 1;
+		$this->user->data = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt', 'user_postlove_hide' => 0];
+
+		$this->db->sql_query('UPDATE ' . USERS_TABLE . ' SET user_postlove_hide_profile = 1 WHERE user_id = 3');
+
+		$this->language->method('lang')->willReturnArgument(0);
+		$this->controller_helper->method('route')->willReturn('/postlove/toggle/1');
+		$this->auth->method('acl_get')->willReturn(true);
+
+		$this->listener->prefetch_likes(new \phpbb\event\data([
+			'post_list' => [1],
+			'rowset'    => [1 => ['user_id' => 3]],
+		]));
+
+		$event = new \phpbb\event\data([
+			'row'       => ['post_id' => 1, 'user_id' => 3],
+			'poster_id' => 3,
+			'post_row'  => [],
+		]);
+		$this->listener->modify_post_row($event);
+		$post_row = $event['post_row'];
+
+		$this->assertArrayNotHasKey('USER_LIKES', $post_row);
+		$this->assertArrayNotHasKey('USER_LIKED', $post_row);
+	}
+
+	/**
 	* Viewer (user 2) is in the likers for post 1.
 	* Expected: POST_LIKE_CLASS='liked', ACTION_ON_CLICK='CLICK_TO_UNLIKE'.
 	*/
