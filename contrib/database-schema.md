@@ -47,6 +47,8 @@ erDiagram
         int user_id PK
         string username
         int user_type
+        boolean user_postlove_hide "opt-out: like button"
+        boolean user_postlove_hide_sum "opt-out: summary panels"
     }
 
     phpbb_thanks {
@@ -54,11 +56,6 @@ erDiagram
         int user_id "the thanker"
         int poster_id
         int thanks_time
-    }
-
-    phpbb_profile_fields_data {
-        int user_id PK
-        boolean pf_postlove_hide "the opt-out flag"
     }
 
     phpbb_notifications {
@@ -78,7 +75,6 @@ erDiagram
     phpbb_forums_access }o--|| phpbb_forums       : "forum_id"
     phpbb_forums_access }o--|| phpbb_users        : "user_id (unlocked by)"
     phpbb_thanks        }o..o{ phpbb_posts_likes  : "importThanks(): INSERT...SELECT"
-    phpbb_profile_fields_data ||--|| phpbb_users  : "user_id (pf_postlove_hide)"
     phpbb_notifications }o..o{ phpbb_posts        : "item_id = post_id"
     phpbb_notifications }o..o{ phpbb_users        : "item_parent_id / user_id"
 ```

@@ -63,7 +63,9 @@ $lang = array_merge($lang, array(
 		2	=> '%d times in total',
 	),
 	'POSTLOVE_HIDE' 			=> 'Hide the Like button on posts',
+	'POSTLOVE_HIDE_EXPLAIN'	=> 'Hides the like button on every post, and your own "Likes" link on your profile. Most-liked-posts summaries are controlled separately, below.',
 	'POSTLOVE_HIDE_SUM'	=> 'Hide most-liked-posts summaries',
+	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Hides the most-liked-posts panels on the board index and forums, and the like count on the topic list. Does not affect the like button on individual posts.',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Can like posts',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Can see most liked posts summary',
 

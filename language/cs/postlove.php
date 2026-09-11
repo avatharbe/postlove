@@ -61,7 +61,9 @@ $lang = array_merge($lang, array(
 		2	=> '%d krát celkem',
 	),
 	'POSTLOVE_HIDE' 			=> 'Skrýt tlačítko Líbí se',
+	'POSTLOVE_HIDE_EXPLAIN'	=> 'Skryje tlačítko Líbí se u každého příspěvku a váš vlastní odkaz „Oblíbené“ v profilu. Panely nejoblíbenějších příspěvků se nastavují samostatně níže.',
 	'POSTLOVE_HIDE_SUM'	=> 'Skrýt panely nejoblíbenějších příspěvků',
+	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Skryje panely nejoblíbenějších příspěvků na hlavní stránce a fórech a počet lajků v seznamu témat. Neovlivňuje tlačítko Líbí se u jednotlivých příspěvků.',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Může označit příspěvky jako oblíbené',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Může vidět souhrn nejoblíbenějších příspěvků',
 

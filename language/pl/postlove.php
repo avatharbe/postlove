@@ -63,7 +63,9 @@ $lang = array_merge($lang, array(
 		2	=> '%d razy ogółem',
 	),
 	'POSTLOVE_HIDE' 			=> 'Ukryj przycisk polubienia',
+	'POSTLOVE_HIDE_EXPLAIN'	=> 'Ukrywa przycisk polubienia przy każdym poście oraz Twój własny link „Polubienia” w profilu. Panele najbardziej polubionych postów są ustawiane osobno poniżej.',
 	'POSTLOVE_HIDE_SUM'	=> 'Ukryj panele najbardziej polubionych postów',
+	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Ukrywa panele najbardziej polubionych postów na stronie głównej i forach oraz licznik polubień na liście tematów. Nie wpływa na przycisk polubienia przy pojedynczych postach.',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Może polubić posty',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Może widzieć podsumowanie najpopularniejszych postów',
 

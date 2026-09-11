@@ -191,14 +191,14 @@ class main_listener implements EventSubscriberInterface
 	 * - USER_LIKES: likes given count for the poster (mini profile)
 	 * - USER_LIKED: likes received count for the poster (mini profile)
 	 *
-	 * Respects the pf_postlove_hide custom profile field (user opt-out).
+	 * Respects the user_postlove_hide preference (UCP > Board preferences >
+	 * Edit global settings), the user's own opt-out.
 	 *
 	 * @param \phpbb\event\data $event The core.viewtopic_modify_post_row event
 	 */
 	public function modify_post_row($event)
 	{
-		$this->user->get_profile_fields($this->user->data['user_id']);
-		$postlove_hidden = isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide'];
+		$postlove_hidden = (bool) $this->user->data['user_postlove_hide'];
 		$this->template->assign_var('S_POSTLOVE_HIDDEN', $postlove_hidden);
 
 		if (!$postlove_hidden)
@@ -289,8 +289,7 @@ class main_listener implements EventSubscriberInterface
 	 */
 	public function user_profile_likes($event)
 	{
-		$this->user->get_profile_fields($this->user->data['user_id']);
-		if (!(isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']))
+		if (!$this->user->data['user_postlove_hide'])
 		{
 			$this->template->assign_var('POSTLOVE_STATS', $this->helper->route('avathar_postlove_list', array('user_id' => $event['member']['user_id'])));
 		}

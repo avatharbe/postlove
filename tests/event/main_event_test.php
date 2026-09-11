@@ -337,8 +337,7 @@ class main_event extends \phpbb_database_test_case
 		$this->config['postlove_show_liked']  = 0;
 		$this->config['postlove_show_button'] = 0;
 		$this->config['postlove_author_like'] = 1;
-		$this->user->data           = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt'];
-		$this->user->profile_fields = [];
+		$this->user->data           = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt', 'user_postlove_hide' => 0];
 
 		$this->language->method('lang')->willReturnArgument(0);
 		$this->controller_helper->method('route')->willReturn('/postlove/toggle/1');
@@ -374,8 +373,7 @@ class main_event extends \phpbb_database_test_case
 		$this->config['postlove_show_liked']  = 0;
 		$this->config['postlove_show_button'] = 0;
 		$this->config['postlove_author_like'] = 1;
-		$this->user->data           = ['user_id' => 2, 'user_form_salt' => 'postlove_test_salt']; // user 2 liked post 1 in fixture
-		$this->user->profile_fields = [];
+		$this->user->data           = ['user_id' => 2, 'user_form_salt' => 'postlove_test_salt', 'user_postlove_hide' => 0]; // user 2 liked post 1 in fixture
 
 		$this->language->method('lang')->willReturnArgument(0);
 		$this->controller_helper->method('route')->willReturn('/postlove/toggle/1');
@@ -409,8 +407,7 @@ class main_event extends \phpbb_database_test_case
 		$this->config['postlove_show_liked']  = 0;
 		$this->config['postlove_show_button'] = 0;
 		$this->config['postlove_author_like'] = 1;
-		$this->user->data           = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt'];
-		$this->user->profile_fields = [];
+		$this->user->data           = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt', 'user_postlove_hide' => 0];
 
 		$this->language->method('lang')->willReturnArgument(0);
 		$this->controller_helper->method('route')->willReturn('/postlove/toggle/1');
@@ -446,8 +443,7 @@ class main_event extends \phpbb_database_test_case
 		$this->config['postlove_show_liked']  = 0;
 		$this->config['postlove_show_button'] = 0;
 		$this->config['postlove_author_like'] = 0; // self-like disabled
-		$this->user->data           = ['user_id' => 3, 'user_form_salt' => 'postlove_test_salt']; // same as poster_id
-		$this->user->profile_fields = [];
+		$this->user->data           = ['user_id' => 3, 'user_form_salt' => 'postlove_test_salt', 'user_postlove_hide' => 0]; // same as poster_id
 
 		$this->language->method('lang')->willReturnArgument(0);
 		$this->controller_helper->method('route')->willReturn('/postlove/toggle/1');
@@ -468,5 +464,39 @@ class main_event extends \phpbb_database_test_case
 
 		$this->assertSame(1,                    $post_row['DISABLE']);
 		$this->assertSame('CANT_LIKE_OWN_POST', $post_row['ACTION_ON_CLICK']);
+	}
+
+	/**
+	* Viewer has user_postlove_hide=1 (opted out via UCP > Board preferences >
+	* Edit global settings). Expected: S_POSTLOVE_HIDDEN assigned true, and
+	* none of the per-post template vars (POST_LIKE_URL, POST_LIKE_CLASS, ...)
+	* are set, since the whole per-post block is skipped.
+	*/
+	public function test_modify_post_row_hidden_when_opted_out(): void
+	{
+		$this->set_listener();
+		$this->config['postlove_show_likes']  = 0;
+		$this->config['postlove_show_liked']  = 0;
+		$this->config['postlove_show_button'] = 0;
+		$this->config['postlove_author_like'] = 1;
+		$this->user->data = ['user_id' => 5, 'user_form_salt' => 'postlove_test_salt', 'user_postlove_hide' => 1];
+
+		$this->template->expects($this->once())
+			->method('assign_var')
+			->with('S_POSTLOVE_HIDDEN', true);
+
+		$this->listener->prefetch_likes(new \phpbb\event\data([
+			'post_list' => [1],
+			'rowset'    => [1 => ['user_id' => 3]],
+		]));
+
+		$event = new \phpbb\event\data([
+			'row'       => ['post_id' => 1, 'user_id' => 3],
+			'poster_id' => 3,
+			'post_row'  => [],
+		]);
+		$this->listener->modify_post_row($event);
+
+		$this->assertSame([], $event['post_row']);
 	}
 }

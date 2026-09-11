@@ -63,7 +63,9 @@ $lang = array_merge($lang, array(
 		2	=> '%d keer in totaal',
 	),
 	'POSTLOVE_HIDE'		=> 'Vind-ik-leuk-knop verbergen',
+	'POSTLOVE_HIDE_EXPLAIN'	=> 'Verbergt de vind-ik-leuk-knop op elk bericht en je eigen "vind-ik-leuks"-link op je profiel. De panelen met meest gewaardeerde berichten worden hieronder apart ingesteld.',
 	'POSTLOVE_HIDE_SUM'	=> 'Panelen met meest gewaardeerde berichten verbergen',
+	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Verbergt de panelen met meest gewaardeerde berichten op de forumindex en de forums, en het aantal vind-ik-leuks in de onderwerpenlijst. Heeft geen invloed op de vind-ik-leuk-knop bij afzonderlijke berichten.',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Kan berichten leuk vinden',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Kan de samenvatting van populairste berichten zien',
 
