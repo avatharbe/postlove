@@ -6,7 +6,13 @@ All relevant changes to the Post Love extension.
 
 ### Fixed
 
-- Button mode (`postlove_show_button = 1`) heart vanished on any post where the viewer had none of edit/delete/report/warn/info/quote (#24) — `viewtopic_body_post_buttons_after` only fires inside core's `<ul class="post-buttons">`, which prosilver itself only renders when at least one of those other actions is available. A guest (or a member) with none of them, e.g. a locked topic with reporting off, or a forum guests can't reply in, got no `<ul>` at all, so the heart never got a place to render even with `u_postlove` granted. The button markup is now a shared `postlove_button_li.html` partial, included from the existing hook for the common case and from a new `viewtopic_body_post_buttons_list_after` hook — which prosilver always fires, wrapped in its own `<ul class="post-buttons">` — as a fallback exactly when core's own list would have stayed empty. The two hooks are mutually exclusive by construction, so a post never renders the heart twice.
+- Fix missing like button on some posts ([#55](https://github.com/avatharbe/postlove/issues/55))
+  - In button mode (`postlove_show_button = 1`), the heart was missing whenever the viewer had no other post actions available: edit, delete, report, warn, info, or quote.
+  - The existing hook, `viewtopic_body_post_buttons_after`, runs inside prosilver’s `<ul class="post-buttons">`. That list is only rendered when at least one of those actions is available. As a result, viewers with `u_postlove` permission could still see no like button. 
+  - The fix moves the button markup into a shared `postlove_button_li.html` partial:
+     - The existing hook includes it when the core button list is present.
+     - A new `viewtopic_body_post_buttons_list_after` hook provides a fallback with its own `<ul class="post-buttons">` when the core list is absent.
+  - The two hooks use mutually exclusive conditions, so the heart appears only once per post.
 
 ## 2.2.6
 
