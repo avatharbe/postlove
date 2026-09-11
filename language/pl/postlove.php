@@ -62,7 +62,8 @@ $lang = array_merge($lang, array(
 		1	=> 'Tylko raz ogółem',
 		2	=> '%d razy ogółem',
 	),
-	'POSTLOVE_HIDE' 			=> 'Ukryj polubienia i podsumowanie',
+	'POSTLOVE_HIDE' 			=> 'Ukryj przycisk polubienia',
+	'POSTLOVE_HIDE_SUM'	=> 'Ukryj panele najbardziej polubionych postów',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Może polubić posty',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Może widzieć podsumowanie najpopularniejszych postów',
 

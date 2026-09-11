@@ -1217,7 +1217,7 @@ class summary_event extends \phpbb_database_test_case
 	/**
 	* inject_topic_like_count() must respect the same gates as the two
 	* most-liked summary panels: bots, viewers without u_postlove_summary,
-	* and viewers who opted out via pf_postlove_hide all get no
+	* and viewers who opted out via pf_postlove_hide_sum all get no
 	* TOPIC_LIKE_COUNT at all, so the template's IF stays falsy.
 	*/
 	public function test_inject_topic_like_count_skips_bots(): void
@@ -1259,7 +1259,7 @@ class summary_event extends \phpbb_database_test_case
 			->willReturnCallback(function ($permission) {
 				return ($permission === 'u_postlove_summary') ? true : false;
 			});
-		$this->user->profile_fields = array('pf_postlove_hide' => true);
+		$this->user->profile_fields = array('pf_postlove_hide_sum' => true);
 
 		$this->set_listener();
 		$this->listener->prefetch_topic_likes(new \phpbb\event\data(['topic_list' => [1]]));

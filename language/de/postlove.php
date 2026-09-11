@@ -62,7 +62,8 @@ $lang = array_merge($lang, array(
 		1	=> 'Einmal insgesamt',
 		2	=> '%d mal insgesamt',
 	),
-	'POSTLOVE_HIDE'		=> 'Gefällt-mir-Symbole und Zusammenfassungen ausblenden',
+	'POSTLOVE_HIDE'		=> 'Gefällt-mir-Schaltfläche ausblenden',
+	'POSTLOVE_HIDE_SUM'	=> 'Übersichten der beliebtesten Beiträge ausblenden',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Kann Beiträge liken',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Kann die Zusammenfassung der beliebtesten Beiträge sehen',
 

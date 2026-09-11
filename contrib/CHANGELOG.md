@@ -2,6 +2,13 @@
 
 All relevant changes to the Post Love extension.
 
+## 2.2.9
+
+### Added
+
+- Split the single `postlove_hide` opt-out into two independent profile fields (raised during #55): `postlove_hide` now only hides the like button and your own "Likes" link on your profile, and a new `postlove_hide_sum` hides the most-liked-posts summary panels and the viewforum heart count. Previously a user who wanted to keep liking posts but had no interest in the summary panels had no way to drop one without the other.
+- `postlove_hide`'s explain text (added in 2.2.8) is corrected to describe its narrower, button-only scope; `postlove_hide_sum` ships with its own explain text from the start.
+
 ## 2.2.8
 
 ### Fixed

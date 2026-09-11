@@ -23,7 +23,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * likes, joining posts/topics/users/forums, filtering by content visibility).
  * Results are cached for 12 hours to reduce database load.
  *
- * Users can opt out via the pf_postlove_hide custom profile field.
+ * Users can opt out via the pf_postlove_hide_sum custom profile field,
+ * independently of pf_postlove_hide (which only hides the like button).
  * Bots are excluded automatically.
  */
 class summary_listener implements EventSubscriberInterface
@@ -106,7 +107,7 @@ class summary_listener implements EventSubscriberInterface
 	 * Build the most-liked-posts summary for the board index page.
 	 *
 	 * Queries across all forums the user has read access to.
-	 * Skipped for bots and users who opted out via pf_postlove_hide.
+	 * Skipped for bots and users who opted out via pf_postlove_hide_sum.
 	 *
 	 * @param \phpbb\event\data $event The core.index_modify_page_title event
 	 */
@@ -116,7 +117,7 @@ class summary_listener implements EventSubscriberInterface
 		$this->user->get_profile_fields($this->user->data['user_id']);
 		if ($this->user->data['is_bot'] || // bots dont want to see this
 			!$this->auth->acl_get('u_postlove_summary') || // user group not allowed to see summary
-			(isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']) // user doesnt want
+			(isset($this->user->profile_fields['pf_postlove_hide_sum']) && $this->user->profile_fields['pf_postlove_hide_sum']) // user doesnt want
 			)
 		{
 			return;
@@ -169,7 +170,7 @@ class summary_listener implements EventSubscriberInterface
 		$this->user->get_profile_fields($this->user->data['user_id']);
 		if ($this->user->data['is_bot'] || // we dont want bots to see summaries
 			 !$this->auth->acl_get('u_postlove_summary') || // user group not allowed to see summary
-			 (isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']) // user doesnt want
+			 (isset($this->user->profile_fields['pf_postlove_hide_sum']) && $this->user->profile_fields['pf_postlove_hide_sum']) // user doesnt want
 			)
 		{
 			return;
@@ -458,8 +459,9 @@ class summary_listener implements EventSubscriberInterface
 	 * (topiclist_row_append.html) shows a heart icon + count when > 0.
 	 *
 	 * Gated like the two most-liked summary panels: bots, missing
-	 * u_postlove_summary, and pf_postlove_hide all leave TOPIC_LIKE_COUNT
-	 * unset, which the template's IF already treats as falsy.
+	 * u_postlove_summary, and pf_postlove_hide_sum all leave
+	 * TOPIC_LIKE_COUNT unset, which the template's IF already treats as
+	 * falsy.
 	 *
 	 * @param \phpbb\event\data $event The core.viewforum_modify_topicrow event
 	 *        Contains 'row' (raw topic data) and 'topic_row' (template data)
@@ -469,7 +471,7 @@ class summary_listener implements EventSubscriberInterface
 		$this->user->get_profile_fields($this->user->data['user_id']);
 		if ($this->user->data['is_bot'] ||
 			!$this->auth->acl_get('u_postlove_summary') ||
-			(isset($this->user->profile_fields['pf_postlove_hide']) && $this->user->profile_fields['pf_postlove_hide']))
+			(isset($this->user->profile_fields['pf_postlove_hide_sum']) && $this->user->profile_fields['pf_postlove_hide_sum']))
 		{
 			return;
 		}

@@ -62,7 +62,8 @@ $lang = array_merge($lang, array(
 		1	=> 'Una vez en total',
 		2	=> '%d veces en total',
 	),
-	'POSTLOVE_HIDE' 			=> 'Ocultar iconos y resúmenes de Me gusta',
+	'POSTLOVE_HIDE' 			=> 'Ocultar el botón Me gusta',
+	'POSTLOVE_HIDE_SUM'	=> 'Ocultar los paneles de mensajes más gustados',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Puede indicar que le gustan publicaciones',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Puede ver el resumen de mensajes más gustados',
 
