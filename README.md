@@ -24,6 +24,7 @@ Originally developed by Stanislav Atanasov ([anavaro](https://github.com/satanas
 - Like counts (given/received) in user mini profile (configurable)
 - Summary of most liked posts by day/week/month/year/ever on index and forum views (configurable)
 - Notification when a post is liked (respects UCP notification preferences)
+- Per-user opt-outs (UCP > Board preferences > Edit global settings) for the like button, the "Likes" link on your own profile, the topic-list like count, and the most-liked-posts summary panels — independently of each other
 - Permission system (`u_postlove`) to control who can like posts per user/group
 - Permission system (`u_postlove_summary`) to control who can see the most liked posts summary
 - Configurable summary position (above or below the forum list on the index page)
@@ -46,6 +47,7 @@ See [CHANGELOG.md](https://github.com/avatharbe/postlove/blob/main/contrib/CHANG
 1. Navigate to `ACP -> Extensions -> Post Love -> Post Love`.
 2. Configure display options (mini profile counters, button mode, summary periods).
 3. To manage who can like posts, go to `ACP -> Permissions -> User/Group permissions` and look for `Can like posts` under Misc.
+4. Individual users can opt out of the like button, their own profile's "Likes" link, the topic-list like count, and the summary panels independently under `UCP -> Board preferences -> Edit global settings`.
 
 ### Uninstallation
 1. Navigate in the ACP to `Customise -> Manage extensions`.
