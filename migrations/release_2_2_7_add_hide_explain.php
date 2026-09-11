@@ -18,7 +18,7 @@ namespace avathar\postlove\migrations;
  * actually does, which is how a maintainer's own account ended up with likes
  * hidden board-wide without realising it (#24).
  */
-class release_2_2_8_add_hide_explain extends \phpbb\db\migration\migration
+class release_2_2_7_add_hide_explain extends \phpbb\db\migration\migration
 {
 	public static function depends_on()
 	{

@@ -2,20 +2,12 @@
 
 All relevant changes to the Post Love extension.
 
-## 2.2.9
+## 2.2.7
 
 ### Added
 
 - Split the single `postlove_hide` opt-out into two independent profile fields (raised during #55): `postlove_hide` now only hides the like button and your own "Likes" link on your profile, and a new `postlove_hide_sum` hides the most-liked-posts summary panels and the viewforum heart count. Previously a user who wanted to keep liking posts but had no interest in the summary panels had no way to drop one without the other.
-- `postlove_hide`'s explain text (added in 2.2.8) is corrected to describe its narrower, button-only scope; `postlove_hide_sum` ships with its own explain text from the start.
-
-## 2.2.8
-
-### Fixed
-
-- Added an explain text to the `postlove_hide` custom profile field ("Hide Like icons and summaries" in UCP). It shipped with a label only — no description of what checking it does — which is how it ended up silently enabled on an account, hiding the like button and summary panels board-wide with no obvious cause (raised during #55). The explain text is now set for every board language the extension ships translations for.
-
-## 2.2.7
+- Both fields ship with an explain text describing what they do, for every board language the extension ships translations for. `postlove_hide` previously shipped with a label only ("Hide Like icons and summaries") and no description of what checking it does, which is how it ended up silently enabled on an account with no obvious cause.
 
 ### Fixed
 

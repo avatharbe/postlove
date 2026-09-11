@@ -18,16 +18,16 @@ namespace avathar\postlove\migrations;
  * no interest in the summary panels had no way to drop one without the
  * other (#55).
  *
- * Also corrects postlove_hide's explain text, set in release_2_2_8, which
- * still described the now-narrower button-only scope as covering summaries
- * too.
+ * Also corrects postlove_hide's explain text, set in
+ * release_2_2_7_add_hide_explain, which still described the now-narrower
+ * button-only scope as covering summaries too.
  */
-class release_2_2_9_split_hide_summary extends \phpbb\db\migration\profilefield_base_migration
+class release_2_2_7_split_hide_summary extends \phpbb\db\migration\profilefield_base_migration
 {
 	public static function depends_on()
 	{
 		return [
-			'\avathar\postlove\migrations\release_2_2_8_add_hide_explain',
+			'\avathar\postlove\migrations\release_2_2_7_add_hide_explain',
 		];
 	}
 
