@@ -17,8 +17,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_USER_LIKES'	=> 'Gefällt dem Benutzer',
-	'POSTLOVE_USER_LIKED'	=> 'Beiträge gefallen Anderen',
+	'POSTLOVE_USER_LIKES'	=> 'Vergebene Gefällt-mir',
+	'POSTLOVE_USER_LIKED'	=> 'Erhaltene Gefällt-mir',
 
 	'NOTIFICATION_POSTLOVE_ADD'	=> '%s hat deinen Beitrag mit <b>Gefällt mir</b> markiert:',
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Beitrag gefällt.',

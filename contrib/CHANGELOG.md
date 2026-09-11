@@ -18,6 +18,8 @@ All relevant changes to the Post Love extension.
      - A new `viewtopic_body_post_buttons_list_after` hook provides a fallback with its own `<ul class="post-buttons">` when the core list is absent.
   - The two hooks use mutually exclusive conditions, so the heart appears only once per post.
 
+- Improved the likes given/received mini-profile stat: moved from `viewtopic_body_postrow_custom_fields_after` (between Location and Contact) to `viewtopic_body_contact_fields_after` (below Contact, at the end of the sidebar), and gave both rows a visible `Likes given:` / `Likes received:` label matching the rest of the sidebar's `<strong>Label:</strong> value` convention — they previously showed only an icon and a number, with the distinction between given and received available solely as a hover tooltip ("User likes" / "User is liked").
+
 ## 2.2.6
 
 ### Security

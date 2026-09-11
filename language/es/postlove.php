@@ -17,8 +17,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_USER_LIKES'	=> 'Al usuario le han gustado',
-	'POSTLOVE_USER_LIKED'	=> 'El usuario ha gustado',
+	'POSTLOVE_USER_LIKES'	=> 'Me gusta dados',
+	'POSTLOVE_USER_LIKED'	=> 'Me gusta recibidos',
 
 	'NOTIFICATION_POSTLOVE_ADD'	=> 'A %s le ha <b>gustado</b> su mensaje:',
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Publicaciones gustadas.',

@@ -17,8 +17,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_USER_LIKES'	=> 'Gebruiker vindt leuk',
-	'POSTLOVE_USER_LIKED'	=> 'Berichten leuk gevonden',
+	'POSTLOVE_USER_LIKES'	=> 'Gegeven vind-ik-leuks',
+	'POSTLOVE_USER_LIKED'	=> 'Ontvangen vind-ik-leuks',
 
 	'NOTIFICATION_POSTLOVE_ADD'	=> '%s vindt je bericht <b>leuk</b>:',
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Iemand vindt een bericht van je leuk.',

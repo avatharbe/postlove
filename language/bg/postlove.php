@@ -17,8 +17,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_USER_LIKES'	=> 'Потребителя е харесал',
-	'POSTLOVE_USER_LIKED'	=> 'Потребителя е харесан',
+	'POSTLOVE_USER_LIKES'	=> 'Дадени харесвания',
+	'POSTLOVE_USER_LIKED'	=> 'Получени харесвания',
 
 	'NOTIFICATION_POSTLOVE_ADD'	=> '%s <b>хареса</b> вашето мнение:',
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Харесани постове',

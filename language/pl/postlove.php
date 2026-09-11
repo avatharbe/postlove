@@ -17,8 +17,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_USER_LIKES'	=> 'Posty, które użytkownik polubił',
-	'POSTLOVE_USER_LIKED'	=> 'Posty użytkownika, które polubiono',
+	'POSTLOVE_USER_LIKES'	=> 'Polubienia dane',
+	'POSTLOVE_USER_LIKED'	=> 'Polubienia otrzymane',
 
 	'NOTIFICATION_POSTLOVE_ADD'	=> '%s <b>polubił(a)</b> Twój post:',
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Polubiono post',

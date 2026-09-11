@@ -17,8 +17,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_USER_LIKES'	=> 'O usuário curtiu',
-	'POSTLOVE_USER_LIKED'	=> 'O usuário foi curtido',
+	'POSTLOVE_USER_LIKES'	=> 'Curtidas dadas',
+	'POSTLOVE_USER_LIKED'	=> 'Curtidas recebidas',
 
 	'NOTIFICATION_POSTLOVE_ADD'	=> '%s <b>Curtiu</b> seu post:',
 	'NOTIFICATION_TYPE_POST_LOVE'	=> 'Posts Curtidos.',

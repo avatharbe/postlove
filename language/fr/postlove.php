@@ -18,7 +18,7 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'POSTLOVE_USER_LIKES'	=> 'J\'aime partagés',
+	'POSTLOVE_USER_LIKES'	=> 'J\'aime donnés',
 	'POSTLOVE_USER_LIKED'	=> 'J\'aime reçus',
 
 	'NOTIFICATION_POSTLOVE_ADD'	=> '%s <b>aime</b> votre message :',
