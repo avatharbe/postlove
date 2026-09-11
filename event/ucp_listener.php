@@ -11,16 +11,26 @@ namespace avathar\postlove\event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Adds the like button and most-liked-posts summary opt-outs to
+ * Adds four independent like-visibility opt-outs to
  * UCP > Board preferences > Edit global settings, reading and writing the
- * user_postlove_hide / user_postlove_hide_sum columns.
+ * user_postlove_hide* columns: the like button, the "Likes" link on your
+ * own profile, the topic-list like count, and the most-liked-posts summary
+ * panels.
  *
  * Replaces the postlove_hide custom profile field (removed in
  * release_2_2_7_remove_hide_cpf), which lived on the Profile tab instead and
- * bundled both under one switch (#55).
+ * bundled all four under one switch (#55).
  */
 class ucp_listener implements EventSubscriberInterface
 {
+	/** Form field name => users table column name, for the four toggles. */
+	private const FIELDS = array(
+		'postlove_hide'			=> 'user_postlove_hide',
+		'postlove_hide_profile'	=> 'user_postlove_hide_profile',
+		'postlove_hide_topics'		=> 'user_postlove_hide_topics',
+		'postlove_hide_sum'		=> 'user_postlove_hide_sum',
+	);
+
 	protected \phpbb\request\request $request;
 	protected \phpbb\template\template $template;
 	protected \phpbb\user $user;
@@ -49,17 +59,18 @@ class ucp_listener implements EventSubscriberInterface
 	 */
 	public function ucp_prefs_get_data($event)
 	{
-		$data = array_merge($event['data'], array(
-			'postlove_hide'		=> $this->request->variable('postlove_hide', (int) $this->user->data['user_postlove_hide']),
-			'postlove_hide_sum'	=> $this->request->variable('postlove_hide_sum', (int) $this->user->data['user_postlove_hide_sum']),
-		));
+		$data = $event['data'];
+		$template_vars = array();
+
+		foreach (self::FIELDS as $field_name => $column_name)
+		{
+			$data[$field_name] = $this->request->variable($field_name, (int) $this->user->data[$column_name]);
+			$template_vars['S_' . strtoupper($field_name)] = $data[$field_name];
+		}
 
 		if (!$event['submit'])
 		{
-			$this->template->assign_vars(array(
-				'S_POSTLOVE_HIDE'		=> $data['postlove_hide'],
-				'S_POSTLOVE_HIDE_SUM'	=> $data['postlove_hide_sum'],
-			));
+			$this->template->assign_vars($template_vars);
 		}
 
 		$event['data'] = $data;
@@ -73,9 +84,13 @@ class ucp_listener implements EventSubscriberInterface
 	 */
 	public function ucp_prefs_set_data($event)
 	{
-		$event['sql_ary'] = array_merge($event['sql_ary'], array(
-			'user_postlove_hide'		=> (int) $event['data']['postlove_hide'],
-			'user_postlove_hide_sum'	=> (int) $event['data']['postlove_hide_sum'],
-		));
+		$sql_ary = $event['sql_ary'];
+
+		foreach (self::FIELDS as $field_name => $column_name)
+		{
+			$sql_ary[$column_name] = (int) $event['data'][$field_name];
+		}
+
+		$event['sql_ary'] = $sql_ary;
 	}
 }

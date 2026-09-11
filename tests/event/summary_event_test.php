@@ -120,7 +120,7 @@ class summary_event extends \phpbb_database_test_case
 			'is_registered' => true,
 			'user_type' => 0,
 			'user_lastmark' => 9999999999,
-			'user_postlove_hide' => 0,
+			'user_postlove_hide_topics' => 0,
 			'user_postlove_hide_sum' => 0,
 		);
 		$this->user->method('format_date')
@@ -1217,10 +1217,11 @@ class summary_event extends \phpbb_database_test_case
 
 	/**
 	* inject_topic_like_count() shares the bot and u_postlove_summary gates
-	* with the two most-liked summary panels, but opts out via
-	* user_postlove_hide (the like-button preference) rather than
-	* user_postlove_hide_sum — any of the three leave no TOPIC_LIKE_COUNT at
-	* all, so the template's IF stays falsy.
+	* with the two most-liked summary panels, but opts out via its own
+	* user_postlove_hide_topics, independent of both the like button
+	* (user_postlove_hide) and the summary panels (user_postlove_hide_sum) —
+	* any of the three leave no TOPIC_LIKE_COUNT at all, so the template's IF
+	* stays falsy.
 	*/
 	public function test_inject_topic_like_count_skips_bots(): void
 	{
@@ -1261,7 +1262,7 @@ class summary_event extends \phpbb_database_test_case
 			->willReturnCallback(function ($permission) {
 				return ($permission === 'u_postlove_summary') ? true : false;
 			});
-		$this->user->data['user_postlove_hide'] = true;
+		$this->user->data['user_postlove_hide_topics'] = true;
 
 		$this->set_listener();
 		$this->listener->prefetch_topic_likes(new \phpbb\event\data(['topic_list' => [1]]));

@@ -48,6 +48,8 @@ erDiagram
         string username
         int user_type
         boolean user_postlove_hide "opt-out: like button"
+        boolean user_postlove_hide_profile "opt-out: profile Likes link"
+        boolean user_postlove_hide_topics "opt-out: topic list count"
         boolean user_postlove_hide_sum "opt-out: summary panels"
     }
 

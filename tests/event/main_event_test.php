@@ -499,4 +499,38 @@ class main_event extends \phpbb_database_test_case
 
 		$this->assertSame([], $event['post_row']);
 	}
+
+	/**
+	* user_profile_likes() assigns POSTLOVE_STATS when the viewer has not
+	* opted out via user_postlove_hide_profile — independent of
+	* user_postlove_hide (the like button).
+	*/
+	public function test_user_profile_likes_shown(): void
+	{
+		$this->set_listener();
+		$this->user->data = ['user_id' => 5, 'user_postlove_hide' => 1, 'user_postlove_hide_profile' => 0];
+		$this->controller_helper->method('route')->willReturn('/postlove/7');
+
+		$this->template->expects($this->once())
+			->method('assign_var')
+			->with('POSTLOVE_STATS', '/postlove/7');
+
+		$this->listener->user_profile_likes(new \phpbb\event\data(['member' => ['user_id' => 7]]));
+	}
+
+	/**
+	* user_profile_likes() does not assign POSTLOVE_STATS when the viewer
+	* opted out via user_postlove_hide_profile, even with the like button
+	* (user_postlove_hide) still enabled.
+	*/
+	public function test_user_profile_likes_hidden_when_opted_out(): void
+	{
+		$this->set_listener();
+		$this->user->data = ['user_id' => 5, 'user_postlove_hide' => 0, 'user_postlove_hide_profile' => 1];
+
+		$this->template->expects($this->never())
+			->method('assign_var');
+
+		$this->listener->user_profile_likes(new \phpbb\event\data(['member' => ['user_id' => 7]]));
+	}
 }

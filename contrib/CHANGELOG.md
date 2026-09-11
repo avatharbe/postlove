@@ -6,7 +6,7 @@ All relevant changes to the Post Love extension.
 
 ### Added
 
-- Moved the like-button opt-out from a custom profile field on the Profile tab to two independent toggles under UCP > Board preferences > Edit global settings, each with its own explain text (raised during #55): one hides the like button, your own "Likes" link on your profile, and the per-topic like count in the topic list; the other hides only the most-liked-posts summary panels on the board index and forums. Previously a single `postlove_hide` field controlled both the button and the summary panels, with no way to keep one and drop the other, and no explanation of what checking it did — which is how it ended up silently enabled on an account with no obvious cause. Existing `postlove_hide` values are carried over to the new preference; both default to "No" (not hidden), same as the field they replace.
+- Moved the like-button opt-out from a custom profile field on the Profile tab to four independent toggles under UCP > Board preferences > Edit global settings, each with its own explain text (raised during #55): the like button on posts, the "Likes" link on your own profile, the per-topic like count in the topic list, and the most-liked-posts summary panels on the board index and forums. Previously a single `postlove_hide` field controlled all four at once, with no way to keep any one and drop the others, and no explanation of what checking it did — which is how it ended up silently enabled on an account with no obvious cause. `postlove_hide`'s value is carried over to the new like-button preference; all four default to "No" (not hidden), same as the field they replace.
 
 ### Fixed
 

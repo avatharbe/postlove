@@ -283,13 +283,15 @@ class main_listener implements EventSubscriberInterface
 	 * Add the love list link to the member profile statistics section.
 	 *
 	 * Sets the POSTLOVE_STATS template var with the URL to the user's love
-	 * list page, opened as a modal popup via jQuery modal.
+	 * list page, opened as a modal popup via jQuery modal. Gated on
+	 * user_postlove_hide_profile, independently of user_postlove_hide (the
+	 * like button).
 	 *
 	 * @param \phpbb\event\data $event The core.memberlist_view_profile event
 	 */
 	public function user_profile_likes($event)
 	{
-		if (!$this->user->data['user_postlove_hide'])
+		if (!$this->user->data['user_postlove_hide_profile'])
 		{
 			$this->template->assign_var('POSTLOVE_STATS', $this->helper->route('avathar_postlove_list', array('user_id' => $event['member']['user_id'])));
 		}
