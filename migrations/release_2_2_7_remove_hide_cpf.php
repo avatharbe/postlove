@@ -69,13 +69,13 @@ class release_2_2_7_remove_hide_cpf extends \phpbb\db\migration\migration
 			return;
 		}
 
-		$sql = 'DELETE FROM ' . PROFILE_FIELDS_TABLE . ' WHERE field_id = ' . $field_id;
+		$sql = 'DELETE FROM ' . PROFILE_FIELDS_TABLE . ' WHERE field_id = ' . (int) $field_id;
 		$this->db->sql_query($sql);
 
-		$sql = 'DELETE FROM ' . PROFILE_LANG_TABLE . ' WHERE field_id = ' . $field_id;
+		$sql = 'DELETE FROM ' . PROFILE_LANG_TABLE . ' WHERE field_id = ' . (int) $field_id;
 		$this->db->sql_query($sql);
 
-		$sql = 'DELETE FROM ' . PROFILE_FIELDS_LANG_TABLE . ' WHERE field_id = ' . $field_id;
+		$sql = 'DELETE FROM ' . PROFILE_FIELDS_LANG_TABLE . ' WHERE field_id = ' . (int) $field_id;
 		$this->db->sql_query($sql);
 	}
 
