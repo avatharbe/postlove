@@ -63,9 +63,9 @@ $lang = array_merge($lang, array(
 		2	=> '%d mal insgesamt',
 	),
 	'POSTLOVE_HIDE'		=> 'Gefällt-mir-Schaltfläche ausblenden',
-	'POSTLOVE_HIDE_EXPLAIN'	=> 'Blendet die Gefällt-mir-Schaltfläche bei jedem Beitrag sowie deinen eigenen „Gefällt mir“-Link im Profil aus. Die Übersichten der beliebtesten Beiträge werden weiter unten separat gesteuert.',
+	'POSTLOVE_HIDE_EXPLAIN'	=> 'Blendet die Gefällt-mir-Schaltfläche bei jedem Beitrag, deinen eigenen „Gefällt mir“-Link im Profil und die Like-Anzahl neben jedem Thema in der Themenliste aus. Die Übersichten der beliebtesten Beiträge werden weiter unten separat gesteuert.',
 	'POSTLOVE_HIDE_SUM'	=> 'Übersichten der beliebtesten Beiträge ausblenden',
-	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Blendet die Übersichten der beliebtesten Beiträge auf der Forenübersicht und in den Foren sowie die Like-Anzahl in der Themenliste aus. Die Gefällt-mir-Schaltfläche bei einzelnen Beiträgen ist davon nicht betroffen.',
+	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Blendet die Übersichten der beliebtesten Beiträge auf der Forenübersicht und in den Foren aus. Die Gefällt-mir-Schaltfläche bei einzelnen Beiträgen und die Like-Anzahl in der Themenliste sind davon nicht betroffen.',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Kann Beiträge liken',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Kann die Zusammenfassung der beliebtesten Beiträge sehen',
 

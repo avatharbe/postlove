@@ -64,9 +64,9 @@ $lang = array_merge($lang, array(
 		2	=> '%d fois au total',
 	),
 	'POSTLOVE_HIDE'		=> 'Masquer le bouton J\'aime',
-	'POSTLOVE_HIDE_EXPLAIN'	=> 'Masque le bouton J\'aime sur chaque message, ainsi que votre propre lien « J\'aime » sur votre profil. Les panneaux des messages les plus aimés sont contrôlés séparément ci-dessous.',
+	'POSTLOVE_HIDE_EXPLAIN'	=> 'Masque le bouton J\'aime sur chaque message, votre propre lien « J\'aime » sur votre profil, et le nombre de J\'aime à côté de chaque sujet dans la liste des sujets. Les panneaux des messages les plus aimés sont contrôlés séparément ci-dessous.',
 	'POSTLOVE_HIDE_SUM'	=> 'Masquer les panneaux des messages les plus aimés',
-	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Masque les panneaux des messages les plus aimés sur l\'index et les forums, ainsi que le nombre de J\'aime dans la liste des sujets. N\'affecte pas le bouton J\'aime sur chaque message.',
+	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Masque les panneaux des messages les plus aimés sur l\'index et les forums. N\'affecte pas le bouton J\'aime sur chaque message ni le nombre de J\'aime dans la liste des sujets.',
 	'ACL_U_POSTLOVE'			=> 'Post Love : Peut aimer des messages',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love : Peut voir le résumé des messages les plus aimés',
 

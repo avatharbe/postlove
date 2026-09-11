@@ -61,9 +61,9 @@ $lang = array_merge($lang, array(
 		2	=> 'Toplamda %d kez',
 	),
 	'POSTLOVE_HIDE' 			=> 'Beğeni düğmesini gizle',
-	'POSTLOVE_HIDE_EXPLAIN'	=> 'Her gönderideki beğeni düğmesini ve profilinizdeki kendi "Beğeniler" bağlantınızı gizler. En çok beğenilen gönderiler panelleri aşağıda ayrı olarak ayarlanır.',
+	'POSTLOVE_HIDE_EXPLAIN'	=> 'Her gönderideki beğeni düğmesini, profilinizdeki kendi "Beğeniler" bağlantınızı ve konu listesindeki her konunun yanındaki beğeni sayısını gizler. En çok beğenilen gönderiler panelleri aşağıda ayrı olarak ayarlanır.',
 	'POSTLOVE_HIDE_SUM'	=> 'En çok beğenilen gönderiler panellerini gizle',
-	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'En çok beğenilen gönderiler panellerini forum ana sayfasından ve forumlardan, ayrıca konu listesindeki beğeni sayısını gizler. Tek tek gönderilerdeki beğeni düğmesini etkilemez.',
+	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'En çok beğenilen gönderiler panellerini forum ana sayfasından ve forumlardan gizler. Tek tek gönderilerdeki beğeni düğmesini veya konu listesindeki beğeni sayısını etkilemez.',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Gönderileri beğenebilir',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: En çok beğenilen gönderi özetini görebilir',
 

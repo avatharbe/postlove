@@ -63,9 +63,9 @@ $lang = array_merge($lang, array(
 		2	=> '%d veces en total',
 	),
 	'POSTLOVE_HIDE' 			=> 'Ocultar el botón Me gusta',
-	'POSTLOVE_HIDE_EXPLAIN'	=> 'Oculta el botón Me gusta en cada mensaje y tu propio enlace "Me gusta" en tu perfil. Los paneles de mensajes más gustados se controlan por separado más abajo.',
+	'POSTLOVE_HIDE_EXPLAIN'	=> 'Oculta el botón Me gusta en cada mensaje, tu propio enlace "Me gusta" en tu perfil y el contador de Me gusta junto a cada tema en la lista de temas. Los paneles de mensajes más gustados se controlan por separado más abajo.',
 	'POSTLOVE_HIDE_SUM'	=> 'Ocultar los paneles de mensajes más gustados',
-	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Oculta los paneles de mensajes más gustados del índice y los foros, y el contador de Me gusta en la lista de temas. No afecta al botón Me gusta de cada mensaje.',
+	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Oculta los paneles de mensajes más gustados del índice y los foros. No afecta al botón Me gusta de cada mensaje ni al contador de Me gusta en la lista de temas.',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Puede indicar que le gustan publicaciones',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Puede ver el resumen de mensajes más gustados',
 

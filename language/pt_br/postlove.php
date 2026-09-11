@@ -63,9 +63,9 @@ $lang = array_merge($lang, array(
 		2	=> '%d vezes no total',
 	),
 	'POSTLOVE_HIDE' 			=> 'Ocultar o botão de curtir',
-	'POSTLOVE_HIDE_EXPLAIN'	=> 'Oculta o botão de curtir em cada mensagem e o seu próprio link de "Curtidas" no perfil. Os painéis de mensagens mais curtidas são controlados separadamente abaixo.',
+	'POSTLOVE_HIDE_EXPLAIN'	=> 'Oculta o botão de curtir em cada mensagem, o seu próprio link de "Curtidas" no perfil e o contador de curtidas ao lado de cada tópico na lista de tópicos. Os painéis de mensagens mais curtidas são controlados separadamente abaixo.',
 	'POSTLOVE_HIDE_SUM'	=> 'Ocultar os painéis de mensagens mais curtidas',
-	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Oculta os painéis de mensagens mais curtidas do índice e dos fóruns, e o contador de curtidas na lista de tópicos. Não afeta o botão de curtir em mensagens individuais.',
+	'POSTLOVE_HIDE_SUM_EXPLAIN'	=> 'Oculta os painéis de mensagens mais curtidas do índice e dos fóruns. Não afeta o botão de curtir em mensagens individuais nem o contador de curtidas na lista de tópicos.',
 	'ACL_U_POSTLOVE'			=> 'Post Love: Pode curtir publicações',
 	'ACL_U_POSTLOVE_SUMMARY'	=> 'Post Love: Pode ver o resumo das publicações mais curtidas',
 

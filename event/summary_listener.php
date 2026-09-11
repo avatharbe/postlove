@@ -23,9 +23,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * likes, joining posts/topics/users/forums, filtering by content visibility).
  * Results are cached for 12 hours to reduce database load.
  *
- * Users can opt out via the user_postlove_hide_sum preference (UCP > Board
- * preferences > Edit global settings), independently of user_postlove_hide
- * (which only hides the like button). Bots are excluded automatically.
+ * The summary panels opt out via user_postlove_hide_sum; the topic-list
+ * count opts out via user_postlove_hide instead, alongside the like button
+ * (both UCP > Board preferences > Edit global settings). Bots are excluded
+ * automatically.
  */
 class summary_listener implements EventSubscriberInterface
 {
@@ -456,10 +457,12 @@ class summary_listener implements EventSubscriberInterface
 	 * TOPIC_LIKE_COUNT in the topic row template data. The template
 	 * (topiclist_row_append.html) shows a heart icon + count when > 0.
 	 *
-	 * Gated like the two most-liked summary panels: bots, missing
-	 * u_postlove_summary, and user_postlove_hide_sum all leave
-	 * TOPIC_LIKE_COUNT unset, which the template's IF already treats as
-	 * falsy.
+	 * Gated on bots and missing u_postlove_summary like the two most-liked
+	 * summary panels, but on user_postlove_hide rather than
+	 * user_postlove_hide_sum: a per-topic count next to the like button's own
+	 * post rows reads as part of the button, not the aggregate summary
+	 * panels. Any of the three leave TOPIC_LIKE_COUNT unset, which the
+	 * template's IF already treats as falsy.
 	 *
 	 * @param \phpbb\event\data $event The core.viewforum_modify_topicrow event
 	 *        Contains 'row' (raw topic data) and 'topic_row' (template data)
@@ -468,7 +471,7 @@ class summary_listener implements EventSubscriberInterface
 	{
 		if ($this->user->data['is_bot'] ||
 			!$this->auth->acl_get('u_postlove_summary') ||
-			$this->user->data['user_postlove_hide_sum'])
+			$this->user->data['user_postlove_hide'])
 		{
 			return;
 		}
