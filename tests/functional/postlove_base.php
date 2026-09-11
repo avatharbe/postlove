@@ -91,6 +91,26 @@ class postlove_base extends \phpbb_functional_test_case
 	}
 	
 	/**
+	* Lock a topic directly via SQL (topic_status = ITEM_LOCKED).
+	*
+	* Locking removes U_QUOTE and U_EDIT for everyone but moderators, used to
+	* reproduce the case where a viewer has none of core's own post actions
+	* available.
+	*
+	* @param int $topic_id
+	*/
+	public function lock_topic($topic_id)
+	{
+		$this->get_db();
+
+		$sql = 'UPDATE ' . TOPICS_TABLE . '
+			SET topic_status = 1
+			WHERE topic_id = ' . (int) $topic_id;
+
+		$this->db->sql_query($sql);
+	}
+
+	/**
 	* Read the like toggle URL out of a rendered post.
 	*
 	* The URL carries a CSRF link hash that only the board can produce, so tests

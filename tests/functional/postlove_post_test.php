@@ -111,7 +111,31 @@ class postlove_post_test extends postlove_base
 		$crawler = self::request('GET', "viewtopic.php?t={$ids['topic_id']}&sid={$this->sid}");
 		$this->assertStringContainsString('1', $crawler->filter('#p' . $ids['post_id'])->filter('.postlove-count')->text());
 	}
-	
+
+	/**
+	* Test that the button-mode heart still shows when the viewer has none of
+	* core's own post actions available (#24).
+	*
+	* viewtopic_body_post_buttons_after only fires inside core's
+	* <ul class="post-buttons">, which prosilver only renders that list when
+	* the viewer has at least one of edit/delete/report/warn/info/quote.
+	* Locking the topic removes quote and edit for everyone but moderators;
+	* a guest already has none of the others by default, reproducing the
+	* empty-<ul> case.
+	*
+	* @depends test_post
+	*
+	* @param array $ids The topic_id and post_id created by test_post
+	*/
+	public function test_guest_see_button_without_other_post_actions(array $ids)
+	{
+		$this->set_button_mode(1);
+		$this->lock_topic($ids['topic_id']);
+
+		$crawler = self::request('GET', "viewtopic.php?t={$ids['topic_id']}&sid={$this->sid}");
+		$this->assertStringContainsString('1', $crawler->filter('#p' . $ids['post_id'])->filter('.postlove-count')->text());
+	}
+
 	/**
 	* Test that guests cannot toggle likes.
 	*
