@@ -6,7 +6,14 @@ All relevant changes to the Post Love extension.
 
 ### Added
 
-- Moved the like-button opt-out from a custom profile field on the Profile tab to four independent toggles under UCP > Board preferences > Edit global settings, each with its own explain text (raised during #55): the like button on posts, the "Likes" link on your own profile, the per-topic like count in the topic list, and the most-liked-posts summary panels on the board index and forums. Previously a single `postlove_hide` field controlled all four at once, with no way to keep any one and drop the others, and no explanation of what checking it did — which is how it ended up silently enabled on an account with no obvious cause. `postlove_hide`'s value is carried over to the new like-button preference; all four default to "No" (not hidden), same as the field they replace.
+- Moved the like-button opt-out from a custom profile field on the Profile tab to four independent toggles under UCP > Board preferences > Edit global settings, each with its own explain text (raised during #55): the like button on posts, the "Likes" link and likes given/received counts on your own profile and posts, the per-topic like count in the topic list, and the most-liked-posts summary panels on the board index and forums. Previously a single `postlove_hide` field controlled all four at once, with no way to keep any one and drop the others, and no explanation of what checking it did — which is how it ended up silently enabled on an account with no obvious cause. `postlove_hide`'s value is carried over to the new like-button preference; all four default to "No" (not hidden), same as the field they replace.
+- Extended the "Likes" profile-link toggle (`user_postlove_hide_profile`) to also cover the likes given/received counters in the mini-profile sidebar shown next to every post — previously admin-only via `postlove_show_likes`/`postlove_show_liked`, with no way for an individual to opt their own counts out even once an admin turned the feature on board-wide. Gated by the *post's author*, not the viewer: `prefetch_likes()` now batches each poster's own opt-out alongside their given/received counts.
+
+### Changed
+
+- `postlove_author_like` now defaults to `0` (self-liking disallowed), was `1`. Most like/reaction systems (Reddit, Facebook, Discord) disallow liking your own content, since it's the one count that's trivial to game.
+- `postlove_index_most_liked_this_week` and `postlove_index_most_liked_ever` now default to `1`, matching the equivalent forum-page settings (which were already `1`) instead of `2` and `0` respectively — today/this-month/this-year were already symmetric between the index and forum pages, so the mismatch on these two looked like an oversight rather than a deliberate choice.
+- Both changes apply on upgrade only where a board still holds the original default; an admin who deliberately set either away from default keeps their value.
 
 ### Fixed
 

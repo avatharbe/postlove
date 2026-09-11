@@ -42,6 +42,9 @@ class main_listener implements EventSubscriberInterface
 	/** @var array Prefetched "likes received" count per user_id */
 	protected array $user_likes_received = [];
 
+	/** @var array Prefetched user_postlove_hide_profile per poster user_id */
+	protected array $post_authors_hide_stats = [];
+
 	public static function getSubscribedEvents()
 	{
 		return array(
@@ -96,13 +99,14 @@ class main_listener implements EventSubscriberInterface
 	/**
 	 * Prefetch all like data for posts on the current viewtopic page.
 	 *
-	 * Runs 1-3 batch queries to populate class-level caches:
+	 * Runs 1-4 batch queries to populate class-level caches:
 	 * - $post_likers: all likers per post (for tooltip + current user check)
 	 * - $user_likes_given: total likes given per poster (for mini profile)
 	 * - $user_likes_received: total likes received per poster (for mini profile)
+	 * - $post_authors_hide_stats: each poster's own opt-out for the two above
 	 *
 	 * This replaces the original N+1 approach (3 queries per post) with at most
-	 * 3 queries total regardless of how many posts are on the page.
+	 * 4 queries total regardless of how many posts are on the page.
 	 *
 	 * @param \phpbb\event\data $event The core.viewtopic_modify_post_data event
 	 *        Contains 'post_list' (array of post IDs) and 'rowset' (post data)
@@ -173,6 +177,20 @@ class main_listener implements EventSubscriberInterface
 			while ($row = $this->db->sql_fetchrow($result))
 			{
 				$this->user_likes_received[(int) $row['liked_user_id']] = (int) $row['cnt'];
+			}
+			$this->db->sql_freeresult($result);
+		}
+
+		// Query 4: each poster's own opt-out for the two counters above
+		if ($this->config['postlove_show_likes'] || $this->config['postlove_show_liked'])
+		{
+			$sql = 'SELECT user_id, user_postlove_hide_profile
+				FROM ' . USERS_TABLE . '
+				WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+			$result = $this->db->sql_query($sql);
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$this->post_authors_hide_stats[(int) $row['user_id']] = (bool) $row['user_postlove_hide_profile'];
 			}
 			$this->db->sql_freeresult($result);
 		}
@@ -261,22 +279,28 @@ class main_listener implements EventSubscriberInterface
 		}
 
 		// Show likes given/received in mini profile (using prefetched data).
-		// Admin-only via config, deliberately: unlike the four
-		// user_postlove_hide* preferences, this has no per-user opt-out.
+		// Admin config gates the feature board-wide; the poster's own
+		// user_postlove_hide_profile additionally lets them opt out
+		// individually — the same preference that hides their profile's
+		// "Likes" link, since it's the same underlying data shown in a
+		// second place.
 		if ($event['row']['user_id'] != ANONYMOUS)
 		{
 			$poster_id = (int) $event['row']['user_id'];
-			if ($this->config['postlove_show_likes'])
+			if (empty($this->post_authors_hide_stats[$poster_id]))
 			{
-				$post_row = $event['post_row'];
-				$post_row['USER_LIKES'] = $this->user_likes_given[$poster_id] ?? 0;
-				$event['post_row'] = $post_row;
-			}
-			if ($this->config['postlove_show_liked'])
-			{
-				$post_row = $event['post_row'];
-				$post_row['USER_LIKED'] = $this->user_likes_received[$poster_id] ?? 0;
-				$event['post_row'] = $post_row;
+				if ($this->config['postlove_show_likes'])
+				{
+					$post_row = $event['post_row'];
+					$post_row['USER_LIKES'] = $this->user_likes_given[$poster_id] ?? 0;
+					$event['post_row'] = $post_row;
+				}
+				if ($this->config['postlove_show_liked'])
+				{
+					$post_row = $event['post_row'];
+					$post_row['USER_LIKED'] = $this->user_likes_received[$poster_id] ?? 0;
+					$event['post_row'] = $post_row;
+				}
 			}
 		}
 	}
