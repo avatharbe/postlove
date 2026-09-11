@@ -89,6 +89,28 @@ class postlove_base extends \phpbb_functional_test_case
 
 		$this->purge_cache();
 	}
+
+	/**
+	* Toggle whether users may like their own posts.
+	*
+	* Defaults to 0 (disallowed) since release_2_2_7_disallow_self_like_default;
+	* tests that create a topic/post and like it as the same logged-in user
+	* must explicitly enable this rather than rely on the ACP default.
+	*
+	* @param int $enable_author_like 1 to allow liking your own posts, 0 to disallow
+	*/
+	public function set_author_like($enable_author_like)
+	{
+		$this->get_db();
+
+		$sql = "UPDATE phpbb_config
+			SET config_value = $enable_author_like
+			WHERE config_name = 'postlove_author_like'";
+
+		$this->db->sql_query($sql);
+
+		$this->purge_cache();
+	}
 	
 	/**
 	* Lock a topic directly via SQL (topic_status = ITEM_LOCKED).

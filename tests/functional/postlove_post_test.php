@@ -44,6 +44,7 @@ class postlove_post_test extends postlove_base
 	public function test_post()
 	{
 		$this->login();
+		$this->set_author_like(1); // this test likes its own reply as the same logged-in user
 
 		// Test creating topic and post to test
 		$post = $this->create_topic(2, 'Test Topic 1', 'This is a test topic posted by the testing framework.');
